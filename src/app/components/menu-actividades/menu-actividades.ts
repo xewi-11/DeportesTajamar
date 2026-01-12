@@ -11,7 +11,7 @@ import { filter } from 'rxjs/operators';
 })
 export class MenuActividades {
 
-  opcionSeleccionada: string = '';
+  opcionSeleccionada: string = 'partidos';
 
   constructor(private router: Router) {}
 
