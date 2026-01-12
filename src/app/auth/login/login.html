@@ -1,0 +1,46 @@
+
+<div class="login-container">
+  <div class="login-card">
+    <div class="login-logo">
+      <img src="iconos_tajamar/descarga.png" alt="logo" style="width:48px;height:48px;" />
+    </div>
+    <div class="login-title">Deportes Tajamar</div>
+    <form>
+      <div class="login-label">Correo electrónico</div>
+      <div class="login-input-group">
+        <input
+          type="text"
+          class="login-input"
+          placeholder="usuario"
+          [(ngModel)]="username"
+          name="username"
+          required
+        />
+        <span class="login-domain">@tajamar365.com</span>
+      </div>
+      <div class="login-label">Contraseña</div>
+      <div class="login-password-group">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          class="login-password-input"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+        <button
+          type="button"
+          class="login-password-toggle"
+          (click)="togglePassword()"
+          tabindex="-1"
+        >
+          <span [ngClass]="showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></span>
+        </button>
+      </div>
+      <button type="button" class="login-btn" (click)="login()">
+        Iniciar Sesión
+      </button>
+    </form>
+  </div>
+</div>
+
