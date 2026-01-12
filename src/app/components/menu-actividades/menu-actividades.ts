@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-menu-actividades',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './menu-actividades.html',
   styleUrl: './menu-actividades.css',
 })
