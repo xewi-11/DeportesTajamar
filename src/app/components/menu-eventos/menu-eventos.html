@@ -1,1 +1,253 @@
-<p>menu-eventos works!</p>
+<app-header></app-header>
+
+<div class="menu-eventos-wrapper">
+  <div class="container-fluid">
+    <!-- Tabs Navigation -->
+    <div class="tabs-navigation">
+      <div class="tabs-buttons">
+        <button class="btn-volver" (click)="volver()">
+          <i class="bi bi-arrow-left"></i> Volver
+        </button>
+        <button
+          *ngFor="let tab of tabs"
+          [class.active]="isActive(tab.id)"
+          (click)="selectTab(tab.id)"
+          class="tab-btn"
+        >
+          {{ tab.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div *ngIf="isActive('detalles')" class="tab-panel">
+          <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-8">
+              <!-- Detalles del Evento -->
+              <div class="card evento-card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <i class="bi bi-file-text-fill text-warning"></i>
+                    Detalles del Evento
+                  </h5>
+                </div>
+              </div>
+
+              <!-- Alumnos Inscritos -->
+              <div class="card alumnos-card mt-3">
+                <div class="card-header">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <h6 class="mb-0">
+                      <i class="bi bi-people-fill"></i>
+                      Alumnos Inscritos
+                    </h6>
+                    <span class="badge-count">{{ alumnosInscritos.length }}</span>
+                  </div>
+                </div>
+                <div class="card-body p-0">
+                  <div class="alumnos-list">
+                    <div *ngFor="let alumno of alumnosInscritos" class="alumno-item">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar">
+                          {{ alumno.inicial }}
+                        </div>
+                        <div class="alumno-info">
+                          <div class="alumno-nombre">{{ alumno.nombre }}</div>
+                          <div class="alumno-especialidad">{{ alumno.especialidad }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sidebar Info -->
+            <div class="col-lg-4">
+              <div class="card info-card">
+                <div class="card-body">
+                  <h6 class="card-subtitle">Información</h6>
+
+                  <div class="info-item">
+                    <div class="info-icon">
+                      <i class="bi bi-calendar-event"></i>
+                    </div>
+                    <div class="info-content">
+                      <div class="info-label">Fecha y Hora</div>
+                      <div class="info-value">{{ eventoInfo.fecha }}</div>
+                    </div>
+                  </div>
+
+                  <div class="separator"></div>
+
+                  <div class="info-item">
+                    <div class="info-icon">
+                      <i class="bi bi-person"></i>
+                    </div>
+                    <div class="info-content">
+                      <div class="info-label">Profesor</div>
+                      <div class="info-value">{{ eventoInfo.profesor }}</div>
+                    </div>
+                  </div>
+
+                  <button class="btn btn-asignar w-100 mt-3" (click)="asignarProfesor()">
+                    Asignar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isActive('actividades')" class="tab-panel">
+          <div class="actividades-header">
+            <div>
+              <h2 class="actividades-title">Actividades</h2>
+              <p class="actividades-subtitle">Gestión de tipos de deporte y requisitos</p>
+            </div>
+            <button class="btn-crear-actividad" (click)="crearActividad()">
+              <i class="bi bi-plus-lg"></i>
+              Crear Actividad
+            </button>
+          </div>
+
+          <div class="actividades-grid">
+            <div *ngFor="let actividad of actividades" class="actividad-card">
+              <div class="card h-100">
+                <div class="card-body d-flex flex-column">
+                  <h5 class="actividad-nombre">{{ actividad.nombre }}</h5>
+
+                  <div class="actividad-info">
+                    <i class="bi bi-people-fill"></i>
+                    <span class="info-label">Mínimo de jugadores:</span>
+                    <span class="info-numero">{{ actividad.minimoJugadores }}</span>
+                  </div>
+
+                  <button
+                    class="btn-ver-detalles mt-auto"
+                    (click)="verDetallesActividad(actividad.id)"
+                  >
+                    <i class="bi bi-eye"></i>
+                    Ver Detalles
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="isActive('pagos')" class="tab-panel">
+          <h2 class="pagos-title">Estado de Pagos</h2>
+
+          <div class="card pagos-card">
+            <div class="card-body p-0">
+              <table class="table-pagos">
+                <thead>
+                  <tr>
+                    <th>Curso</th>
+                    <th>Cantidad</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let pago of pagos">
+                    <td>
+                      <div class="curso-info">
+                        <i class="bi bi-mortarboard-fill"></i>
+                        <span>{{ pago.curso }}</span>
+                      </div>
+                    </td>
+                    <td class="cantidad">{{ pago.cantidad === 0 ? '$0' : '$' + pago.cantidad }}</td>
+                    <td>
+                      <span
+                        class="badge-estado"
+                        [ngClass]="{
+                          'badge-pagado': pago.estado === 'pagado',
+                          'badge-sin-pagar': pago.estado === 'sin-pagar',
+                          'badge-exento': pago.estado === 'exento'
+                        }"
+                      >
+                        <i class="bi bi-check-circle-fill" *ngIf="pago.estado === 'pagado'"></i>
+                        <i class="bi bi-x-circle-fill" *ngIf="pago.estado === 'sin-pagar'"></i>
+                        <i class="bi bi-dash-circle-fill" *ngIf="pago.estado === 'exento'"></i>
+                        {{
+                          pago.estado === 'pagado'
+                            ? 'Pagado'
+                            : pago.estado === 'sin-pagar'
+                            ? 'Sin pagar'
+                            : 'Exento'
+                        }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Asignar Profesor -->
+<div class="modal-overlay" *ngIf="mostrarModal" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="cerrarModal()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <h3 class="modal-title">Asignar Profesor</h3>
+    <p class="modal-subtitle">Selecciona el profesor que deseas asignar a este evento.</p>
+
+    <div class="modal-body">
+      <select class="form-select-modal" [(ngModel)]="profesorSeleccionado">
+        <option *ngFor="let profesor of profesores" [value]="profesor">
+          {{ profesor }}
+        </option>
+      </select>
+
+      <button class="btn-confirmar" (click)="confirmarAsignacion()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Crear Actividad -->
+<div class="modal-overlay" *ngIf="mostrarModalActividad" (click)="cerrarModalActividad()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="modal-close" (click)="cerrarModalActividad()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <h3 class="modal-title">Crear Actividad</h3>
+    <p class="modal-subtitle">Ingresa los datos de la nueva actividad.</p>
+
+    <div class="modal-body">
+      <div class="form-group">
+        <label class="form-label">Nombre de la actividad</label>
+        <input
+          type="text"
+          class="form-input-modal"
+          [(ngModel)]="nuevaActividadNombre"
+          placeholder="Ej: Fútbol 7, Baloncesto..."
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Mínimo de jugadores</label>
+        <input
+          type="number"
+          class="form-input-modal"
+          [(ngModel)]="nuevaActividadMinimo"
+          min="1"
+          placeholder="1"
+        />
+      </div>
+
+      <button class="btn-confirmar" (click)="confirmarCrearActividad()">Confirmar</button>
+    </div>
+  </div>
+</div>
