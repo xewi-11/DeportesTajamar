@@ -10,4 +10,5 @@ export const routes: Routes = [
   { path: 'detallesEvento', component: MenuEventos, canActivate: [authGuard] },
   { path: 'detallesActividad', component: MenuActividades, canActivate: [authGuard] },
   { path: 'perfil', component: PerformanceObserverEntryList, canActivate: [authGuard] },
+  { path: 'detallesActividad', component: MenuActividades, canActivate: [authGuard] },
 ];
