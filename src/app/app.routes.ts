@@ -12,7 +12,7 @@ export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'eventos', component: EventSource, canActivate: [authGuard] },
   { path: 'detallesEvento', component: MenuEventos, canActivate: [authGuard] },
-  { path: 'detallesActividad', component: MenuActividades, canActivate: [authGuard] },
+  { path: 'detallesActividad', component: PartidosActividad, canActivate: [authGuard] },
   { path: 'perfil', component: PerformanceObserverEntryList, canActivate: [authGuard] },
   { path: 'partidosActividad', component: PartidosActividad, canActivate: [authGuard] },
   { path: 'materialesActividad', component: MaterialesActividad, canActivate: [authGuard] },
