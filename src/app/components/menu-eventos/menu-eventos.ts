@@ -1,19 +1,78 @@
 import { Header } from './../header/header';
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { CommonModule, DatePipe, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EventService } from '../../services/event/event-service';
+import { Event } from '../../models/event';
+import { UsersService } from '../../services/users/users-service';
+import { User } from '../../models/user';
+import { ActividadesService } from '../../services/actividades/actividades-service';
+import { Actividad } from '../../models/actividad';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
 
 @Component({
   selector: 'app-menu-eventos',
-  imports: [Header, CommonModule, FormsModule],
+  imports: [Header, CommonModule, FormsModule, DatePipe],
+  providers: [{ provide: LOCALE_ID, useValue: 'es' }],
   templateUrl: './menu-eventos.html',
   styleUrl: './menu-eventos.css',
 })
-export class MenuEventos {
+export class MenuEventos implements OnInit {
   activeTab: string = 'detalles';
+  evento: Event | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private eventService: EventService,
+    private usersService: UsersService,
+    private actividadesService: ActividadesService
+  ) {}
+
+  ngOnInit() {
+    const eventId = 1;
+    this.eventService.getEventById(eventId).subscribe({
+      next: (evento) => {
+        this.evento = evento;
+        console.log('Evento cargado:', evento);
+      },
+      error: (error) => {
+        console.error('Error al cargar el evento:', error);
+      },
+    });
+
+    this.usersService.getProfesoresActivos().subscribe({
+      next: (profesores) => {
+        this.profesores = profesores;
+        console.log('Profesores cargados:', profesores);
+      },
+      error: (error) => {
+        console.error('Error al cargar profesores:', error);
+      },
+    });
+
+    this.usersService.getUsersInscritosByIdEvent(eventId).subscribe({
+      next: (alumnos) => {
+        this.alumnosInscritos = alumnos;
+        console.log('Alumnos inscritos cargados:', alumnos);
+      },
+      error: (error) => {
+        console.error('Error al cargar alumnos inscritos:', error);
+      },
+    });
+
+    this.actividadesService.getActividadesByEventId(eventId).subscribe({
+      next: (actividades) => {
+        this.actividades = actividades;
+        console.log('Actividades cargadas:', actividades);
+      },
+      error: (error) => {
+        console.error('Error al cargar actividades:', error);
+      },
+    });
+  }
 
   tabs = [
     { id: 'detalles', label: 'Detalles' },
@@ -21,24 +80,14 @@ export class MenuEventos {
     { id: 'pagos', label: 'Pagos' },
   ];
 
-  alumnosInscritos = [
-    { inicial: 'S', nombre: 'Sofía Herrera', especialidad: 'Desarrollo' },
-    { inicial: 'M', nombre: 'Miguel Ángel Torres', especialidad: 'IA' },
-    { inicial: 'L', nombre: 'Lucía Méndez', especialidad: 'Sistemas' },
-    { inicial: 'D', nombre: 'David Ruiz', especialidad: 'Desarrollo' },
-    { inicial: 'C', nombre: 'Carlos Aranda', especialidad: 'IA' },
-  ];
+  alumnosInscritos: User[] = [];
 
   eventoInfo = {
     fecha: 'Domingo, 28 De Diciembre De 2025, 19:48',
-    profesor: 'Ana María González',
+    profesor: -1,
   };
 
-  actividades = [
-    { id: 1, nombre: 'Fútbol 7', minimoJugadores: 7 },
-    { id: 2, nombre: 'Baloncesto', minimoJugadores: 5 },
-    { id: 3, nombre: 'Videojuegos', minimoJugadores: 2 },
-  ];
+  actividades: Actividad[] = [];
 
   pagos = [
     { id: 1, curso: 'Master desarrollo', cantidad: 5000, estado: 'pagado' },
@@ -47,9 +96,9 @@ export class MenuEventos {
   ];
 
   mostrarModal: boolean = false;
-  profesorSeleccionado: string = 'Ana María González';
+  profesorSeleccionado: number = -1;
 
-  profesores = ['Ana María González', 'Carlos Martínez', 'Laura Sánchez', 'Pedro López'];
+  profesores: User[] = [];
 
   mostrarModalActividad: boolean = false;
   nuevaActividadNombre: string = '';
@@ -61,6 +110,14 @@ export class MenuEventos {
 
   isActive(tabId: string): boolean {
     return this.activeTab === tabId;
+  }
+
+  getNombreProfesor(): string {
+    if (!this.evento || this.evento.idProfesor === -1) {
+      return 'Sin Asignar';
+    }
+    const profesor = this.profesores.find((p) => p.idUsuario === this.evento?.idProfesor);
+    return profesor ? profesor.usuario : 'Cargando...';
   }
 
   asignarProfesor() {
@@ -89,11 +146,19 @@ export class MenuEventos {
 
   confirmarCrearActividad() {
     if (this.nuevaActividadNombre.trim() && this.nuevaActividadMinimo > 0) {
-      const nuevaId = Math.max(...this.actividades.map((a) => a.id)) + 1;
+      const nuevaId =
+        this.actividades.length > 0
+          ? Math.max(...this.actividades.map((a) => a.idActividad)) + 1
+          : 1;
       this.actividades.push({
-        id: nuevaId,
-        nombre: this.nuevaActividadNombre,
+        posicion: this.actividades.length + 1,
+        idEvento: this.evento?.idEvento || 0,
+        fechaEvento: this.evento?.fechaEvento || '',
+        idProfesor: this.evento?.idProfesor || -1,
+        idActividad: nuevaId,
+        nombreActividad: this.nuevaActividadNombre,
         minimoJugadores: this.nuevaActividadMinimo,
+        idEventoActividad: 0,
       });
       console.log('Actividad creada:', this.nuevaActividadNombre);
       this.cerrarModalActividad();

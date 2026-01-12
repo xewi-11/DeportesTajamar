@@ -52,11 +52,11 @@
                     <div *ngFor="let alumno of alumnosInscritos" class="alumno-item">
                       <div class="d-flex align-items-center">
                         <div class="avatar">
-                          {{ alumno.inicial }}
+                          {{ alumno.usuario ? alumno.usuario.charAt(0).toUpperCase() : '?' }}
                         </div>
                         <div class="alumno-info">
-                          <div class="alumno-nombre">{{ alumno.nombre }}</div>
-                          <div class="alumno-especialidad">{{ alumno.especialidad }}</div>
+                          <div class="alumno-nombre">{{ alumno.usuario }}</div>
+                          <div class="alumno-especialidad">{{ alumno.curso }}</div>
                         </div>
                       </div>
                     </div>
@@ -77,7 +77,14 @@
                     </div>
                     <div class="info-content">
                       <div class="info-label">Fecha y Hora</div>
-                      <div class="info-value">{{ eventoInfo.fecha }}</div>
+                      <div class="info-value">
+                        {{
+                          evento?.fechaEvento
+                            ? (evento?.fechaEvento
+                              | date : "EEEE, d 'de' MMMM 'de' y, HH:mm" : '' : 'es')
+                            : 'Cargando...'
+                        }}
+                      </div>
                     </div>
                   </div>
 
@@ -89,7 +96,7 @@
                     </div>
                     <div class="info-content">
                       <div class="info-label">Profesor</div>
-                      <div class="info-value">{{ eventoInfo.profesor }}</div>
+                      <div class="info-value">{{ getNombreProfesor() }}</div>
                     </div>
                   </div>
 
@@ -118,7 +125,7 @@
             <div *ngFor="let actividad of actividades" class="actividad-card">
               <div class="card h-100">
                 <div class="card-body d-flex flex-column">
-                  <h5 class="actividad-nombre">{{ actividad.nombre }}</h5>
+                  <h5 class="actividad-nombre">{{ actividad.nombreActividad }}</h5>
 
                   <div class="actividad-info">
                     <i class="bi bi-people-fill"></i>
@@ -128,7 +135,7 @@
 
                   <button
                     class="btn-ver-detalles mt-auto"
-                    (click)="verDetallesActividad(actividad.id)"
+                    (click)="verDetallesActividad(actividad.idActividad)"
                   >
                     <i class="bi bi-eye"></i>
                     Ver Detalles
@@ -205,8 +212,9 @@
 
     <div class="modal-body">
       <select class="form-select-modal" [(ngModel)]="profesorSeleccionado">
-        <option *ngFor="let profesor of profesores" [value]="profesor">
-          {{ profesor }}
+        <option [value]="-1">Seleccionar profesor...</option>
+        <option *ngFor="let profesor of profesores" [value]="profesor.idUsuario">
+          {{ profesor.usuario }}
         </option>
       </select>
 

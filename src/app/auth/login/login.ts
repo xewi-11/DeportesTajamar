@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth';
 import { environment } from '../../../environments/environment.development';
-import { LoginService } from '../../services/login-service';
+import { LoginService } from '../../services/login/login-service';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +17,11 @@ export class LoginComponent {
   username = '';
   password = '';
   showPassword: boolean = false;
-  constructor(private loginService:LoginService) {}
+  constructor(private loginService: LoginService) {}
 
   get emailCompleto(): string {
     return `${this.username}@tajamar365.com`;
   }
-  
 
   togglePassword() {
     this.showPassword = !this.showPassword;
