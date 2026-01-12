@@ -4,6 +4,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth';
+import { environment } from '../../../environments/environment.development';
+import { LoginService } from '../../services/login-service';
 
 @Component({
   selector: 'app-login',
@@ -12,26 +14,21 @@ import { AuthService } from '../auth';
   styleUrl: './login.css',
 })
 export class LoginComponent {
-
   username = '';
   password = '';
+  showPassword: boolean = false;
+  constructor(private loginService:LoginService) {}
 
-  constructor(
-    private http: HttpClient,
-    private auth: AuthService,
-    private router: Router
-  ) {}
+  get emailCompleto(): string {
+    return `${this.username}@tajamar365.com`;
+  }
+  
+
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
 
   login() {
-    this.http.post<any>('https://apideportestajamar.azurewebsites.net/api/Auth/LoginEventos', {
-      username: this.username,
-      password: this.password
-    }).subscribe({
-      next: resp => {
-        this.auth.login(resp.token);
-        this.router.navigate(['/home']);
-      },
-      error: () => alert('Login incorrecto')
-    });
+    this.loginService.login(this.emailCompleto, this.password);
   }
 }
