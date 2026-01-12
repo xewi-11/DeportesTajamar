@@ -18,28 +18,20 @@
 }
 
 .tabs-buttons {
-  display: flex;
+  display: inline-flex;
   gap: 10px;
-  background: white;
-  border-radius: 12px;
-  padding: 6px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #fed7aa;
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .btn-volver {
-  background: transparent;
   border: none;
-  padding: 8px 16px;
-  border-radius: 8px;
-  color: #78716c;
-  font-size: 14px;
+  background: transparent;
+  color: #6c757d;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  font-size: 1rem;
 }
 
 .btn-volver i {
@@ -47,31 +39,27 @@
   font-weight: 900;
 }
 
-.btn-volver:hover {
-  background-color: #fef3e2;
-}
-
 .tab-btn {
-  background: transparent;
-  border: none;
-  padding: 8px 20px;
-  border-radius: 8px;
-  color: #78716c;
-  font-size: 14px;
+  color: #333;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s;
+  padding: 8px 25px;
+  border-radius: 20px; /* Redondeado de la pastilla */
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
 }
 
 .tab-btn:hover {
-  background-color: #fef3e2;
+  background-color: #f8f9fa;
 }
 
 .tab-btn.active {
-  background: linear-gradient(135deg, #ff8c5a 0%, #ff6b35 100%);
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+  background-color: #fff1ed !important;
+  color: #f2744a !important;
+  border: 1px solid #f2744a;
+}
+
+.tab-btn.active:hover {
+  background-color: #fff1ed !important;
 }
 
 /* Cards */
