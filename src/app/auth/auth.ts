@@ -6,17 +6,23 @@ import { Injectable } from '@angular/core';
 export class AuthService {
 
   private TOKEN = 'token';
+  private ROL = 'rol';
 
-  login(token: string) {
+  login(token: string, rol: string) {
     localStorage.setItem(this.TOKEN, token);
+    localStorage.setItem(this.ROL, rol);
   }
 
   logout() {
     localStorage.removeItem(this.TOKEN);
+    localStorage.removeItem(this.ROL);
   }
 
   getToken() {
     return localStorage.getItem(this.TOKEN);
+  }
+  getRol() {
+    return localStorage.getItem(this.ROL);
   }
 
   isLogged(): boolean {
