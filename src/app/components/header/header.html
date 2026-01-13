@@ -1,1 +1,53 @@
-<p>header works!</p>
+<header class="sticky-top border-bottom border-light shadow-sm glass-header">
+  <div class="container py-3">
+    <div class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-3">
+        <div class="logo-box d-flex align-items-center justify-content-center shadow-sm">
+          <img class="rounded-3" src="iconos_tajamar/descargav2.png" alt="logo" style="width: 100%; height: 100%;"/>
+        </div>
+        <div>
+          <h1 class="h4 mb-0 fw-bold gradient-text">
+            Deportes Tajamar
+          </h1>
+          <p class="small text-muted mb-0 fw-medium">
+            Bienvenido, {{ perfil.nombre }}
+          </p>
+        </div>
+      </div>
+      <div class="dropdown">
+        <button class="btn btn-outline-light border-2 d-flex align-items-center gap-2 custom-dropdown-btn" type="button"
+          id="userMenu" data-bs-toggle="dropdown" aria-expanded="false">
+          <div class="avatar-circle">
+            {{ (perfil.nombre).charAt(0) }}{{ (perfil.apellidos).charAt(0) }}
+          </div>
+          <span class="text-dark d-none d-sm-inline">{{ perfil.nombre }}</span>
+          <i class="bi bi-chevron-down small text-dark"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 mt-2 p-2" aria-labelledby="userMenu">
+          <li class="px-3 py-2">
+            <div class="d-flex flex-column">
+              <span class="fw-bold small">{{ perfil.nombre }} {{ perfil.apellidos }}</span>
+              <span class="text-muted extra-small">{{ perfil.email }}</span>
+            </div>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <button class="dropdown-item d-flex align-items-center gap-2 py-2 rounded" (click)="getUserProfile()">
+              <i class="bi bi-person"></i> Ver Perfil
+            </button>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <button class="dropdown-item d-flex align-items-center gap-2 py-2 rounded text-danger" (click)="logout()">
+              <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</header>
