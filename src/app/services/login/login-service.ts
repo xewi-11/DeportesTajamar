@@ -18,7 +18,7 @@ export class LoginService {
       })
       .subscribe({
         next: (resp) => {
-          this.auth.login(resp.token);
+          this.auth.login(resp.response, resp.role);
           this.router.navigate(['/detallesEvento']);
         },
         error: () => alert('Login incorrecto'),
