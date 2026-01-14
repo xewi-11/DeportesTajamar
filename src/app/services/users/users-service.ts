@@ -18,13 +18,9 @@ export class UsersService {
    * @returns Observable<User>
    **/
   getUser(): Observable<Perfil> {
-    const token = this.auth.getToken();
 
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
 
-    return this.http.get<Perfil>(`${environment.urlApiDeportes}/UsuariosDeportes/Perfil`, { headers });
+    return this.http.get<Perfil>(`${environment.urlApiDeportes}/UsuariosDeportes/Perfil`);
   }
 
   getProfesoresActivos(): Observable<User[]> {
