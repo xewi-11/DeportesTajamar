@@ -1,0 +1,140 @@
+<app-header></app-header>
+<app-menu-eventos></app-menu-eventos>
+
+<div class="d-flex flex-column bg-app-background h-100">
+  <main class="flex-grow-1 p-4 fade-in">
+    <div class="container-xl">
+      <div class="row g-4 align-items-start">
+        <div class="col-lg-8">
+          <div class="d-flex flex-column gap-4">
+            <div class="card-custom p-3">
+              <h2 class="h4 mb-0 fw-bold d-flex align-items-center gap-2 text-dark">
+                <i class="bi bi-file-text text-primary-custom fs-4"></i>
+                Detalles del Evento
+              </h2>
+            </div>
+            <div class="card-custom px-4 py-2">
+              <div class="card-header bg-white border-bottom border-light pb-3 pt-3">
+                <div class="d-flex justify-content-between align-items-center">
+                  <h3 class="h5 mb-0 fw-semibold d-flex align-items-center gap-2">
+                    <i class="bi bi-people text-muted-custom"></i>
+                    Alumnos Inscritos
+                  </h3>
+                  <span class="badge badge-soft-primary">
+                    {{ alumnosRegistrados?.length || 0 }}
+                  </span>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="table-responsive">
+                  <table class="table table-borderless mb-0 table-custom">
+                    <tbody class="divide-y">
+                      @for (alumno of alumnosRegistrados; track $index) {
+                      <tr class="border-bottom border-light">
+                        <td style="width: 80px">
+                          <div class="avatar-circle">
+                            {{ alumno.usuario?.charAt(0) }}
+                          </div>
+                        </td>
+                        <td>
+                          <span class="d-block text-dark fw-medium text-sm">
+                            {{ alumno.usuario }}
+                          </span>
+                          <span class="text-muted-custom small">
+                            {{ alumno.curso }}
+                          </span>
+                        </td>
+                      </tr>
+                      } @empty {
+                      <tr>
+                        <td colspan="3" class="text-center text-muted py-4">
+                          @if (!alumnosRegistrados) {
+                          <span class="fst-italic">Cargando alumnos...</span>
+                          } @else { No hay alumnos inscritos. }
+                        </td>
+                      </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="card-custom px-4 py-4">
+            <div class="card-header bg-white mb-4">
+              <h3 class="h6 fw-semibold text-dark">Información</h3>
+            </div>
+            <div class="card-body d-flex flex-column gap-4">
+              <div class="d-flex align-items-start gap-3">
+                <div class="icon-box icon-box-primary">
+                  <i class="bi bi-calendar-event" style="color: orange"></i>
+                </div>
+                <div>
+                  <p class="fw-medium text-dark mb-1 small">Fecha y Hora</p>
+                  <p class="text-muted-custom small mb-0 text-capitalize">
+                    @if (event?.fechaEvento) {
+                    {{ event.fechaEvento | date : "EEEE, d 'de' MMMM 'de' y, HH:mm" : '' : 'es' }}
+                    } @else {
+                    <span class="fst-italic opacity-75">Cargando...</span>
+                    }
+                  </p>
+                </div>
+              </div>
+              <hr class="text-muted my-1 opacity-25" />
+              <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-start gap-3">
+                  <div class="icon-box icon-box-secondary">
+                    <i class="bi bi-person" style="color: red"></i>
+                  </div>
+                  <div class="flex-grow-1">
+                    <p class="fw-medium text-dark mb-1 small">Profesor</p>
+                    <p class="text-muted-custom small mb-0">
+                      @if (event?.idProfesor && getNombreProfesor(event.idProfesor)) {
+                      {{ getNombreProfesor(event.idProfesor) }}
+                      } @else { Sin asignar }
+                    </p>
+                  </div>
+                </div>
+                <button class="btn btn-sm w-100 btn-asignar" (click)="openDialog()">Asignar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<div
+  class="modal fade"
+  [ngClass]="{ 'show d-block': isDialogOpen }"
+  [style.background-color]="isDialogOpen ? 'rgba(0,0,0,0.5)' : 'transparent'"
+  tabindex="-1"
+  role="dialog"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header border-bottom-0 pb-0">
+        <h5 class="modal-title h6 fw-bold mb-1">Asignar Profesor</h5>
+        <button type="button" class="btn-close" (click)="closeDialog()"></button>
+      </div>
+      <div class="modal-body pt-1">
+        <p class="small text-muted mb-4">
+          Selecciona el profesor que deseas asignar a este evento.
+        </p>
+        <div class="mb-4">
+          <select class="form-select" [(ngModel)]="profesorTemporal">
+            <option value="" disabled selected>Seleccionar...</option>
+            @for (prof of profesoresActivos; track $index) {
+            <option [value]="prof.idUsuario">
+              {{ prof.usuario }}
+            </option>
+            }
+          </select>
+        </div>
+        <button class="btn btn-gradient w-100" (click)="onConfirmar()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
