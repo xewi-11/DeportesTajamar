@@ -18,7 +18,6 @@ export class UsersService {
    * @returns Observable<User>
    **/
   getUser(): Observable<Perfil> {
-    const token = this.auth.getToken();
 
 
     return this.http.get<Perfil>(`${environment.urlApiDeportes}/UsuariosDeportes/Perfil`);
