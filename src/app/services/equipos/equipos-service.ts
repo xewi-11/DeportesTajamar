@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment.development';
 import { Equipo } from '../../models/equipo';
 import { User } from '../../models/user';
 import { Color } from '../../models/color';
+import { MiembroEquipo } from '../../models/miembro-equipo';
 
 @Injectable({
   providedIn: 'root',
@@ -41,10 +42,18 @@ export class EquiposService {
     return this._http.get<Color[]>(url + request);
   }
 
-  inscripcionEquipo(): Observable<any>{
+  inscripcionEquipo(miembroEquipo: MiembroEquipo, role: string): Observable<any>{
     let url = environment.urlApiDeportes;
-    let request = "MiembroEquipos/update"
-    return this._http.put(url + request, null);
+    let request = "MiembroEquipos/create/" + role;
+    let header = new HttpHeaders();
+    header = header.set("Content-type", "application/json");
+    return this._http.post(url + request, miembroEquipo, {headers: header});
+  }
+
+  updateMiembroEquipo(miembroEquipo: MiembroEquipo): Observable<any>{
+    let url = environment.urlApiDeportes;
+    let request = "MiembroEquipos/update";
+    return this._http.put(url + request, miembroEquipo)
   }
 
 }
