@@ -12,7 +12,7 @@ import { PantallaEventos } from './components/pantalla-eventos/pantalla-eventos'
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'eventos', component: EventSource, canActivate: [authGuard] },
+  { path: 'eventos', component: PantallaEventos, canActivate: [authGuard] },
   { path: 'detallesEvento/:id', component: DetallesEvento, canActivate: [authGuard] },
   { path: 'actividadesEvento/:id', component: ActividadesEvento, canActivate: [authGuard] },
   { path: 'pagosEvento/:id', component: PagosEvento, canActivate: [authGuard] },

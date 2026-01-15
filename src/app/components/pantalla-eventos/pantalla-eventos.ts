@@ -26,7 +26,13 @@ registerLocaleData(localeEs);
 
 export class PantallaEventos implements OnInit {
   public eventos!: Event[];
-  public actividades!: Actividad[];
+  public actividades!: ActividadEvento[];
+
+  public newEvent: Event = {
+    idEvento: -1,
+    fechaEvento: '',
+    idProfesor: -1
+  };
 
   public inscripcion: Inscripcion = {
     idInscripcion: -1,
@@ -34,22 +40,6 @@ export class PantallaEventos implements OnInit {
     idUsuario: -1,
     fechaInscripcion: '',
     quiereSerCapitan: false,
-  };
-
-  public prepararInscripcion(idEvento: number) {
-    this.inscripcion.fechaInscripcion = new Date().toISOString();
-
-    this.usersService.getUser().subscribe((perfil) => {
-      this.inscripcion.idUsuario = perfil.idUsuario;
-    });
-
-
-  }
-
-  public newEvent: Event = {
-    idEvento: -1,
-    fechaEvento: '',
-    idProfesor: -1
   };
 
   constructor(
@@ -64,6 +54,8 @@ export class PantallaEventos implements OnInit {
     this.getListaEventos();
   }
 
+
+  // Inicio de pantalla
   getListaEventos() {
     this.eventService.getEvents().subscribe((data: Event[]) => {
       this.eventos = data;
@@ -71,6 +63,7 @@ export class PantallaEventos implements OnInit {
     });
   }
 
+  // Métodos para crear un nuevo evento
   saveEvento() {
     console.log('Guardando evento:', this.newEvent);
     this.eventService.postEvent(this.newEvent.fechaEvento).subscribe((response) => {
@@ -79,18 +72,48 @@ export class PantallaEventos implements OnInit {
     });
   }
 
+
+  // Navegación a detalles del evento seleccionado
+  getDetallesEvento(id: number) {
+    this.router.navigate(['/detallesEvento/', id]);
+  }
+
+  // Métodos para inscribirse a un evento
+  prepararInscripcion(idEvento: number) {
+    console.log("Preparando inscripción para el evento ID:", idEvento);
+    this.getActividades(idEvento);
+  }
+
   getActividades(idEvento: number) {
-    this.actividadesService.getActividadesEventoById(idEvento).subscribe((data: Actividad[]) => {
-      console.log('Actividades obtenidas:', data);
+    this.actividadesService.getActividadesByEventId(idEvento).subscribe((data) => {
+      this.actividades = data;
       this.cdr.detectChanges();
     });
   }
 
+  /*
+    public inscripcion: Inscripcion = {
+      idInscripcion: -1,
+      idEventoActividad: -1,
+      idUsuario: -1,
+      fechaInscripcion: '',
+      quiereSerCapitan: false,
+    };
+  */
+
   createInscripcion() {
+    this.usersService.getUser().subscribe((user) => {
+      this.inscripcion.idInscripcion = 100; // Valor temporal
+      // this.inscripcion.idEventoActividad ya es asignado en el select del HTML
+      this.inscripcion.idUsuario = user.idUsuario;
+      this.inscripcion.fechaInscripcion = new Date().toISOString();
+      // quiere ser capitán ya es asignado en el checkbox del HTML
 
-  }
-
-  getDetallesEvento(id: number) {
-    this.router.navigate(['/detallesEvento/', id]);
+      console.log('Creando inscripción con los siguientes datos:', this.inscripcion);
+      this.inscripcionesService.postInscripcion(this.inscripcion).subscribe((response) => {
+        console.log('Inscripción creada:', response);
+      });
+    });
+ 
   }
 }
