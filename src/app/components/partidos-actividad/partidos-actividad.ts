@@ -7,6 +7,7 @@ import { Partido } from '../../models/partido';
 import { Equipo } from '../../models/equipo';
 import { EquiposService } from '../../services/equipos/equipos-service';
 import { ActividadesService } from '../../services/actividades/actividades-service';
+import { Actividad } from '../../models/actividad';
 
 @Component({
   selector: 'app-partidos-actividad',
@@ -17,6 +18,7 @@ import { ActividadesService } from '../../services/actividades/actividades-servi
 export class PartidosActividad implements OnInit {
 
   idEventoActivdad!: Number;
+  actividad!: Actividad;
   partidos!: Array<Partido>;
   equipos!: Array<Equipo>;
 
@@ -29,6 +31,7 @@ export class PartidosActividad implements OnInit {
   ){}
 
   ngOnInit(): void {
+    this.loadActividad();
     this.loadPartidos();
     this.loadEquipos();
   }
@@ -37,7 +40,7 @@ export class PartidosActividad implements OnInit {
     this._activeRoute.params.subscribe((params: Params)=>{
       let idActividad = params['idActividad'];
       this._serviceActividad.getActividadPorId(idActividad).subscribe(result => {
-        
+        this.actividad = result;
       })
     })
   } 
