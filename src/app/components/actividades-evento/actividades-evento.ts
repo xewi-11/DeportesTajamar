@@ -4,7 +4,7 @@ import { ActividadEvento } from '../../models/actividad-evento';
 import { Header } from '../header/header';
 import { MenuEventos } from '../menu-eventos/menu-eventos';
 import { ActividadesService } from '../../services/actividades/actividades-service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -18,8 +18,14 @@ export class ActividadesEvento implements OnInit {
   public actividades!: Array<ActividadEvento>;
   public nuevaActividad!: ActividadEvento;
   public isDialogOpen = false;
+  public idEvento!: number;
 
-  constructor(private _actividadesService: ActividadesService, private _router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private _actividadesService: ActividadesService,
+    private _router: Router,
+    private _cdr: ChangeDetectorRef,
+    private _activeroute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.getActividadesByEventId();
@@ -36,9 +42,13 @@ export class ActividadesEvento implements OnInit {
   }
 
   getActividadesByEventId() {
-    this._actividadesService.getActividadesByEventId(1).subscribe((response) => {
+    this._activeroute.params.subscribe((params) => {
+      this.idEvento = params['id'];
+    });
+
+    this._actividadesService.getActividadesByEventId(this.idEvento).subscribe((response) => {
       this.actividades = response;
-      this.cdr.detectChanges();
+      this._cdr.detectChanges();
     });
   }
 
@@ -66,12 +76,13 @@ export class ActividadesEvento implements OnInit {
       return;
     }
 
-    // Aquí iría la lógica para crear la actividad
     console.log('Crear actividad:', this.nuevaActividad);
     this.closeDialog();
   }
 
   verDetallesActividad(idEvento: Number, idActividad: Number, idEventoActividad: Number) {
-    this._router.navigate(['/partidosActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad]);
+    this._router.navigate([
+      '/partidosActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad,
+    ]);
   }
 }

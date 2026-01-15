@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink, NavigationEnd, Router } from '@angular/router';
 import { Header } from '../header/header';
 import { filter } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators';
 })
 export class MenuEventos {
   opcionSeleccionada: string = 'detalles';
+  @Input() idEvento!: number;
 
   constructor(private router: Router) {}
 

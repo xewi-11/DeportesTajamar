@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { EventService } from '../../services/event/event-service';
 import { UserService } from '../../services/user/user-service';
 import localeEs from '@angular/common/locales/es';
+import { ActivatedRoute } from '@angular/router';
 
 registerLocaleData(localeEs);
 
@@ -19,13 +20,19 @@ registerLocaleData(localeEs);
 })
 export class DetallesEvento implements OnInit {
   public event!: Event;
+  public idEvento!: number;
   public alumnosRegistrados!: Array<User>;
   public profesoresActivos!: Array<User>;
 
   public isDialogOpen: boolean = false;
   public profesorTemporal!: number;
 
-  constructor(private _eventService: EventService, private _userService: UserService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private _eventService: EventService,
+    private _userService: UserService,
+    private _cdr: ChangeDetectorRef,
+    private _activeRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.getEventById();
@@ -36,21 +43,25 @@ export class DetallesEvento implements OnInit {
   getEventById() {
     this._eventService.getEventById(1).subscribe((response) => {
       this.event = response;
-      this.cdr.detectChanges();
+      this._cdr.detectChanges();
     });
   }
 
   getAlumnosRegistrados() {
-    this._userService.getUsersInscritosByIdEvent(1).subscribe((response) => {
+    this._activeRoute.params.subscribe((params) => {
+      this.idEvento = params['id'];
+    });
+
+    this._userService.getUsersInscritosByIdEvent(this.idEvento).subscribe((response) => {
       this.alumnosRegistrados = response;
-      this.cdr.detectChanges();
+      this._cdr.detectChanges();
     });
   }
 
   getProfesoresActivos() {
     this._userService.getProfesoresActivos().subscribe((response) => {
       this.profesoresActivos = response;
-      this.cdr.detectChanges();
+      this._cdr.detectChanges();
     });
   }
 

@@ -12,9 +12,9 @@ import { PagosEvento } from './components/pagos-evento/pagos-evento';
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'eventos', component: EventSource, canActivate: [authGuard] },
-  { path: 'detallesEvento', component: DetallesEvento, canActivate: [authGuard] },
-  { path: 'actividadesEvento', component: ActividadesEvento, canActivate: [authGuard] },
-  { path: 'pagosEvento', component: PagosEvento, canActivate: [authGuard] },
+  { path: 'detallesEvento/:id', component: DetallesEvento, canActivate: [authGuard] },
+  { path: 'actividadesEvento/:id', component: ActividadesEvento, canActivate: [authGuard] },
+  { path: 'pagosEvento/:id', component: PagosEvento, canActivate: [authGuard] },
   { path: 'perfil', component: PerformanceObserverEntryList, canActivate: [authGuard] },
   { path: 'partidosActividad/:idEvento/:idActividad/:idEventoActividad', component: PartidosActividad, canActivate: [authGuard] },
   { path: 'materialesActividad', component: MaterialesActividad, canActivate: [authGuard] },
