@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UsersService } from '../../services/users/users-service';
 import { AuthService } from '../../auth/auth';
 import { Router } from '@angular/router';
@@ -15,22 +15,19 @@ import { Perfil } from '../../models/perfil';
 export class Header implements OnInit {
   public perfil!: Perfil;
 
-  constructor(private usersService: UsersService, private auth: AuthService, private router: Router) { }
+  constructor(private usersService: UsersService, private auth: AuthService, private router: Router, private cdr: ChangeDetectorRef) { }
 
 
   getUserInfo() {
-    this.usersService.getUser().subscribe({
-      next: (data) => {
-        this.perfil = data;
+    this.usersService.getUser().subscribe( response =>{
+        this.perfil = response;
         console.log('Usuario cargado:', this.perfil);
-      },
-      error: (error) => {
-        console.error('Error al cargar el usuario:', error);
-      },
+        this.cdr.detectChanges();
     });
   }
 
   ngOnInit() {
+    console.log(this.auth.getToken());
     this.getUserInfo();
   }
 

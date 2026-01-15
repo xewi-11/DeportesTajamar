@@ -14,7 +14,7 @@
   </div>
 
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <div class="col">
+    <div class="col" *ngFor="let evento of eventos">
       <div class="card h-100 custom-card shadow-sm border-0 position-relative">
         <div class="card-gradient-top"></div>
         
@@ -27,8 +27,8 @@
           </div>
 
           <div class="date-badge mb-3">
-            <i class="bi bi-calendar3 me-2 text-custom"></i>
-            <span class="fw-semibold">10 de julio, 17:30</span>
+              <i class="bi bi-calendar3 me-2 text-custom"></i>
+              <span class="fw-semibold">{{ evento.fechaEvento | date:'fullDate':'':'es' }}</span>
           </div>
 
           <div class="profesor-badge mb-4">
@@ -38,7 +38,7 @@
             <div>
               <small class="text-muted d-block">Profesor asignado</small>
               <span class="fw-bold text-dark">
-                Luis Bárcenas
+                {{ evento.idProfesor }}
               </span>
             </div>
           </div>
@@ -50,7 +50,7 @@
               </button>
             </div>
             <div class="col-6">
-              <button class="btn btn-outline-custom btn-sm w-100 py-2" (click)="getDetallesEvento(1)">
+              <button class="btn btn-outline-custom btn-sm w-100 py-2" (click)="getDetallesEvento(evento.idEvento)">
                 Ver Detalles
               </button>
             </div>
@@ -59,100 +59,11 @@
       </div>
     </div>
 
-    <div class="col">
-      <div class="card h-100 custom-card shadow-sm border-0 position-relative">
-        <div class="card-gradient-top"></div>
-        
-        <div class="card-body pt-4">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <div class="icon-box-primary">
-              <i class="bi bi-calendar-event text-white"></i>
-            </div>
-            <h5 class="card-title fw-bold mb-0">Evento Programado</h5>
-          </div>
-
-          <div class="date-badge mb-3">
-            <i class="bi bi-calendar3 me-2 text-custom"></i>
-            <span class="fw-semibold">10 de julio, 17:30</span>
-          </div>
-
-          <div class="profesor-badge mb-4">
-            <div class="avatar-sm">
-              <i class="bi bi-person-fill"></i>
-            </div>
-            <div>
-              <small class="text-muted d-block">Profesor asignado</small>
-              <span class="fw-bold text-dark">
-                Luis Bárcenas
-              </span>
-            </div>
-          </div>
-
-          <div class="row g-2">
-            <div class="col-6">
-              <button class="btn btn-custom-primary btn-sm w-100 py-2">
-                <i class="bi bi-person-plus-fill me-1"></i> Inscribirse
-              </button>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-outline-custom btn-sm w-100 py-2" (click)="getDetallesEvento(1)">
-                Ver Detalles
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-        <div class="col">
-      <div class="card h-100 custom-card shadow-sm border-0 position-relative">
-        <div class="card-gradient-top"></div>
-        
-        <div class="card-body pt-4">
-          <div class="d-flex align-items-center gap-2 mb-3">
-            <div class="icon-box-primary">
-              <i class="bi bi-calendar-event text-white"></i>
-            </div>
-            <h5 class="card-title fw-bold mb-0">Evento Programado</h5>
-          </div>
-
-          <div class="date-badge mb-3">
-            <i class="bi bi-calendar3 me-2 text-custom"></i>
-            <span class="fw-semibold">10 de julio, 17:30</span>
-          </div>
-
-          <div class="profesor-badge mb-4">
-            <div class="avatar-sm">
-              <i class="bi bi-person-fill"></i>
-            </div>
-            <div>
-              <small class="text-muted d-block">Profesor asignado</small>
-              <span class="fw-bold text-dark">
-                Luis Bárcenas
-              </span>
-            </div>
-          </div>
-
-          <div class="row g-2">
-            <div class="col-6">
-              <button class="btn btn-custom-primary btn-sm w-100 py-2">
-                <i class="bi bi-person-plus-fill me-1"></i> Inscribirse
-              </button>
-            </div>
-            <div class="col-6">
-              <button class="btn btn-outline-custom btn-sm w-100 py-2" (click)="getDetallesEvento(1)">
-                Ver Detalles
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
   </div>
 </div>
 
-<!--div class="modal fade" id="modalCrearEvento" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalCrearEvento" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content border-0 shadow rounded-4">
       <div class="modal-header border-0 pb-0">
@@ -163,15 +74,15 @@
         <p class="text-muted small">Selecciona la fecha y hora del evento. Podrás asignar un profesor después.</p>
         <div class="mb-3">
           <label class="form-label fw-medium">Fecha y Hora *</label>
-          <input type="datetime-local" class="form-control" [(ngModel)]="nuevoEvento.fechaEvento">
+          <input type="datetime-local" class="form-control" [(ngModel)]="newEvent.fechaEvento">
         </div>
-        <button class="btn btn-custom-primary w-100 py-2 mt-2" (click)="handleCrearEvento()" data-bs-dismiss="modal">
+        <button class="btn btn-custom-primary w-100 py-2 mt-2" (click)="saveEvento()" data-bs-dismiss="modal">
           Guardar Evento
         </button>
       </div>
     </div>
   </div>
-</div-->
+</div>
 
 <!--div class="modal fade" id="modalInscripcion" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">

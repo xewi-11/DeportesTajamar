@@ -12,8 +12,9 @@ import { environment } from '../../../environments/environment.development';
 export class ActividadesService {
   constructor(private http: HttpClient, private auth: AuthService, private router: Router) {}
 
-  getActividadesByEventId(id: number): Observable<Actividad[]> {
-    return this.http.get<Actividad[]>(
+  getActividadesByEventId(id: number): Observable<Array<Actividad>> {
+    console.log('Obteniendo actividades del evento ' + id + '...');
+    return this.http.get<Array<Actividad>>(
       `${environment.urlApiDeportes}Actividades/ActividadesEvento/${id}`
     );
   }

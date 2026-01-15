@@ -1,0 +1,166 @@
+/* Tarjetas (Cards) */
+.card-custom {
+  background-color: white;
+  border: 1px solid #fed7aa; /* Border color original */
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Cajas de Iconos */
+.icon-box {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+}
+.icon-box-primary {
+  background-color: #fff0ea;
+  color: var(--primary-color);
+  border: 1px solid #ffd5c6;
+}
+
+.icon-box-secondary {
+  background-color: #fbe9e9;
+  color: var(--secondary-color);
+  border: 1px solid #f7d4d4;
+}
+
+/* Avatar de Tabla */
+.avatar-circle {
+  width: 36px;
+  height: 36px;
+  background-color: #fffbf5;
+  color: var(--text-muted);
+  border: 1px solid #f2c8a2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+/* Badges */
+.badge-soft-primary {
+  background-color: var(--primary-subtle);
+  color: var(--primary-color);
+  border: 1px solid rgba(255, 107, 53, 0.2);
+  border-radius: 9999px;
+  padding: 0.35em 0.65em;
+  font-weight: 500;
+}
+
+/* Ajustes de Tabla */
+.table-custom tr td {
+  vertical-align: middle;
+  padding: 1rem 1.5rem;
+}
+.table-custom tr:hover td {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.btn-asignar {
+  border: 1px solid #f2c8a2;
+  background-color: #fffbf5;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+.btn-asignar:hover {
+  background-color: #f2ab27;
+}
+
+/* Animación simple */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Contenedor principal del Modal */
+.modal-content {
+  background-color: #fffcf7; /* Color crema de fondo */
+  border: none; /* Quitamos bordes por defecto */
+  border-radius: 20px; /* Bordes muy redondeados */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  padding: 15px;
+}
+
+/* Título del Modal */
+.modal-title {
+  color: #2c2c2c;
+  font-weight: 700 !important;
+  font-size: 1.1rem;
+}
+
+/* Texto descriptivo (small) */
+.modal-body p.small {
+  color: #8c8c8c !important; /* Gris suave */
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-bottom: 20px !important;
+}
+
+/* El Select (Dropdown) */
+.form-select {
+  background-color: #ffffff;
+  border: 1px solid #ffdcc2; /* Borde color durazno suave */
+  border-radius: 12px;
+  padding: 10px 15px;
+  height: auto; /* Permitir que el padding defina la altura */
+  color: #333;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: none;
+}
+
+/* Estado Focus del Select (cuando haces clic) */
+.form-select:focus {
+  border-color: #ff8a65;
+  box-shadow: 0 0 0 4px rgba(255, 138, 101, 0.1); /* Anillo naranja suave */
+}
+
+/* Botón con Degradado */
+.btn-gradient {
+  background: linear-gradient(90deg, #ff7b42 0%, #e33832 100%); /* Degradado Naranja a Rojo */
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  padding: 10px 0;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(
+    90deg,
+    #ff6a2b 0%,
+    #d32f2f 100%
+  ); /* Un poco más oscuro al pasar el mouse */
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(227, 56, 50, 0.3);
+}
+
+.btn-gradient:active {
+  transform: translateY(0);
+}
+
+/* Botón de cerrar (la X) */
+.btn-close {
+  opacity: 0.5;
+  font-size: 0.8rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
