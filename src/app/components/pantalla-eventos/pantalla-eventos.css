@@ -1,0 +1,100 @@
+/* Reutilizando tu estilo de "pastilla" y colores */
+:root {
+  --primary-color: #f2744a;
+  --primary-light: #fff1ed;
+}
+
+/* Botones con tu estilo */
+.btn-custom-primary {
+  background-color: #f2744a;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-custom-primary:hover {
+  background-color: #d9643d;
+  color: white;
+  transform: translateY(-1px);
+}
+
+.btn-outline-custom {
+  border: 1px solid #f2744a;
+  color: #f2744a;
+  border-radius: 20px;
+}
+
+.btn-outline-custom:hover {
+  background-color: #fff1ed;
+  color: #f2744a;
+}
+
+/* Cards Estilizadas */
+.custom-card {
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.card-gradient-top {
+  height: 4px;
+  background: linear-gradient(90deg, #f2744a, #ff9a7b);
+}
+
+/* Elementos internos */
+.icon-box-primary {
+  width: 35px;
+  height: 35px;
+  background: linear-gradient(135deg, #f2744a, #ff9a7b);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.date-badge {
+  background-color: #fff1ed;
+  padding: 10px 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(242, 116, 74, 0.2);
+}
+
+.text-custom { color: #f2744a; }
+
+.profesor-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  background-color: #dee2e6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modales */
+.form-control, .form-select {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #f2744a;
+    box-shadow: 0 0 0 0.25rem rgba(242, 116, 74, 0.1);
+}

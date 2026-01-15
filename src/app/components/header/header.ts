@@ -27,8 +27,7 @@ export class Header implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.auth.getToken());
-    this.getUserInfo();
+        this.getUserInfo();
   }
 
   getUserProfile() {

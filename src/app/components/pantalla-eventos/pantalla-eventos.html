@@ -1,0 +1,126 @@
+<app-header></app-header>
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-5">
+    <div>
+      <h2 class="fw-bold text-dark mb-0">Eventos</h2>
+      <p class="text-muted">Programación de actividades</p>
+    </div>
+
+    <button class="btn btn-custom-primary d-flex align-items-center gap-2" data-bs-toggle="modal"
+      data-bs-target="#modalCrearEvento">
+      <i class="bi bi-plus-lg"></i>
+      Crear Evento
+    </button>
+  </div>
+
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let evento of eventos">
+      <div class="card h-100 custom-card shadow-sm border-0 position-relative">
+        <div class="card-gradient-top"></div>
+
+        <div class="card-body pt-4">
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div class="icon-box-primary">
+              <i class="bi bi-calendar-event text-white"></i>
+            </div>
+            <h5 class="card-title fw-bold mb-0">Evento Programado</h5>
+          </div>
+
+          <div class="date-badge mb-3">
+            <i class="bi bi-calendar3 me-2 text-custom"></i>
+            <span class="fw-semibold">{{ evento.fechaEvento | date:'fullDate':'':'es' }}</span>
+          </div>
+
+          <div class="profesor-badge mb-4">
+            <div class="avatar-sm">
+              <i class="bi bi-person-fill"></i>
+            </div>
+            <div>
+              <small class="text-muted d-block">Profesor asignado</small>
+              <span class="fw-bold text-dark" *ngIf="evento.idProfesor != -1">
+                {{ evento.idProfesor }}
+              </span>
+              <span class="fw-bold text-dark" *ngIf="evento.idProfesor == -1">
+                No asignado
+              </span>
+            </div>
+          </div>
+
+          <div class="row g-2">
+            <div class="col-6">
+              <button class="btn btn-custom-primary btn-sm w-100 py-2" data-bs-toggle="modal"
+                data-bs-target="#modalInscripcion" (click)="prepararInscripcion(evento.idEvento)">
+                <i class="bi bi-person-plus-fill me-1"></i> Inscribirse
+              </button>
+            </div>
+            <div class="col-6">
+              <button class="btn btn-outline-custom btn-sm w-100 py-2" (click)="getDetallesEvento(evento.idEvento)">
+                Ver Detalles
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<div class="modal fade" id="modalCrearEvento" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold">Nuevo Evento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small">Selecciona la fecha y hora del evento. Podrás asignar un profesor después.</p>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Fecha y Hora *</label>
+          <input type="datetime-local" class="form-control" [(ngModel)]="newEvent.fechaEvento">
+        </div>
+        <button class="btn btn-custom-primary w-100 py-2 mt-2" (click)="saveEvento()" data-bs-dismiss="modal">
+          Guardar Evento
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalInscripcion" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow rounded-4">
+      <div class="modal-header border-0 pb-0">
+        <h5 class="modal-title fw-bold">Inscripción al Evento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted small">Selecciona en qué actividad deseas participar.</p>
+
+        <div class="mb-3">
+          <label class="form-label fw-medium">Actividad *</label>
+          <select class="form-select" [(ngModel)]="inscripcion.idEventoActividad">
+            <option value="" disabled selected>Selecciona deporte/actividad</option>
+            <option *ngFor="let act of actividades" [value]="act.idEventoActividad">
+              {{ act.nombreActividad }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-check p-3 bg-light rounded-3 border mb-4 d-flex align-items-center gap-2">
+          <input class="form-check-input ms-0 mt-0" type="checkbox" id="capitanCheck"
+            [(ngModel)]="inscripcion.quiereSerCapitan">
+          <label class="form-check-label fw-medium cursor-pointer" for="capitanCheck">
+            ¿Quieres ser Capitán?
+          </label>
+        </div>
+
+        <button class="btn btn-custom-primary w-100 py-2 fw-bold" data-bs-dismiss="modal" (click)="createInscripcion()">
+          Confirmar Inscripción
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
