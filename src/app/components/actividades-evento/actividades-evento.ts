@@ -72,6 +72,6 @@ export class ActividadesEvento implements OnInit {
   }
 
   verDetallesActividad(idEvento: Number, idActividad: Number, idEventoActividad: Number) {
-    this._router.navigate(['/equiposActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad]);
+    this._router.navigate(['/partidosActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad]);
   }
 }
