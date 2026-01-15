@@ -16,7 +16,7 @@ export const routes: Routes = [
   { path: 'actividadesEvento', component: ActividadesEvento, canActivate: [authGuard] },
   { path: 'pagosEvento', component: PagosEvento, canActivate: [authGuard] },
   { path: 'perfil', component: PerformanceObserverEntryList, canActivate: [authGuard] },
-  { path: 'partidosActividad', component: PartidosActividad, canActivate: [authGuard] },
+  { path: 'partidosActividad/:idEvento/:idActividad/:idEventoActividad', component: PartidosActividad, canActivate: [authGuard] },
   { path: 'materialesActividad', component: MaterialesActividad, canActivate: [authGuard] },
   { path: 'capitanesActividad', component: CapitanesActividad, canActivate: [authGuard] },
   { path: 'equiposActividad', component: EquiposActividad, canActivate: [authGuard] },

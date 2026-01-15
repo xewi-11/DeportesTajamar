@@ -1,4 +1,4 @@
-export interface Actividad {
+export interface ActividadEvento {
   posicion: number;
   idEvento: number;
   fechaEvento: string;

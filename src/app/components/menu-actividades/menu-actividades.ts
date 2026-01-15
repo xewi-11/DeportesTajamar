@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { RouterLink, NavigationEnd, Router } from '@angular/router';
 import { Header } from '../header/header';
 import { filter } from 'rxjs/operators';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-menu-actividades',
-  imports: [RouterLink, Header],
+  imports: [RouterLink, Header, FormsModule],
   templateUrl: './menu-actividades.html',
   styleUrl: './menu-actividades.css',
 })
