@@ -10,7 +10,7 @@
       <li class="nav-item">
         <a
           class="nav-link"
-          [routerLink]="['/detallesEvento']"
+          [routerLink]="[`/detallesEvento/${eventId}`]"
           [class.active]="opcionSeleccionada === 'detalles'"
           >Detalles</a
         >
@@ -18,7 +18,7 @@
       <li class="nav-item">
         <a
           class="nav-link"
-          [routerLink]="['/actividadesEvento']"
+          [routerLink]="[`/actividadesEvento/${eventId}`]"
           [class.active]="opcionSeleccionada === 'actividades'"
           >Actividades</a
         >
@@ -26,7 +26,7 @@
       <li class="nav-item">
         <a
           class="nav-link"
-          [routerLink]="['/pagosEvento']"
+          [routerLink]="[`/pagosEvento/${eventId}`]"
           [class.active]="opcionSeleccionada === 'pagos'"
           >Pagos</a
         >
