@@ -1,41 +1,40 @@
-/* =========================================
-   1. COLORES Y UTILIDADES
-   ========================================= */
 .text-orange {
   color: #ff7b42 !important;
 }
 
-/* (Eliminado .bg-app-background) */
-
-/* =========================================
-   2. BOTÓN GRADIENT (Se mantiene igual)
-   ========================================= */
 .btn-gradient {
   background: linear-gradient(90deg, #ff7b42 0%, #e33832 100%);
   border: none;
   color: white !important;
   font-weight: 600;
-  transition: all 0.2s ease-in-out;
 }
 
 .btn-gradient:hover {
   background: linear-gradient(90deg, #ff6a2b 0%, #d32f2f 100%);
-  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(227, 56, 50, 0.3);
 }
 
-/* =========================================
-   3. TARJETAS (Modificado: Sin fondo, sin hover)
-   ========================================= */
 .card-custom {
-  background-color: transparent; /* Fondo transparente */
-  border: 1px solid #dee2e6; /* Mantenemos borde sutil para estructura */
-  border-radius: 1rem;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-/* =========================================
-   4. INPUTS Y MODAL
-   ========================================= */
+.card-custom-actividades {
+  border-radius: 20px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-custom-actividades:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.card-gradient-top {
+  height: 4px;
+  background: linear-gradient(90deg, #f2744a, #ff9a7b);
+}
+
 .form-control:focus {
   border-color: #ff7b42;
   box-shadow: 0 0 0 0.25rem rgba(255, 123, 66, 0.25);
@@ -44,5 +43,5 @@
 .modal-content {
   border-radius: 1rem;
   border: none;
-  background-color: white; /* El modal sí debe mantener fondo blanco */
+  background-color: white;
 }

@@ -1,5 +1,5 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
-import { Component, OnInit, LOCALE_ID } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Header } from '../header/header';
 import { MenuEventos } from '../menu-eventos/menu-eventos';
@@ -25,7 +25,7 @@ export class DetallesEvento implements OnInit {
   public isDialogOpen: boolean = false;
   public profesorTemporal!: number;
 
-  constructor(private _eventService: EventService, private _userService: UserService) {}
+  constructor(private _eventService: EventService, private _userService: UserService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getEventById();
@@ -36,18 +36,21 @@ export class DetallesEvento implements OnInit {
   getEventById() {
     this._eventService.getEventById(1).subscribe((response) => {
       this.event = response;
+      this.cdr.detectChanges();
     });
   }
 
   getAlumnosRegistrados() {
     this._userService.getUsersInscritosByIdEvent(1).subscribe((response) => {
       this.alumnosRegistrados = response;
+      this.cdr.detectChanges();
     });
   }
 
   getProfesoresActivos() {
     this._userService.getProfesoresActivos().subscribe((response) => {
       this.profesoresActivos = response;
+      this.cdr.detectChanges();
     });
   }
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Actividad } from '../../models/actividad';
 import { Header } from '../header/header';
@@ -19,7 +19,7 @@ export class ActividadesEvento implements OnInit {
   public nuevaActividad!: Actividad;
   public isDialogOpen = false;
 
-  constructor(private _actividadesService: ActividadesService, private _router: Router) {}
+  constructor(private _actividadesService: ActividadesService, private _router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getActividadesByEventId();
@@ -38,6 +38,7 @@ export class ActividadesEvento implements OnInit {
   getActividadesByEventId() {
     this._actividadesService.getActividadesByEventId(1).subscribe((response) => {
       this.actividades = response;
+      this.cdr.detectChanges();
     });
   }
 
@@ -70,7 +71,7 @@ export class ActividadesEvento implements OnInit {
     this.closeDialog();
   }
 
-  verDetallesActividad(idEvento: Number) {
-    this._router.navigate(['/equiposActividad']);
+  verDetallesActividad(idEvento: Number, idActividad: Number, idEventoActividad: Number) {
+    this._router.navigate(['/equiposActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad]);
   }
 }
