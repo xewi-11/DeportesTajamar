@@ -32,7 +32,8 @@ export class Header implements OnInit {
 
   getUserProfile() {
     // Lógica para ver el perfil del usuario
-    console.log('Ver perfil de usuario...');
+    console.log('Navegando al perfil del usuario...');
+    this.router.navigate(['/perfil']);
   }
 
   logout() {

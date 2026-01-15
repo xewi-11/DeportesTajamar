@@ -1,0 +1,93 @@
+<div class="container py-4" *ngIf="user">
+
+  <!-- Volver -->
+  <div class="mb-3">
+    <a (click)="goBack()" class="text-decoration-none text-dark fw-semibold back-button" style="cursor: pointer;">
+      ← Volver
+    </a>
+  </div>
+
+  <h2 class="fw-bold mb-4">Mi Perfil</h2>
+
+  <!-- CONTENEDORES -->
+  <div class="d-flex gap-4 align-items-stretch profile-wrapper">
+
+    <!-- IZQUIERDA -->
+    <div class="profile-left card p-4 text-center">
+
+      <div class="avatar mx-auto mb-3">
+        <img [src]="user.imagen" alt="Avatar" class="rounded-circle w-100 h-100 object-fit-cover">
+      </div>
+
+      <h5 class="fw-bold mb-1">{{ user.nombre }} {{ user.apellidos }}</h5>
+
+      <span class="badge rounded-pill role-badge mb-4">
+        {{ user.role }}
+      </span>
+
+      <div class="mt-auto">
+        <div class="status-badge">
+          <i class="bi bi-check-circle-fill me-2"></i>
+          Usuario Activo
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DERECHA -->
+    <div class="profile-right card p-4 flex-grow-1">
+
+      <h5 class="section-title mb-4">
+        Información Personal
+      </h5>
+
+      <div class="row g-3">
+
+        <div class="col-md-4">
+          <label class="form-label">
+            <i class="bi bi-person me-2"></i>
+            Nombre y Apellidos
+          </label>
+          <input class="form-control" disabled [value]="user.nombre + ' ' + user.apellidos">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">
+            <i class="bi bi-envelope me-2"></i>
+            Correo Electrónico
+          </label>
+          <input class="form-control" disabled [value]="user.email">
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">
+            <i class="bi bi-calendar me-2"></i>
+            Curso
+          </label>
+          <input class="form-control" disabled [value]="user.curso">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label">
+            <i class="bi bi-shield-lock me-2"></i>
+            Rol
+          </label>
+          <input class="form-control" disabled [value]="user.role">
+        </div>
+
+        <div class="col-md-5">
+          <label class="form-label">
+            <i class="bi bi-key me-2"></i>
+            Contraseña
+          </label>
+          <button (click)="changePassword()" class="btn btn-outline-danger w-100">
+            <i class="bi bi-arrow-repeat me-2"></i>
+            Cambiar Contraseña
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

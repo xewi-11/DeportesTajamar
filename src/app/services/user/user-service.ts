@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment.development';
 import { User } from '../../models/user';
+import { Perfil } from '../../models/perfil';
 
 @Injectable({
   providedIn: 'root',

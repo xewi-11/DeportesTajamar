@@ -11,6 +11,8 @@ export class AuthService {
   login(token: string, rol: string) {
     localStorage.setItem(this.TOKEN, token);
     localStorage.setItem(this.ROL, rol);
+    console.log('Token almacenado:', token);
+    console.log('Rol almacenado:', rol);
   }
 
   logout() {
