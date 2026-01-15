@@ -1,0 +1,53 @@
+/* Estilo del Banner superior */
+.banner-info {
+    background: linear-gradient(90deg, #ffebd9 0%, #ffe0cc 100%);
+    border: 1px solid rgba(255, 123, 0, 0.1);
+}
+
+.icon-container {
+    background-color: #ff5733; /* Color naranja del icono */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+/* Botón "Crear Partido" */
+.btn-primary-custom {
+    background-color: #ff4500;
+    border: none;
+    color: white;
+    font-weight: 500;
+}
+
+.btn-primary-custom:hover {
+    background-color: #e63e00;
+    color: white;
+}
+
+/* Tarjetas de partidos */
+.card {
+    transition: transform 0.2s ease;
+    background-color: #ffffff;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* Botón Editar Partido */
+.btn-outline-light-custom {
+    background-color: #fff9f5;
+    border: 1px solid #f0e0d6;
+    color: #444;
+    font-size: 0.9rem;
+}
+
+.btn-outline-light-custom:hover {
+    background-color: #f7e8df;
+}
+
+/* Etiquetas generales */
+.winner-label {
+    padding-top: 10px;
+    border-top: 1px solid #f0f0f0;
+}

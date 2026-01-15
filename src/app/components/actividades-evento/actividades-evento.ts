@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Actividad } from '../../models/actividad';
+import { ActividadEvento } from '../../models/actividad-evento';
 import { Header } from '../header/header';
 import { MenuEventos } from '../menu-eventos/menu-eventos';
 import { ActividadesService } from '../../services/actividades/actividades-service';
@@ -15,8 +15,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './actividades-evento.css',
 })
 export class ActividadesEvento implements OnInit {
-  public actividades!: Array<Actividad>;
-  public nuevaActividad!: Actividad;
+  public actividades!: Array<ActividadEvento>;
+  public nuevaActividad!: ActividadEvento;
   public isDialogOpen = false;
 
   constructor(private _actividadesService: ActividadesService, private _router: Router, private cdr: ChangeDetectorRef) {}
