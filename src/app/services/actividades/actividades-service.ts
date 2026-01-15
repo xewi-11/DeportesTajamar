@@ -5,6 +5,7 @@ import { AuthService } from '../../auth/auth';
 import { Observable } from 'rxjs';
 import { ActividadEvento } from '../../models/actividad-evento';
 import { environment } from '../../../environments/environment.development';
+import { Actividad } from '../../models/actividad';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +20,9 @@ export class ActividadesService {
     );
   }
 
-  getActividadPorId(idActividad: number): Observable<ActividadEvento>{
+  getActividadPorId(idActividad: number): Observable<Actividad>{
     console.log('Obteniendo actividades del evento ' + idActividad + '...');
-    return this.http.get<ActividadEvento>(
+    return this.http.get<Actividad>(
       `${environment.urlApiDeportes}Actividades/${idActividad}`
     );
   }
