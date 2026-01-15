@@ -8,11 +8,12 @@ import { EquiposActividad } from './components/equipos-actividad/equipos-activid
 import { DetallesEvento } from './components/detalles-evento/detalles-evento';
 import { ActividadesEvento } from './components/actividades-evento/actividades-evento';
 import { PagosEvento } from './components/pagos-evento/pagos-evento';
+import { PantallaEventos } from './components/pantalla-eventos/pantalla-eventos';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'eventos', component: EventSource, canActivate: [authGuard] },
-  { path: 'detallesEvento', component: DetallesEvento, canActivate: [authGuard] },
+  { path: 'eventos', component: PantallaEventos, canActivate: [authGuard] },
+  { path: 'detallesEvento/:id', component: DetallesEvento, canActivate: [authGuard] },
   { path: 'actividadesEvento', component: ActividadesEvento, canActivate: [authGuard] },
   { path: 'pagosEvento', component: PagosEvento, canActivate: [authGuard] },
   { path: 'perfil', component: PerformanceObserverEntryList, canActivate: [authGuard] },

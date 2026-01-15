@@ -20,6 +20,13 @@ export class ActividadesService {
     );
   }
 
+  getActividadesEventoById(id: number): Observable<Array<Actividad>> {
+    console.log('Obteniendo actividades con id ' + id + '...');
+    return this.http.get<Array<Actividad>>(
+      `${environment.urlApiDeportes}ActividadesEvento/${id}`
+    );
+  }
+
   getActividadPorId(idActividad: number): Observable<Actividad>{
     console.log('Obteniendo actividades del evento ' + idActividad + '...');
     return this.http.get<Actividad>(

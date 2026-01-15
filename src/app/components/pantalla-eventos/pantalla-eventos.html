@@ -45,7 +45,7 @@
 
           <div class="row g-2">
             <div class="col-6">
-              <button class="btn btn-custom-primary btn-sm w-100 py-2">
+              <button class="btn btn-custom-primary btn-sm w-100 py-2" data-bs-toggle="modal" data-bs-target="#modalInscripcion" (click)="prepararInscripcion(evento.idEvento)">
                 <i class="bi bi-person-plus-fill me-1"></i> Inscribirse
               </button>
             </div>
@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<!--div class="modal fade" id="modalInscripcion" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalInscripcion" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow rounded-4">
         <div class="modal-header border-0 pb-0">
@@ -96,25 +96,25 @@
           
           <div class="mb-3">
             <label class="form-label fw-medium">Actividad *</label>
-            <select class="form-select" [(ngModel)]="datosInscripcion.idEventoActividad">
+            <select class="form-select" [(ngModel)]="inscripcion.idEventoActividad">
               <option value="" disabled selected>Selecciona deporte/actividad</option>
-              <option *ngFor="let act of ACTIVIDADES_DISPONIBLES" [value]="act.id">
+              <option *ngFor="let act of actividades">
                 {{ act.nombre }}
               </option>
             </select>
           </div>
 
           <div class="form-check p-3 bg-light rounded-3 border mb-4 d-flex align-items-center gap-2">
-            <input class="form-check-input ms-0 mt-0" type="checkbox" id="capitanCheck" [(ngModel)]="datosInscripcion.quiereSerCapitan">
+            <input class="form-check-input ms-0 mt-0" type="checkbox" id="capitanCheck" [(ngModel)]="inscripcion.quiereSerCapitan">
             <label class="form-check-label fw-medium cursor-pointer" for="capitanCheck">
               ¿Quieres ser Capitán?
             </label>
           </div>
 
-          <button class="btn btn-custom-primary w-100 py-2 fw-bold" (click)="handleGuardarInscripcion()" data-bs-dismiss="modal">
+          <button class="btn btn-custom-primary w-100 py-2 fw-bold" (click)="createInscripcion()" data-bs-dismiss="modal">
             Confirmar Inscripción
           </button>
         </div>
       </div>
     </div>
-</div-->
+</div>
