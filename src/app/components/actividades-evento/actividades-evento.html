@@ -1,7 +1,7 @@
 <app-header></app-header>
-<app-menu-eventos></app-menu-eventos>
+<app-menu-eventos [eventId]="eventId"></app-menu-eventos>
 
-<div class="d-flex flex-column min-vh-100">
+<div class="d-flex flex-column">
   <main class="flex-grow-1 p-4 fade-in">
     <div class="container-xl">
       <div class="row g-4 align-items-start">
@@ -51,7 +51,13 @@
 
                     <button
                       class="btn btn-gradient w-100 mt-auto d-flex align-items-center justify-content-center gap-2"
-                      (click)="verDetallesActividad(actividad.idEvento, actividad.idActividad, actividad.idEventoActividad)"
+                      (click)="
+                        verDetallesActividad(
+                          actividad.idEvento,
+                          actividad.idActividad,
+                          actividad.idEventoActividad
+                        )
+                      "
                     >
                       <i class="bi bi-eye"></i>
                       Ver Detalles

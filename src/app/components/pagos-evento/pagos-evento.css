@@ -1,0 +1,20 @@
+.custom-div {
+  border: 1px solid #fed7aa;
+  border-radius: 20px;
+}
+
+.badge-pagado {
+  border: 1px solid #03a000;
+  background-color: #d4f4dd;
+  color: #03a000;
+}
+
+.badge-sin-pagar {
+  border: 1px solid #a00000;
+  background-color: #ffd4d4;
+  color: #a00000;
+}
+
+.text-orange {
+  color: #ff7b42;
+}
