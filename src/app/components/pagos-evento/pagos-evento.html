@@ -1,3 +1,49 @@
 <app-header></app-header>
-<app-menu-eventos></app-menu-eventos>
+<app-menu-eventos [eventId]="eventId"></app-menu-eventos>
 
+<div class="d-flex flex-column">
+  <main class="flex-grow-1 p-4 fade-in">
+    <div class="container-xl">
+      <h1 class="mb-4">Estado de pagos</h1>
+      <div class="bg-white custom-div p-3">
+        <table class="table table-hover align-middle">
+          <thead>
+            <tr>
+              <th scope="col">Curso</th>
+              <th scope="col">Cantidad</th>
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (pago of pagos; track $index) {
+            <tr>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-mortarboard-fill text-orange"></i>
+                  <span>{{ pago.curso }}</span>
+                </div>
+              </td>
+              <td>
+                <strong>{{ pago.cantidadPagada }}€</strong>
+              </td>
+              <td>
+                @if (pago.estado == "pagado") {
+                <span class="badge badge-pagado d-inline-flex align-items-center gap-1">
+                  <i class="bi bi-check-circle"></i>
+                  Pagado
+                </span>
+                } @else {
+                <span class="badge badge-sin-pagar d-inline-flex align-items-center gap-1">
+                  <i class="bi bi-x-circle"></i>
+                  Sin pagar
+                </span>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

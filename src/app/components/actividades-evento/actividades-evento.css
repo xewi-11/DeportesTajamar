@@ -15,11 +15,13 @@
 }
 
 .card-custom {
+  background-color: transparent;
   border-radius: 20px;
   overflow: hidden;
 }
 
 .card-custom-actividades {
+  border: 1px solid #fed7aa;
   border-radius: 20px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -27,7 +29,7 @@
 
 .card-custom-actividades:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
 }
 
 .card-gradient-top {

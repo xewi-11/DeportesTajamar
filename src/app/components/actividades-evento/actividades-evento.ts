@@ -4,7 +4,7 @@ import { ActividadEvento } from '../../models/actividad-evento';
 import { Header } from '../header/header';
 import { MenuEventos } from '../menu-eventos/menu-eventos';
 import { ActividadesService } from '../../services/actividades/actividades-service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -15,17 +15,23 @@ import { CommonModule } from '@angular/common';
   styleUrl: './actividades-evento.css',
 })
 export class ActividadesEvento implements OnInit {
+  public eventId!: number;
   public actividades!: Array<ActividadEvento>;
   public nuevaActividad!: ActividadEvento;
   public isDialogOpen = false;
 
-  constructor(private _actividadesService: ActividadesService, private _router: Router, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private _actividadesService: ActividadesService,
+    private _router: Router,
+    private _activeRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getActividadesByEventId();
     this.nuevaActividad = {
       posicion: 0,
-      idEvento: 1,
+      idEvento: this.eventId,
       fechaEvento: '',
       idProfesor: 0,
       idActividad: 0,
@@ -36,7 +42,11 @@ export class ActividadesEvento implements OnInit {
   }
 
   getActividadesByEventId() {
-    this._actividadesService.getActividadesByEventId(1).subscribe((response) => {
+    this._activeRoute.params.subscribe((params) => {
+      this.eventId = params['id'];
+    });
+
+    this._actividadesService.getActividadesByEventId(this.eventId).subscribe((response) => {
       this.actividades = response;
       this.cdr.detectChanges();
     });
@@ -50,7 +60,7 @@ export class ActividadesEvento implements OnInit {
     this.isDialogOpen = false;
     this.nuevaActividad = {
       posicion: 0,
-      idEvento: 1,
+      idEvento: this.eventId,
       fechaEvento: '',
       idProfesor: 0,
       idActividad: 0,
@@ -72,6 +82,8 @@ export class ActividadesEvento implements OnInit {
   }
 
   verDetallesActividad(idEvento: Number, idActividad: Number, idEventoActividad: Number) {
-    this._router.navigate(['/partidosActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad]);
+    this._router.navigate([
+      '/partidosActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad,
+    ]);
   }
 }
