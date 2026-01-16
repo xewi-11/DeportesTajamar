@@ -41,6 +41,7 @@ export class PartidosActividad implements OnInit {
       let idActividad = params['idActividad'];
       this._serviceActividad.getActividadPorId(idActividad).subscribe(result => {
         this.actividad = result;
+        this._cdr.detectChanges();
       })
     })
   } 
@@ -64,6 +65,7 @@ export class PartidosActividad implements OnInit {
       let idEvento = params['idEvento'];
       this._serviceEquipos.getEquiposActividad(idActividad, idEvento).subscribe(result=>{
         this.equipos = result;
+        this._cdr.detectChanges();
         console.log(this.equipos);
       })
     })
