@@ -1,8 +1,7 @@
-
 <div class="login-container">
   <div class="login-card">
     <div class="login-logo">
-      <img src="iconos_tajamar/descarga.png" alt="logo" style="width:48px;height:48px;" />
+      <img src="iconos_tajamar/logo2.png" alt="logo" class="w-100 h-100 rounded-3" />
     </div>
     <div class="login-title">Deportes Tajamar</div>
     <form (submit)="login(); $event.preventDefault()">
@@ -37,10 +36,7 @@
           <span [ngClass]="showPassword ? 'bi bi-eye-fill' : 'bi bi-eye-slash-fill'"></span>
         </button>
       </div>
-      <button type="submit" class="login-btn" >
-        Iniciar Sesión
-      </button>
+      <button type="submit" class="login-btn">Iniciar Sesión</button>
     </form>
   </div>
 </div>
-
