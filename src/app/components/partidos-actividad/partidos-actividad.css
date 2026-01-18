@@ -51,3 +51,65 @@
     padding-top: 10px;
     border-top: 1px solid #f0f0f0;
 }
+
+/* Modal crear partido */
+.custom-modal {
+    border-radius: 15px;
+    background-color: #fffaf5; /* Un tono crema muy suave */
+}
+
+.custom-input {
+    border: 2px solid #f29b6d !important; /* Color naranja de la imagen */
+    border-radius: 10px;
+    padding: 10px;
+    color: #8a7e74;
+}
+
+.custom-input:focus {
+    box-shadow: 0 0 0 0.25 margin-left-rem rgba(242, 155, 109, 0.25);
+    outline: none;
+}
+
+.btn-save {
+    background-color: #e67e45; /* El naranja oscuro del botón */
+    color: white;
+    font-weight: bold;
+    border-radius: 12px;
+    padding: 12px;
+    border: none;
+    transition: background 0.3s;
+}
+
+.btn-save:hover {
+    background-color: #d36a33;
+    color: white;
+}
+
+.modal-title {
+    color: #333;
+}
+
+/* Botón Guardar Cambios (Rojo/Naranja) */
+.btn-save-edit {
+    background-color: #d6543e; /* Tono rojizo de la imagen */
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 10px;
+    border: none;
+}
+
+.btn-save-edit:hover {
+    background-color: #b84532;
+    color: white;
+}
+
+/* Botón Cancelar */
+.btn-cancel-edit {
+    border: 1.5px solid #fce3d4;
+    background-color: white;
+    color: #333;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 10px 20px;
+}
