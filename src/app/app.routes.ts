@@ -23,7 +23,7 @@ export const routes: Routes = [
     component: PartidosActividad,
     canActivate: [authGuard],
   },
-  { path: 'materialesActividad', component: MaterialesActividad, canActivate: [authGuard] },
-  { path: 'capitanesActividad', component: CapitanesActividad, canActivate: [authGuard] },
-  { path: 'equiposActividad', component: EquiposActividad, canActivate: [authGuard] },
+  { path: 'materialesActividad/:idEvento/:idActividad/:idEventoActividad', component: MaterialesActividad, canActivate: [authGuard] },
+  { path: 'capitanesActividad/:idEvento/:idActividad/:idEventoActividad', component: CapitanesActividad, canActivate: [authGuard] },
+  { path: 'equiposActividad/:idEvento/:idActividad/:idEventoActividad', component: EquiposActividad, canActivate: [authGuard] },
 ];

@@ -9,22 +9,22 @@
         <ul class="nav nav-pills custom-tabs p-2">
             <li class="nav-item">
                 <a class="nav-link" 
-                [routerLink]="['/partidosActividad']"
+                [routerLink]="['/partidosActividad', idEvento, idActividad, idEventoActividad]"
                 [class.active]="opcionSeleccionada === 'partidos'">Partidos</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" 
-                [routerLink]="['/materialesActividad']"
+                [routerLink]="['/materialesActividad', idEvento, idActividad, idEventoActividad]"
                 [class.active]="opcionSeleccionada === 'materiales'">Materiales</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" 
-                [routerLink]="['/capitanesActividad']"
+                [routerLink]="['/capitanesActividad', idEvento, idActividad, idEventoActividad]"
                 [class.active]="opcionSeleccionada === 'capitanes'">Capitanes</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" 
-                [routerLink]="['/equiposActividad']"
+                [routerLink]="['/equiposActividad', idEvento, idActividad, idEventoActividad]"
                 [class.active]="opcionSeleccionada === 'equipos'">Equipos</a>
             </li>
         </ul>

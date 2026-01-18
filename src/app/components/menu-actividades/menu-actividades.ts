@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink, NavigationEnd, Router } from '@angular/router';
+import { RouterLink, NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 import { Header } from '../header/header';
 import { filter } from 'rxjs/operators';
 import { FormsModule } from '@angular/forms';
@@ -14,9 +14,17 @@ export class MenuActividades {
 
   opcionSeleccionada: string = 'partidos';
 
-  constructor(private router: Router) {}
+  idEvento!: string;
+  idActividad!: string;
+  idEventoActividad!: string;
+
+  constructor(
+    private router: Router,
+    private _activeRoute: ActivatedRoute
+  ){}
 
   ngOnInit() {
+    this.extraerParams();
     this.actualizarTabActiva(this.router.url);
     
     this.router.events.pipe(
@@ -24,6 +32,14 @@ export class MenuActividades {
     ).subscribe((event: any) => {
       this.actualizarTabActiva(event.urlAfterRedirects);
     });
+  }
+  
+  private extraerParams() {
+    this._activeRoute.params.subscribe((params: Params)=>{
+      this.idEvento = params['idEvento'];
+      this.idActividad = params['idActividad'];
+      this.idEventoActividad = params['idEventoActividad'];
+    })
   }
 
   actualizarTabActiva(url: string) {
