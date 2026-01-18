@@ -1,2 +1,159 @@
 <app-menu-actividades></app-menu-actividades>
-<p>equipos-actividad works!</p>
+
+<div class="container mt-4">
+  <div class="banner-info p-4 mb-4 rounded-4 shadow-sm">
+    <div class="d-flex align-items-center mb-2">
+      <div class="icon-container-main me-3">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <h2 class="m-0 fw-bold text-dark">{{actividad.nombre}}</h2>
+    </div>
+    <p class="mb-0 text-muted">
+      <small><i class="bi bi-person-check me-1"></i> Mínimo de jugadores: {{actividad.minimoJugadores}}</small>
+    </p>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="fw-bold mb-0">Equipos</h3>
+      <p class="text-muted small">Consulta los equipos y sus plantillas</p>
+    </div>
+    <button type="button" class="btn btn-create-team rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#createEquipoActividad">
+      + Crear Equipo
+    </button>
+  </div>
+
+  <div class="row">
+    @for(equipo of equiposActividad; track equipo.idEquipo) {
+      <div class="col-md-6 mb-4">
+        <div class="card equipo-card border-0 shadow-sm rounded-4 h-100">
+          <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="d-flex align-items-center">
+                <div class="shield-icon me-3"
+                    [style.background-color]="obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))"
+                    (click)="abrirModalColores(equipo)" 
+                    style="cursor: pointer;"
+                    data-bs-toggle="modal" 
+                    data-bs-target="#modalSelectorColores">
+                  <i class="bi bi-shield-shaded"></i>
+                </div>
+                <div>
+                  <h5 class="fw-bold mb-0">{{equipo.nombreEquipo}}</h5>
+                  <span class="text-muted small">{{actividad.nombre}}</span>
+                </div>
+              </div>
+              <span class="badge rounded-pill badge-members">
+                <i class="bi bi-people me-1"></i> {{equipo.idEquipo}} Miembros
+              </span>
+            </div>
+
+            <div class="template-section mb-4">
+              <div class="d-flex justify-content-between align-items-center text-muted small pointer-link">
+                <span>Ver Plantilla ({{equipo.idEquipo}})</span>
+                <i class="bi bi-chevron-down"></i>
+              </div>
+            </div>
+
+            <button class="btn btn-enroll w-100 rounded-3 py-2">
+              <i class="bi bi-person-plus-fill me-2"></i> Inscribirse
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Modal crear equipo -->
+<div class="modal fade" id="createEquipoActividad" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal-equipo">
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <h1 class="modal-title fs-4 fw-bold">Crear Nuevo Equipo</h1>
+          <p class="text-muted small">Define el nombre, actividad, color y requisitos del equipo.</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+        <form #crateEquipoForm="ngForm" (ngSubmit)="createEquipoActividad()">
+            <div class="modal-body py-3">
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Nombre del Equipo *</label>
+                    <input type="text" class="form-control custom-input" placeholder="Ej: Leones FC" name="nombreEquipo" #nombreEquipo="ngModel" [(ngModel)]="nuevoEquipo.nombreEquipo">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Actividad *</label>
+                    <input type="text" class="form-control custom-input" [value]="actividad.nombre" name="nombreActividad">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold small">Color del Equipo *</label>
+                    <select class="form-select custom-input" name="idColor" #idColor="ngModel" [(ngModel)]="nuevoEquipo.idColor">
+                        <option value="" disabled selected>Selecciona un color</option>
+                        @for(color of colores; track color){
+                            <option [value]="color.idColor">{{color.nombreColor}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small">Mínimo de Jugadores *</label>
+                    <input type="number" class="form-control custom-input" [value]="actividad.minimoJugadores" [(ngModel)]="nuevoEquipo.minimoJugadores">
+                </div>
+            </div>
+            
+            <div class="modal-footer border-0 pt-0">
+                <button type="submit" class="btn btn-save-equipo w-100 py-2 fw-bold" data-bs-dismiss="modal">
+                    Guardar Equipo
+                </button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal selector colores -->
+<div class="modal fade" id="modalSelectorColores" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content custom-modal-color">
+      
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <h1 class="modal-title fs-4 fw-bold">Seleccionar Color de Camiseta</h1>
+          <p class="text-muted small">Elige el color para las camisetas de tu equipo. Los colores ya seleccionados por otros equipos aparecen deshabilitados.</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row g-4">
+          @for(color of colores; track color.idColor) {
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="color-card" 
+                   [class.occupied]="colorEstaOcupado(color.idColor)"
+                   (click)="!colorEstaOcupado(color.idColor) && seleccionarColorRapido(color)">
+                
+                @if (colorEstaOcupado(color.idColor)) {
+                  <span class="badge-occupied">Ocupado</span>
+                }
+
+                <div class="shield-preview" [style.background-color]="obtenerHexPorNombre(color.nombreColor)">
+                  <i class="bi bi-shield-shaded"></i>
+                </div>
+                
+                <p class="mt-3 mb-0 fw-bold color-name">{{color.nombreColor}}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-cancel-color px-4" data-bs-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
