@@ -9,10 +9,14 @@ import { Equipo } from '../../models/equipo';
 import { Actividad } from '../../models/actividad';
 import { Color } from '../../models/color';
 import { UsersService } from '../../services/users/users-service';
+import { User } from '../../models/user';
+import { CommonModule } from '@angular/common';
+import { Inscripcion } from '../../models/inscripcion';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-equipos-actividad',
-  imports: [Header, MenuActividades, FormsModule],
+  imports: [Header, MenuActividades, FormsModule, CommonModule],
   templateUrl: './equipos-actividad.html',
   styleUrl: './equipos-actividad.css',
 })
@@ -20,8 +24,14 @@ export class EquiposActividad implements OnInit{
 
   idActividad!: number;
   idEvento!: number;
+  idEquipoUsuario: number | null = null;
+  idUsuarioLogueado!: number;
   actividad!: Actividad;
   equiposActividad!: Array<Equipo>;
+  miembrosEquipo: { [key: number]: number } = {};
+  plantillaEquipo: { [key: number]: User[] } = {};
+  equipoDesplegado: number | null = null;
+  usuarioInscrito!: Inscripcion;
   nuevoEquipo: Equipo;
   colores!: Array<Color>
   colorSeleccionadoHex: string = '#e67e45'; 
@@ -45,23 +55,23 @@ export class EquiposActividad implements OnInit{
   }
 
   ngOnInit(): void {
-
-    this.loadEquiposActividad();
-
+    
     this._activeRoute.params.subscribe((params: Params)=>{
       let idActividad = params['idActividad'];
       this.loadActividadEvento(idActividad);
     })
 
-    this.loadColores();
+    this.loadEquiposActividad();
 
-    this._serviceUsers.getUser().subscribe(result=>{
+    this._serviceUsers.getUser().subscribe(result => {
+      this.idUsuarioLogueado = result.idUsuario;
       this.nuevoEquipo.idCurso = result.idCurso;
-    })
+    });
+
+    this.loadColores();
 
     this._activeRoute.params.subscribe((params: Params)=>{
       this.nuevoEquipo.idEventoActividad = params['idEventoActividad'];
-      this.createEquipoActividad();
     })
 
   }
@@ -79,9 +89,32 @@ export class EquiposActividad implements OnInit{
       let idActividad = params['idActividad'];
       this._serviceEquipos.getEquiposActividad(idActividad, idEvento).subscribe(result=>{
         this.equiposActividad = result;
-        this._cdr.detectChanges();
+        this.equiposActividad.forEach(equipo =>{
+          this._serviceEquipos.getUsuariosEquipo(equipo.idEquipo).subscribe(usuarios=>{
+            this.miembrosEquipo[equipo.idEquipo] = usuarios.length;
+            this._cdr.detectChanges();
+          })
+        })
       })
     })
+  }
+
+  loadPlantillaEquipo(idEquipo: number): void{
+
+    if (this.equipoDesplegado === idEquipo) {
+        this.equipoDesplegado = null;
+        return;
+    }
+
+    this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe(result=>{
+      this.plantillaEquipo[idEquipo] = result;
+      this.equipoDesplegado = idEquipo;
+      this._cdr.detectChanges();
+    })
+  }
+
+  getIniciales(nombre: string): string {
+    return nombre.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
   }
 
   createEquipoActividad(): void{
