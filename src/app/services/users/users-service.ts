@@ -18,9 +18,7 @@ export class UsersService {
    * @returns Observable<User>
    **/
   getUser(): Observable<Perfil> {
-
-
-    return this.http.get<Perfil>(`${environment.urlApiDeportes}/UsuariosDeportes/Perfil`);
+    return this.http.get<Perfil>(`${environment.urlApiDeportes}UsuariosDeportes/Perfil`);
   }
 
   getProfesoresActivos(): Observable<User[]> {
