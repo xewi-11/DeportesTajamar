@@ -12,7 +12,7 @@ export class InscripcionesService {
 
   postInscripcion(inscripcion: Inscripcion): Observable<any>  {
     let url = environment.urlApiDeportes;
-    let request = '/Inscripciones/create';
+    let request = 'Inscripciones/create';
 
     return this._http.post(url + request, inscripcion);
   }
