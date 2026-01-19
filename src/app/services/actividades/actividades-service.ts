@@ -11,27 +11,41 @@ import { Actividad } from '../../models/actividad';
   providedIn: 'root',
 })
 export class ActividadesService {
-  constructor(private http: HttpClient, private auth: AuthService, private router: Router) {}
+  constructor(
+    private _http: HttpClient,
+    private _auth: AuthService,
+    private _router: Router,
+  ) {}
+
+  postActividad(nuevaActividad: {
+    idActividad: number;
+    nombre: string;
+    minimoJugadores: number;
+  }): Observable<any> {
+    return this._http.post<any>(`${environment.urlApiDeportes}actividades/create`, nuevaActividad);
+  }
+
+  addActividadToEvento(eventId: number, idActividad: any): Observable<any> {
+    return this._http.post<any>(
+      `${environment.urlApiDeportes}actividadesevento/create?idevento=${eventId}&idactividad=${idActividad}`,
+      {},
+    );
+  }
 
   getActividadesByEventId(id: number): Observable<Array<ActividadEvento>> {
     console.log('Obteniendo actividades del evento ' + id + '...');
-    return this.http.get<Array<ActividadEvento>>(
-      `${environment.urlApiDeportes}Actividades/ActividadesEvento/${id}`
+    return this._http.get<Array<ActividadEvento>>(
+      `${environment.urlApiDeportes}Actividades/ActividadesEvento/${id}`,
     );
   }
 
   getActividadesEventoById(id: number): Observable<Array<Actividad>> {
     console.log('Obteniendo actividades con id ' + id + '...');
-    return this.http.get<Array<Actividad>>(
-      `${environment.urlApiDeportes}ActividadesEvento/${id}`
-    );
+    return this._http.get<Array<Actividad>>(`${environment.urlApiDeportes}ActividadesEvento/${id}`);
   }
 
-  getActividadPorId(idActividad: number): Observable<Actividad>{
+  getActividadPorId(idActividad: number): Observable<Actividad> {
     console.log('Obteniendo actividades del evento ' + idActividad + '...');
-    return this.http.get<Actividad>(
-      `${environment.urlApiDeportes}Actividades/${idActividad}`
-    );
+    return this._http.get<Actividad>(`${environment.urlApiDeportes}Actividades/${idActividad}`);
   }
-
 }
