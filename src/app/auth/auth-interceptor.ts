@@ -1,20 +1,20 @@
 import { HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from './auth';
+import { Router } from '@angular/router';
 
-
-
-export function AuthInterceptor(
+export function authInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn
 ) {
-  const token = inject(AuthService).getToken();
-  if (token) {
-    console.log(":)))))))))))))");
+  const token = localStorage.getItem('token');
+  const route = inject(Router);
+  
+  if (!token) {
+    route.navigate(['']);
+    return next(req);
   }
+  
   const newReq = req.clone({
-
-
     headers: req.headers.append('Authorization', `Bearer ${token}`),
   });
   return next(newReq);
