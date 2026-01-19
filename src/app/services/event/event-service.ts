@@ -10,17 +10,25 @@ import { Event } from '../../models/event';
   providedIn: 'root',
 })
 export class EventService {
-  constructor(private http: HttpClient, private auth: AuthService, private router: Router) {}
+  constructor(
+    private _http: HttpClient,
+    private _auth: AuthService,
+    private _router: Router,
+  ) {}
 
   getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${environment.urlApiDeportes}Eventos`);
+    return this._http.get<Event[]>(`${environment.urlApiDeportes}Eventos`);
   }
 
   getEventById(id: number): Observable<Event> {
-    return this.http.get<Event>(`${environment.urlApiDeportes}Eventos/${id}`);
+    return this._http.get<Event>(`${environment.urlApiDeportes}Eventos/${id}`);
   }
 
   postEvent(fecha: string): Observable<any> {
-    return this.http.post(`${environment.urlApiDeportes}Eventos/create/${fecha}`, {});
+    return this._http.post(`${environment.urlApiDeportes}Eventos/create/${fecha}`, {});
+  }
+
+  updateEvent(event: Event): Observable<any> {
+    return this._http.put<any>(`${environment.urlApiDeportes}eventos/update`, event);
   }
 }

@@ -31,7 +31,7 @@ export class DetallesEvento implements OnInit {
     private _eventService: EventService,
     private _userService: UserService,
     private _activeRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -76,6 +76,9 @@ export class DetallesEvento implements OnInit {
   onConfirmar() {
     if (this.profesorTemporal) {
       this.event.idProfesor = Number(this.profesorTemporal);
+      this._eventService.updateEvent(this.event).subscribe((response) => {
+        console.log('Evento actualizado...');
+      });
       this.closeDialog();
     }
   }

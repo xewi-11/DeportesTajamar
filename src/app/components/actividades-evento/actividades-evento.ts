@@ -17,27 +17,26 @@ import { CommonModule } from '@angular/common';
 export class ActividadesEvento implements OnInit {
   public eventId!: number;
   public actividades!: Array<ActividadEvento>;
-  public nuevaActividad!: ActividadEvento;
+  public nuevaActividad = {
+    idActividad: 0,
+    nombre: '',
+    minimoJugadores: 0,
+  };
   public isDialogOpen = false;
 
   constructor(
     private _actividadesService: ActividadesService,
     private _router: Router,
     private _activeRoute: ActivatedRoute,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
     this.getActividadesByEventId();
     this.nuevaActividad = {
-      posicion: 0,
-      idEvento: this.eventId,
-      fechaEvento: '',
-      idProfesor: 0,
       idActividad: 0,
-      nombreActividad: '',
+      nombre: '',
       minimoJugadores: 0,
-      idEventoActividad: 0,
     };
   }
 
@@ -59,25 +58,27 @@ export class ActividadesEvento implements OnInit {
   closeDialog() {
     this.isDialogOpen = false;
     this.nuevaActividad = {
-      posicion: 0,
-      idEvento: this.eventId,
-      fechaEvento: '',
-      idProfesor: 0,
       idActividad: 0,
-      nombreActividad: '',
+      nombre: '',
       minimoJugadores: 0,
-      idEventoActividad: 0,
     };
   }
 
   handleCrearActividad() {
-    if (!this.nuevaActividad.nombreActividad || !this.nuevaActividad.minimoJugadores) {
+    if (!this.nuevaActividad.nombre || !this.nuevaActividad.minimoJugadores) {
       alert('Por favor, completa todos los campos');
       return;
     }
 
-    // Aquí iría la lógica para crear la actividad
-    console.log('Crear actividad:', this.nuevaActividad);
+    this._actividadesService.postActividad(this.nuevaActividad).subscribe((response) => {
+      console.log('Actividad creada...');
+      this._actividadesService
+        .addActividadToEvento(this.eventId, response.idActividad)
+        .subscribe((response) => {
+          console.log('Actividad asignada al evento...');
+          this.getActividadesByEventId();
+        });
+    });
     this.closeDialog();
   }
 
