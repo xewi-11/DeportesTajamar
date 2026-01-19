@@ -1,1 +1,52 @@
-<p>partido-dialog works!</p>
+<h2 mat-dialog-title>
+  {{ esEdicion ? 'Editar Partido' : 'Programar Nuevo Partido' }}
+</h2>
+
+<p class="text-muted" *ngIf="!esEdicion">
+  Completa la información del partido
+</p>
+
+<form [formGroup]="form">
+  <mat-dialog-content>
+
+    <mat-form-field class="w-100">
+      <mat-label>Equipo Local</mat-label>
+      <mat-select formControlName="idEquipoLocal">
+        <mat-option *ngFor="let equipo of data.equipos" [value]="equipo.idEquipo">
+          {{ equipo.nombreEquipo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Puntos Local</mat-label>
+      <input matInput type="number" formControlName="puntosLocal">
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Equipo Visitante</mat-label>
+      <mat-select formControlName="idEquipoVisitante">
+        <mat-option *ngFor="let equipo of data.equipos" [value]="equipo.idEquipo">
+          {{ equipo.nombreEquipo }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-100">
+      <mat-label>Puntos Visitante</mat-label>
+      <input matInput type="number" formControlName="puntosVisitante">
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button (click)="cancelar()">Cancelar</button>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="guardar()"
+      [disabled]="form.invalid">
+      {{ esEdicion ? 'Guardar Cambios' : 'Guardar' }}
+    </button>
+  </mat-dialog-actions>
+</form>
