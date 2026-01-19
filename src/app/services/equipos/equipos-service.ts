@@ -56,4 +56,10 @@ export class EquiposService {
     return this._http.put(url + request, miembroEquipo)
   }
 
+  updateEquipacionEquipo(idEquipo: number, idColor:number): Observable<any>{
+    let url = environment.urlApiDeportes;
+    let request = "Equipos/UpdateEquipacionEquipo/" + idEquipo + "/" + idColor;
+    return this._http.put(url + request, null)
+  }
+
 }
