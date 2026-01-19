@@ -1,3 +1,15 @@
+.btn-gradient {
+  background: linear-gradient(90deg, #ff7b42 0%, #e33832 100%);
+  border: none;
+  color: white !important;
+  font-weight: 600;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(90deg, #ff6a2b 0%, #d32f2f 100%);
+  box-shadow: 0 4px 12px rgba(227, 56, 50, 0.3);
+}
+
 .custom-div {
   border: 1px solid #fed7aa;
   border-radius: 20px;

@@ -18,7 +18,7 @@ export class PagosEvento implements OnInit {
   constructor(
     private _pagosService: PagosService,
     private _activeRoute: ActivatedRoute,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -34,5 +34,10 @@ export class PagosEvento implements OnInit {
       this.pagos = response;
       this._cdr.detectChanges();
     });
+  }
+
+  openDialog() {
+    // TODO: Implementar diálogo para crear pago
+    console.log('Abrir diálogo para crear pago');
   }
 }
