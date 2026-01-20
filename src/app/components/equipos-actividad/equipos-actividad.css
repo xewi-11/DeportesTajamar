@@ -73,11 +73,50 @@
     color: white;
 }
 
-/* Sección de plantilla */
+/* Estilo de la lista de miembros desplegada */
+.member-item {
+    border: 1px solid #fde2d8;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+}
+
+.member-item:hover {
+    background-color: #fffaf6;
+}
+
+/* Avatar circular con iniciales (Azul como en la imagen) */
+.member-avatar {
+    width: 35px;
+    height: 35px;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* Animación de apertura */
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ajuste para el puntero en el texto de Ver Plantilla */
 .pointer-link {
     cursor: pointer;
-    border-top: 1px solid #f8f9fa;
-    padding-top: 10px;
+    user-select: none;
+    padding: 5px 0;
+}
+
+.pointer-link:hover {
+    color: #e67e45 !important;
 }
 
 /* Contenedor del modal */
