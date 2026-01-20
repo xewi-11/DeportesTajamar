@@ -1,32 +1,54 @@
 <app-header></app-header>
 
 <div class="d-flex justify-content-center w-100 my-4">
-    <div class="tabs-container d-flex align-items-center">
-      <button class="btn-volver d-flex align-items-center me-3">
-        <a class="nav-link" [routerLink]="['/actividadesEvento', idEvento]"><i class="bi bi-arrow-left me-1"></i> Volver</a> 
-      </button>
-    
-        <ul class="nav nav-pills custom-tabs p-2">
-            <li class="nav-item">
-                <a class="nav-link" 
-                [routerLink]="['/partidosActividad', idEvento, idActividad, idEventoActividad]"
-                [class.active]="opcionSeleccionada === 'partidos'">Partidos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" 
-                [routerLink]="['/materialesActividad', idEvento, idActividad, idEventoActividad]"
-                [class.active]="opcionSeleccionada === 'materiales'">Materiales</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" 
-                [routerLink]="['/capitanesActividad', idEvento, idActividad, idEventoActividad]"
-                [class.active]="opcionSeleccionada === 'capitanes'">Capitanes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" 
-                [routerLink]="['/equiposActividad', idEvento, idActividad, idEventoActividad]"
-                [class.active]="opcionSeleccionada === 'equipos'">Equipos</a>
-            </li>
-        </ul>
-    </div>
+  <div class="tabs-container d-flex align-items-center">
+    <button class="btn-volver d-flex align-items-center me-3">
+      <a class="nav-link" [routerLink]="['/actividadesEvento', idEvento]"
+        ><i class="bi bi-arrow-left me-1"></i> Volver</a
+      >
+    </button>
+
+    <ul class="nav nav-pills custom-tabs p-2">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/partidosActividad', idEvento, idActividad, idEventoActividad]"
+          [class.active]="opcionSeleccionada === 'partidos'"
+          >Partidos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/materialesActividad', idEvento, idActividad, idEventoActividad]"
+          [class.active]="opcionSeleccionada === 'materiales'"
+          >Materiales</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/capitanesActividad', idEvento, idActividad, idEventoActividad]"
+          [class.active]="opcionSeleccionada === 'capitanes'"
+          >Capitanes</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/equiposActividad', idEvento, idActividad, idEventoActividad]"
+          [class.active]="opcionSeleccionada === 'equipos'"
+          >Equipos</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          [routerLink]="['/pagosEvento', idEvento, idActividad, idEventoActividad]"
+          [class.active]="opcionSeleccionada === 'pagos'"
+          >Pagos</a
+        >
+      </li>
+    </ul>
+  </div>
 </div>
