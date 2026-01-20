@@ -42,18 +42,24 @@ export class EquiposService {
     return this._http.get<Color[]>(url + request);
   }
 
-  inscripcionEquipo(miembroEquipo: MiembroEquipo, role: string): Observable<any>{
+  inscripcionEquipo(idUsuario: number, idEquipo: number): Observable<any>{
     let url = environment.urlApiDeportes;
-    let request = "MiembroEquipos/create/" + role;
+    let request = "MiembroEquipos/create/" + idUsuario + "/" + idEquipo;
     let header = new HttpHeaders();
     header = header.set("Content-type", "application/json");
-    return this._http.post(url + request, miembroEquipo, {headers: header});
+    return this._http.post(url + request, {headers: header});
   }
 
   updateMiembroEquipo(miembroEquipo: MiembroEquipo): Observable<any>{
     let url = environment.urlApiDeportes;
     let request = "MiembroEquipos/update";
     return this._http.put(url + request, miembroEquipo)
+  }
+
+  updateEquipacionEquipo(idEquipo: number, idColor:number): Observable<any>{
+    let url = environment.urlApiDeportes;
+    let request = "Equipos/UpdateEquipacionEquipo/" + idEquipo + "/" + idColor;
+    return this._http.put(url + request, null)
   }
 
 }

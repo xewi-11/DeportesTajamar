@@ -9,6 +9,10 @@ import { Equipo } from '../../models/equipo';
 import { Actividad } from '../../models/actividad';
 import { Color } from '../../models/color';
 import { UsersService } from '../../services/users/users-service';
+import { User } from '../../models/user';
+import { CommonModule } from '@angular/common';
+import { Inscripcion } from '../../models/inscripcion';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-equipos-actividad',
@@ -21,6 +25,10 @@ export class EquiposActividad implements OnInit {
   idEvento!: number;
   actividad!: Actividad;
   equiposActividad!: Array<Equipo>;
+  miembrosEquipo: { [key: number]: number } = {};
+  plantillaEquipo: { [key: number]: User[] } = {};
+  equipoDesplegado: number | null = null;
+  usuarioInscrito!: Inscripcion;
   nuevoEquipo: Equipo;
   colores!: Array<Color>;
   colorSeleccionadoHex: string = '#e67e45';
@@ -130,7 +138,46 @@ export class EquiposActividad implements OnInit {
   }
 
   seleccionarColorRapido(color: Color) {
-    this.equipoAEditarColor.idColor = color.idColor;
+    Swal.fire({
+      icon: 'question',
+      title: '¿Estas seguro que desea cambiar el color del equipo?',
+      text: 'Se cambiará la equipación del equipo seleccionado',
+      timer: 5000,
+      timerProgressBar: true,
+      showCancelButton: true,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._serviceEquipos
+          .updateEquipacionEquipo(this.equipoAEditarColor.idEquipo, color.idColor)
+          .subscribe({
+            next: () => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Color actualizado',
+                text: `El equipo ahora es de color ${color.nombreColor}`,
+                timer: 2000,
+                showConfirmButton: false,
+              });
+
+              this.loadEquiposActividad();
+
+              const modalElement = document.getElementById('modalSelectorColores');
+              if (modalElement) {
+                const modalInstance = (window as any).bootstrap.Modal.getInstance(modalElement);
+                modalInstance?.hide();
+              }
+            },
+            error: (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo actualizar el color del equipo.',
+              });
+              console.error(err);
+            },
+          });
+      }
+    });
   }
 
   colorEstaOcupado(idColor: number): boolean {
