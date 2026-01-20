@@ -17,7 +17,8 @@ export class EventService {
   ) {}
 
   getEvents(): Observable<Event[]> {
-    return this._http.get<Event[]>(`${environment.urlApiDeportes}Eventos`);
+    console.log("Obteniendo lista de eventos del curso...");
+    return this._http.get<Event[]>(`${environment.urlApiDeportes}Eventos/EventosCursoEscolar`);
   }
 
   getEventById(id: number): Observable<Event> {
