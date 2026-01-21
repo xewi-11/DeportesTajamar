@@ -16,14 +16,30 @@ export const routes: Routes = [
   { path: 'eventos', component: PantallaEventos, canActivate: [authGuard] },
   { path: 'detallesEvento/:id', component: DetallesEvento, canActivate: [authGuard] },
   { path: 'actividadesEvento/:id', component: ActividadesEvento, canActivate: [authGuard] },
-  { path: 'pagosEvento/:id', component: PagosEvento, canActivate: [authGuard] },
+  {
+    path: 'pagosEvento/:idEvento/:idActividad/:idEventoActividad',
+    component: PagosEvento,
+    canActivate: [authGuard],
+  },
   { path: 'perfil', component: PerfilUsuario, canActivate: [authGuard] },
   {
     path: 'partidosActividad/:idEvento/:idActividad/:idEventoActividad',
     component: PartidosActividad,
     canActivate: [authGuard],
   },
-  { path: 'materialesActividad/:idEvento/:idActividad/:idEventoActividad', component: MaterialesActividad, canActivate: [authGuard] },
-  { path: 'capitanesActividad/:idEvento/:idActividad/:idEventoActividad', component: CapitanesActividad, canActivate: [authGuard] },
-  { path: 'equiposActividad/:idEvento/:idActividad/:idEventoActividad', component: EquiposActividad, canActivate: [authGuard] },
+  {
+    path: 'materialesActividad/:idEvento/:idActividad/:idEventoActividad',
+    component: MaterialesActividad,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'capitanesActividad/:idEvento/:idActividad/:idEventoActividad',
+    component: CapitanesActividad,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'equiposActividad/:idEvento/:idActividad/:idEventoActividad',
+    component: EquiposActividad,
+    canActivate: [authGuard],
+  },
 ];

@@ -28,6 +28,5 @@ export class MenuEventos {
   actualizarTabActiva(url: string) {
     if (url.includes('detallesEvento')) this.opcionSeleccionada = 'detalles';
     else if (url.includes('actividadesEvento')) this.opcionSeleccionada = 'actividades';
-    else if (url.includes('pagosEvento')) this.opcionSeleccionada = 'pagos';
   }
 }

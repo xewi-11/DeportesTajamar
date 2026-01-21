@@ -30,3 +30,52 @@
 .text-orange {
   color: #ff7b42;
 }
+
+/* Estilos del Modal */
+.custom-modal-pago {
+  border-radius: 20px;
+  background-color: #fffaf6;
+  padding: 10px;
+}
+
+.custom-modal-pago .modal-title {
+  color: #333;
+}
+
+.custom-modal-pago .form-label {
+  color: #444;
+}
+
+.custom-modal-pago .custom-input {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: all 0.2s ease;
+}
+
+.custom-modal-pago .custom-input:focus {
+  border-color: #e67e45;
+  box-shadow: 0 0 0 3px rgba(230, 126, 69, 0.1);
+  outline: none;
+}
+
+.btn-save-pago {
+  background: linear-gradient(to right, #e67e45, #d6543e);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-save-pago:hover {
+  filter: brightness(1.1);
+  color: white;
+}
+
+.btn-save-pago:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  filter: none;
+}
