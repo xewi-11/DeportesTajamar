@@ -8,7 +8,7 @@
     </div>
 
     <button class="btn btn-custom-primary d-flex align-items-center gap-2" data-bs-toggle="modal"
-      data-bs-target="#modalCrearEvento">
+      data-bs-target="#modalCrearEvento" *ngIf="this.user.idRole === 4">
       <i class="bi bi-plus-lg"></i>
       Crear Evento
     </button>
@@ -39,7 +39,7 @@
             <div>
               <small class="text-muted d-block">Profesor asignado</small>
               <span class="fw-bold text-dark" *ngIf="evento.idProfesor != -1">
-                {{ evento.idProfesor }}
+                {{ nombresProfesores[evento.idProfesor] }}
               </span>
               <span class="fw-bold text-dark" *ngIf="evento.idProfesor == -1">
                 No asignado

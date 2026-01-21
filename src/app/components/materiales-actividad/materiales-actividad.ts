@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-materiales-actividad',
-  imports: [Header, MenuActividades, FormsModule, CommonModule],
+  imports: [MenuActividades, FormsModule, CommonModule],
   templateUrl: './materiales-actividad.html',
   styleUrl: './materiales-actividad.css',
 })
@@ -32,7 +32,7 @@ export class MaterialesActividad implements OnInit {
     private cdr: ChangeDetectorRef
   ) {
     this.nuevoMaterial = {
-      idMaterial: 100, // valor provisional, se asignará desde el backend
+      idMaterial: 0, // valor provisional, se asignará desde el backend
       idEventoActividad: 0,
       idUsuario: 0,
       nombreMaterial: '',
@@ -47,6 +47,7 @@ export class MaterialesActividad implements OnInit {
     this.activeRoute.params.subscribe((params: Params) => {
       let idActividad = params['idActividad'];
       this.nuevoMaterial.idEventoActividad = params['idEventoActividad'];
+      console.log("idEventoActividad:" + this.nuevoMaterial.idEventoActividad);
       this.loadActividadEvento(idActividad);
     })
 
@@ -93,5 +94,12 @@ export class MaterialesActividad implements OnInit {
     // Resetear el formulario
     this.aportaMaterial = false;
     this.nuevoMaterial.nombreMaterial = '';
+  }
+
+  aportarMaterial(): void {
+    this.materialesService.getMaterialById(39).subscribe(response => {
+      let material = response;
+      console.log(material);
+    });
   }
 }
