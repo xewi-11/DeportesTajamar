@@ -6,7 +6,7 @@ import { ActividadesService } from '../../services/actividades/actividades-servi
 import { Actividad } from '../../models/actividad';
 import { User } from '../../models/user';
 import { CapitanesService } from '../../services/capitanes/capitanes-service';
- 
+
 @Component({
   selector: 'app-capitanes-actividad',
   imports: [MenuActividades, Header],
@@ -35,14 +35,14 @@ export class CapitanesActividad implements OnInit {
     sistemas: false,
     ia: false,
   };
- 
+
   constructor(
     private _serviceActividad: ActividadesService,
     private _serviceCapitanes: CapitanesService,
     private _activeRoute: ActivatedRoute,
     private _cdr: ChangeDetectorRef,
   ) {}
- 
+
   ngOnInit(): void {
     this._activeRoute.params.subscribe((params) => {
       this.idActividad = params['idActividad'];
@@ -51,14 +51,14 @@ export class CapitanesActividad implements OnInit {
       this.getUsuariosCapitanes();
     });
   }
- 
+
   loadActividadEvento(): void {
     this._serviceActividad.getActividadPorId(this.idActividad).subscribe((result) => {
       this.actividad = result;
       this._cdr.detectChanges();
     });
   }
- 
+
   getUsuariosCapitanes() {
     this._serviceCapitanes
       .getCapitanesActividad(this.idEvento, this.idActividad)
@@ -66,7 +66,7 @@ export class CapitanesActividad implements OnInit {
         this.usuariosDesarrollo = [];
         this.usuariosSistemas = [];
         this.usuariosIA = [];
- 
+
         response.forEach((usuario) => {
           if (usuario.idCurso === 3430) {
             this.usuariosDesarrollo.push(usuario);
@@ -81,20 +81,20 @@ export class CapitanesActividad implements OnInit {
         this._cdr.detectChanges();
       });
   }
- 
+
   toggleMaster(master: string): void {
     this.expandedStates[master] = !this.expandedStates[master];
   }
- 
+
   toggleDropdown(master: string): void {
     this.dropdownOpen[master] = !this.dropdownOpen[master];
   }
- 
+
   seleccionarCapitan(master: string, idUsuario: number): void {
     this.selectedCapitanes[master] = idUsuario;
     this.dropdownOpen[master] = false; // Cerrar el dropdown al seleccionar
   }
- 
+
   onSelectChange(master: string, event: Event): void {
     const select = event.target as HTMLSelectElement;
     const idUsuario = parseInt(select.value);
@@ -102,11 +102,11 @@ export class CapitanesActividad implements OnInit {
       this.selectedCapitanes[master] = idUsuario;
     }
   }
- 
+
   getSelectedUser(master: string, usuarios: User[]): User | undefined {
     return usuarios.find((u) => u.idUsuario === this.selectedCapitanes[master]);
   }
- 
+
   getInitials(nombre: string): string {
     const palabras = nombre.trim().split(' ');
     if (palabras.length >= 2) {
@@ -114,7 +114,7 @@ export class CapitanesActividad implements OnInit {
     }
     return nombre.substring(0, 2).toUpperCase();
   }
- 
+
   getAvatarColor(index: number): string {
     const colors = ['#FFA726', '#EF5350', '#AB47BC', '#42A5F5', '#66BB6A', '#FFA726'];
     return colors[index % colors.length];

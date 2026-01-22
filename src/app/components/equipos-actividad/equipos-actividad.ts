@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 import { Inscripcion } from '../../models/inscripcion';
 import Swal from 'sweetalert2';
 import { Header } from '../header/header';
- 
+
 @Component({
   selector: 'app-equipos-actividad',
   imports: [MenuActividades, FormsModule, CommonModule, Header],
@@ -33,7 +33,7 @@ export class EquiposActividad implements OnInit {
   colores!: Array<Color>;
   colorSeleccionadoHex: string = '#e67e45';
   equipoAEditarColor!: Equipo;
- 
+
   constructor(
     private _serviceActividad: ActividadesService,
     private _serviceEquipos: EquiposService,
@@ -50,34 +50,34 @@ export class EquiposActividad implements OnInit {
       idCurso: 0,
     };
   }
- 
+
   ngOnInit(): void {
     this.loadEquiposActividad();
- 
+
     this._activeRoute.params.subscribe((params: Params) => {
       let idActividad = params['idActividad'];
       this.loadActividadEvento(idActividad);
     });
- 
+
     this.loadColores();
- 
+
     this._serviceUsers.getUser().subscribe((result) => {
       this.nuevoEquipo.idCurso = result.idCurso;
     });
- 
+
     this._activeRoute.params.subscribe((params: Params) => {
       this.nuevoEquipo.idEventoActividad = params['idEventoActividad'];
       this.createEquipoActividad();
     });
   }
- 
+
   loadActividadEvento(idActividad: number): void {
     this._serviceActividad.getActividadPorId(idActividad).subscribe((result) => {
       this.actividad = result;
       this._cdr.detectChanges();
     });
   }
- 
+
   loadEquiposActividad(): void {
     this._activeRoute.params.subscribe((params: Params) => {
       let idEvento = params['idEvento'];
@@ -95,21 +95,21 @@ export class EquiposActividad implements OnInit {
       });
     });
   }
- 
+
   createEquipoActividad(): void {
     this._serviceEquipos.createEquipo(this.nuevoEquipo).subscribe(() => {
       console.log('equipo insertado correctamente');
       this.loadEquiposActividad();
     });
   }
- 
+
   loadColores(): void {
     this._serviceEquipos.getColores().subscribe((result) => {
       this.colores = result;
       this._cdr.detectChanges();
     });
   }
- 
+
   // Función para actualizar el color visualmente al elegir en el select o modal
   cambiarColorPrevisualizacion(event: any): void {
     const colorId = event.target.value;
@@ -118,7 +118,7 @@ export class EquiposActividad implements OnInit {
       this.colorSeleccionadoHex = this.obtenerHexPorNombre(colorEncontrado.nombreColor);
     }
   }
- 
+
   obtenerHexPorNombre(nombre: string): string {
     const nombreFinal = nombre ? nombre.toLocaleLowerCase() : '';
     const mapaColores: { [key: string]: string } = {
@@ -139,11 +139,11 @@ export class EquiposActividad implements OnInit {
     };
     return mapaColores[nombreFinal] || '#e67e45';
   }
- 
+
   abrirModalColores(equipo: Equipo) {
     this.equipoAEditarColor = { ...equipo };
   }
- 
+
   seleccionarColorRapido(color: Color) {
     Swal.fire({
       icon: 'question',
@@ -165,9 +165,9 @@ export class EquiposActividad implements OnInit {
                 timer: 2000,
                 showConfirmButton: false,
               });
- 
+
               this.loadEquiposActividad();
- 
+
               const modalElement = document.getElementById('modalSelectorColores');
               if (modalElement) {
                 const modalInstance = (window as any).bootstrap.Modal.getInstance(modalElement);
@@ -186,25 +186,25 @@ export class EquiposActividad implements OnInit {
       }
     });
   }
- 
+
   colorEstaOcupado(idColor: number): boolean {
     return this.equiposActividad.some((equipo) => equipo.idColor === idColor);
   }
- 
+
   getNombreColorPorId(idColor: number) {
     const color = this.colores.find((color) => color.idColor == idColor);
     let nombreColor = color?.nombreColor || '';
     return nombreColor;
   }
- 
+
   loadPlantillaEquipo(idEquipo: number): void {
     if (this.equipoDesplegado === idEquipo) {
       this.equipoDesplegado = null;
       return;
     }
- 
+
     this.equipoDesplegado = idEquipo;
- 
+
     if (!this.plantillaEquipo[idEquipo]) {
       this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe((result) => {
         this.plantillaEquipo[idEquipo] = result;
@@ -212,7 +212,7 @@ export class EquiposActividad implements OnInit {
       });
     }
   }
- 
+
   getIniciales(usuario: string): string {
     if (!usuario) return '';
     const palabras = usuario.trim().split(' ');
