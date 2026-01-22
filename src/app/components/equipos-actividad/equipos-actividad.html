@@ -2,20 +2,23 @@
 <app-menu-actividades></app-menu-actividades>
 
 <div class="container mt-4">
-  <div class="banner-info p-4 mb-4 rounded-4 shadow-sm">
-    <div class="d-flex align-items-center mb-2">
-      <div class="icon-container-main me-3">
-        <i class="bi bi-people-fill"></i>
+
+  @if(actividad){
+    <div class="banner-info p-4 mb-4 rounded-4 shadow-sm">
+      <div class="d-flex align-items-center mb-2">
+        <div class="icon-container-main me-3">
+          <i class="bi bi-people-fill"></i>
+        </div>
+        <h2 class="m-0 fw-bold text-dark">{{ actividad?.nombre }}</h2>
       </div>
-      <h2 class="m-0 fw-bold text-dark">{{ actividad.nombre }}</h2>
+      <p class="mb-0 text-muted">
+        <small
+          ><i class="bi bi-person-check me-1"></i> Mínimo de jugadores:
+          {{ actividad?.minimoJugadores }}</small
+        >
+      </p>
     </div>
-    <p class="mb-0 text-muted">
-      <small
-        ><i class="bi bi-person-check me-1"></i> Mínimo de jugadores:
-        {{ actividad.minimoJugadores }}</small
-      >
-    </p>
-  </div>
+  }
 
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
@@ -33,77 +36,79 @@
   </div>
 
   <div class="row">
-    @for (equipo of equiposActividad; track equipo.idEquipo) {
-      <div class="col-md-6 mb-4">
-        <div class="card equipo-card border-0 shadow-sm rounded-4 h-100">
-          <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-start mb-3">
-              <div class="d-flex align-items-center">
+    @if(actividad){
+      @for (equipo of equiposActividad; track equipo.idEquipo) {
+        <div class="col-md-6 mb-4">
+          <div class="card equipo-card border-0 shadow-sm rounded-4 h-100">
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex align-items-center">
+                  <div
+                    class="shield-icon me-3"
+                    [style.background-color]="
+                      obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))
+                    "
+                    (click)="abrirModalColores(equipo)"
+                    style="cursor: pointer"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalSelectorColores"
+                  >
+                    <i class="bi bi-shield-shaded"></i>
+                  </div>
+                  <div>
+                    <h5 class="fw-bold mb-0">{{ equipo.nombreEquipo }}</h5>
+                    <span class="text-muted small">{{ actividad?.nombre }}</span>
+                  </div>
+                </div>
+                <span class="badge rounded-pill badge-members">
+                  <i class="bi bi-people me-1"></i>
+                  {{ miembrosEquipo[equipo.idEquipo] || 0 }} Miembros
+                </span>
+              </div>
+  
+              <div class="template-section mb-4">
                 <div
-                  class="shield-icon me-3"
-                  [style.background-color]="
-                    obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))
-                  "
-                  (click)="abrirModalColores(equipo)"
-                  style="cursor: pointer"
-                  data-bs-toggle="modal"
-                  data-bs-target="#modalSelectorColores"
+                  class="d-flex justify-content-between align-items-center text-muted small pointer-link"
+                  (click)="loadPlantillaEquipo(equipo.idEquipo)"
                 >
-                  <i class="bi bi-shield-shaded"></i>
+                  <span class="fw-bold"
+                    >Ver Plantilla ({{ miembrosEquipo[equipo.idEquipo] || 0 }})</span
+                  >
+                  <i
+                    class="bi"
+                    [ngClass]="
+                      equipoDesplegado === equipo.idEquipo ? 'bi-chevron-up' : 'bi-chevron-down'
+                    "
+                  >
+                  </i>
                 </div>
-                <div>
-                  <h5 class="fw-bold mb-0">{{ equipo.nombreEquipo }}</h5>
-                  <span class="text-muted small">{{ actividad.nombre }}</span>
-                </div>
-              </div>
-              <span class="badge rounded-pill badge-members">
-                <i class="bi bi-people me-1"></i>
-                {{ miembrosEquipo[equipo.idEquipo] || 0 }} Miembros
-              </span>
-            </div>
-
-            <div class="template-section mb-4">
-              <div
-                class="d-flex justify-content-between align-items-center text-muted small pointer-link"
-                (click)="loadPlantillaEquipo(equipo.idEquipo)"
-              >
-                <span class="fw-bold"
-                  >Ver Plantilla ({{ miembrosEquipo[equipo.idEquipo] || 0 }})</span
-                >
-                <i
-                  class="bi"
-                  [ngClass]="
-                    equipoDesplegado === equipo.idEquipo ? 'bi-chevron-up' : 'bi-chevron-down'
-                  "
-                >
-                </i>
-              </div>
-
-              @if (equipoDesplegado === equipo.idEquipo && plantillaEquipo[equipo.idEquipo]) {
-                <div class="members-list mt-3 animate-fade-in">
-                  @for (miembro of plantillaEquipo[equipo.idEquipo]; track miembro.idUsuario) {
-                    <div class="member-item d-flex align-items-center p-2 mb-2 rounded-3">
-                      <div
-                        class="member-avatar me-3"
-                        [style.background-color]="
-                          obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))
-                        "
-                      >
-                        {{ getIniciales(miembro.usuario) }}
+  
+                @if (equipoDesplegado === equipo.idEquipo && plantillaEquipo[equipo.idEquipo]) {
+                  <div class="members-list mt-3 animate-fade-in">
+                    @for (miembro of plantillaEquipo[equipo.idEquipo]; track miembro.idUsuario) {
+                      <div class="member-item d-flex align-items-center p-2 mb-2 rounded-3">
+                        <div
+                          class="member-avatar me-3"
+                          [style.background-color]="
+                            obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))
+                          "
+                        >
+                          {{ getIniciales(miembro.usuario) }}
+                        </div>
+                        <span class="fw-medium text-dark">{{ miembro.usuario }}</span>
                       </div>
-                      <span class="fw-medium text-dark">{{ miembro.usuario }}</span>
-                    </div>
-                  }
-                </div>
-              }
+                    }
+                  </div>
+                }
+              </div>
+  
+              <button class="btn btn-enroll w-100 rounded-3 py-2">
+                <i class="bi bi-person-plus-fill me-2"></i> Inscribirse
+              </button>
             </div>
-
-            <button class="btn btn-enroll w-100 rounded-3 py-2">
-              <i class="bi bi-person-plus-fill me-2"></i> Inscribirse
-            </button>
           </div>
         </div>
-      </div>
+      }
     }
   </div>
 </div>
@@ -123,54 +128,57 @@
       </div>
 
       <form #crateEquipoForm="ngForm" (ngSubmit)="createEquipoActividad()">
-        <div class="modal-body py-3">
-          <div class="mb-3">
-            <label class="form-label fw-bold small">Nombre del Equipo *</label>
-            <input
-              type="text"
-              class="form-control custom-input"
-              placeholder="Ej: Leones FC"
-              name="nombreEquipo"
-              #nombreEquipo="ngModel"
-              [(ngModel)]="nuevoEquipo.nombreEquipo"
-            />
+        @if(actividad){
+          <div class="modal-body py-3">
+            <div class="mb-3">
+              <label class="form-label fw-bold small">Nombre del Equipo *</label>
+              <input
+                type="text"
+                class="form-control custom-input"
+                placeholder="Ej: Leones FC"
+                name="nombreEquipo"
+                #nombreEquipo="ngModel"
+                [(ngModel)]="nuevoEquipo.nombreEquipo"
+              />
+            </div>
+  
+            <div class="mb-3">
+              <label class="form-label fw-bold small">Actividad *</label>
+              <input
+                type="text"
+                class="form-control custom-input"
+                [value]="actividad.nombre"
+                name="nombreActividad"
+              />
+            </div>
+  
+            <div class="mb-3">
+              <label class="form-label fw-bold small">Color del Equipo *</label>
+              <select
+                class="form-select custom-input"
+                name="idColor"
+                #idColor="ngModel"
+                [(ngModel)]="nuevoEquipo.idColor"
+              >
+                <option value="" disabled selected>Selecciona un color</option>
+                @for (color of colores; track color) {
+                  <option [value]="color.idColor">{{ color.nombreColor }}</option>
+                }
+              </select>
+            </div>
+  
+            <div class="mb-4">
+              <label class="form-label fw-bold small">Mínimo de Jugadores *</label>
+              <input
+                type="number"
+                class="form-control custom-input"
+                name="minimoJugadores"
+                [value]="actividad.minimoJugadores"
+                [(ngModel)]="nuevoEquipo.minimoJugadores"
+              />
+            </div>
           </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-bold small">Actividad *</label>
-            <input
-              type="text"
-              class="form-control custom-input"
-              [value]="actividad.nombre"
-              name="nombreActividad"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-bold small">Color del Equipo *</label>
-            <select
-              class="form-select custom-input"
-              name="idColor"
-              #idColor="ngModel"
-              [(ngModel)]="nuevoEquipo.idColor"
-            >
-              <option value="" disabled selected>Selecciona un color</option>
-              @for (color of colores; track color) {
-                <option [value]="color.idColor">{{ color.nombreColor }}</option>
-              }
-            </select>
-          </div>
-
-          <div class="mb-4">
-            <label class="form-label fw-bold small">Mínimo de Jugadores *</label>
-            <input
-              type="number"
-              class="form-control custom-input"
-              [value]="actividad.minimoJugadores"
-              [(ngModel)]="nuevoEquipo.minimoJugadores"
-            />
-          </div>
-        </div>
+        }
 
         <div class="modal-footer border-0 pt-0">
           <button

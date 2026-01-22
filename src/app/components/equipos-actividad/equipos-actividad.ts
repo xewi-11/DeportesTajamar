@@ -67,7 +67,6 @@ export class EquiposActividad implements OnInit {
 
     this._activeRoute.params.subscribe((params: Params) => {
       this.nuevoEquipo.idEventoActividad = params['idEventoActividad'];
-      this.createEquipoActividad();
     });
   }
 
@@ -192,6 +191,10 @@ export class EquiposActividad implements OnInit {
   }
 
   getNombreColorPorId(idColor: number) {
+    
+    if (!this.colores || !idColor) {
+      return '';
+    }
     const color = this.colores.find((color) => color.idColor == idColor);
     let nombreColor = color?.nombreColor || '';
     return nombreColor;
