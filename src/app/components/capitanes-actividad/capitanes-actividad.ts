@@ -9,7 +9,7 @@ import { CapitanesService } from '../../services/capitanes/capitanes-service';
 
 @Component({
   selector: 'app-capitanes-actividad',
-  imports: [MenuActividades],
+  imports: [MenuActividades, Header],
   templateUrl: './capitanes-actividad.html',
   styleUrl: './capitanes-actividad.css',
 })

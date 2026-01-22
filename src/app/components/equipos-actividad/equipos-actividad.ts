@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Header } from '../header/header';
 import { MenuActividades } from '../menu-actividades/menu-actividades';
 import { ActividadesService } from '../../services/actividades/actividades-service';
 import { EquiposService } from '../../services/equipos/equipos-service';
@@ -13,10 +12,11 @@ import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import { Inscripcion } from '../../models/inscripcion';
 import Swal from 'sweetalert2';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-equipos-actividad',
-  imports: [MenuActividades, FormsModule],
+  imports: [MenuActividades, FormsModule, CommonModule, Header],
   templateUrl: './equipos-actividad.html',
   styleUrl: './equipos-actividad.css',
 })
@@ -84,6 +84,13 @@ export class EquiposActividad implements OnInit {
       let idActividad = params['idActividad'];
       this._serviceEquipos.getEquiposActividad(idActividad, idEvento).subscribe((result) => {
         this.equiposActividad = result;
+        // Cargar el número de miembros para cada equipo
+        this.equiposActividad.forEach((equipo) => {
+          this._serviceEquipos.getUsuariosEquipo(equipo.idEquipo).subscribe((usuarios) => {
+            this.miembrosEquipo[equipo.idEquipo] = usuarios.length;
+            this._cdr.detectChanges();
+          });
+        });
         this._cdr.detectChanges();
       });
     });
@@ -188,5 +195,30 @@ export class EquiposActividad implements OnInit {
     const color = this.colores.find((color) => color.idColor == idColor);
     let nombreColor = color?.nombreColor || '';
     return nombreColor;
+  }
+
+  loadPlantillaEquipo(idEquipo: number): void {
+    if (this.equipoDesplegado === idEquipo) {
+      this.equipoDesplegado = null;
+      return;
+    }
+
+    this.equipoDesplegado = idEquipo;
+
+    if (!this.plantillaEquipo[idEquipo]) {
+      this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe((result) => {
+        this.plantillaEquipo[idEquipo] = result;
+        this._cdr.detectChanges();
+      });
+    }
+  }
+
+  getIniciales(usuario: string): string {
+    if (!usuario) return '';
+    const palabras = usuario.trim().split(' ');
+    if (palabras.length === 1) {
+      return palabras[0].substring(0, 2).toUpperCase();
+    }
+    return (palabras[0].charAt(0) + palabras[palabras.length - 1].charAt(0)).toUpperCase();
   }
 }

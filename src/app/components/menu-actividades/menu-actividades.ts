@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-menu-actividades',
-  imports: [RouterLink, Header, FormsModule],
+  imports: [RouterLink, FormsModule],
   templateUrl: './menu-actividades.html',
   styleUrl: './menu-actividades.css',
 })
