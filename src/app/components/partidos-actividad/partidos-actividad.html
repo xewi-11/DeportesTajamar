@@ -24,12 +24,8 @@
       <h3 class="fw-bold mb-0">Partidos</h3>
       <p class="text-muted small">Resultados del torneo</p>
     </div>
-    <button
-      type="button"
-      class="btn btn-primary-custom rounded-pill px-4"
-      data-bs-toggle="modal"
-      data-bs-target="#createPartidoModal"
-    >
+    <button type="button" (click)="crearPartido()" class="btn btn-primary-custom rounded-pill px-4"
+      data-bs-toggle="modal" data-bs-target="#createPartidoModal">
       + Crear Partido
     </button>
   </div>
@@ -41,184 +37,30 @@
           <div class="card-body p-4">
             <p class="text-muted small fw-bold mb-4">{{ actividad?.nombre }}</p>
 
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="fw-medium">{{ getNombreEquipo(partido.idEquipoLocal) }}</span>
-              <span class="fw-bold fs-4">{{
-                partido.puntosLocal !== null && partido.puntosLocal !== undefined
-                  ? partido.puntosLocal
-                  : '-'
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="fw-medium">{{ getNombreEquipo(partido.idEquipoLocal) }}</span>
+            <span class="fw-bold fs-4">{{
+              partido.puntosLocal !== null && partido.puntosLocal !== undefined
+              ? partido.puntosLocal
+              : '-'
               }}</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <span class="fw-medium">{{ getNombreEquipo(partido.idEquipoVisitante) }}</span>
-              <span class="fw-bold fs-4">{{
-                partido.puntosVisitante !== null && partido.puntosVisitante !== undefined
-                  ? partido.puntosVisitante
-                  : '-'
-              }}</span>
-            </div>
-
-            <button
-              class="btn btn-outline-light-custom w-100 rounded-3 py-2"
-              (click)="prepararEdicion(partido)"
-              data-bs-toggle="modal"
-              data-bs-target="#updatePartidoModal"
-            >
-              <i class="bi bi-pencil-square me-2"></i> Editar Partido
-            </button>
           </div>
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <span class="fw-medium">{{ getNombreEquipo(partido.idEquipoVisitante) }}</span>
+            <span class="fw-bold fs-4">{{
+              partido.puntosVisitante !== null && partido.puntosVisitante !== undefined
+              ? partido.puntosVisitante
+              : '-'
+              }}</span>
+          </div>
+
+          <button class="btn btn-outline-light-custom w-100 rounded-3 py-2" (click)="editarPartido(partido)"
+            data-bs-toggle="modal" data-bs-target="#updatePartidoModal">
+            <i class="bi bi-pencil-square me-2"></i> Editar Partido
+          </button>
         </div>
       </div>
+    </div>
     }
-  </div>
-</div>
-
-<!-- Modal crear partido -->
-<div class="modal fade" id="createPartidoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content custom-modal">
-      <div class="modal-header border-0">
-        <div>
-          <h1 class="modal-title fs-5 fw-bold">Programar Nuevo Partido</h1>
-          <p class="text-muted mb-0">Completa la información</p>
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <form #crearPartidoForm="ngForm" (ngSubmit)="insertarPartido()">
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label fw-bold">Equipos (Simulación)</label>
-            <div class="row g-2">
-              <div class="col-6">
-                <select
-                  class="form-select custom-input"
-                  name="selectIdEquipoLocal"
-                  #selectIdEquipoLocal="ngModel"
-                  [(ngModel)]="nuevoPartido.idEquipoLocal"
-                >
-                  <option value="0" disabled>Local</option>
-                  @for (equipo of equipos; track equipo) {
-                    <option [value]="equipo.idEquipo">{{ equipo.nombreEquipo }}</option>
-                  }
-                </select>
-                <input
-                  type="number"
-                  class="form-control mt-2 custom-input"
-                  placeholder="Puntos Local"
-                  name="puntosLocal"
-                  #puntosLocal="ngModel"
-                  [(ngModel)]="nuevoPartido.puntosLocal"
-                />
-              </div>
-
-              <div class="col-6">
-                <select
-                  class="form-select custom-input"
-                  name="selectIdEquipoVisitante"
-                  #selectIdEquipoVisitante="ngModel"
-                  [(ngModel)]="nuevoPartido.idEquipoVisitante"
-                >
-                  <option value="0" disabled>Visitante</option>
-                  @for (equipo of equipos; track equipo) {
-                    <option [value]="equipo.idEquipo">{{ equipo.nombreEquipo }}</option>
-                  }
-                </select>
-                <input
-                  type="number"
-                  class="form-control mt-2 custom-input"
-                  placeholder="Puntos Visitante"
-                  name="puntosVisitante"
-                  #puntosVisitante="ngModel"
-                  [(ngModel)]="nuevoPartido.puntosVisitante"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="modal-footer border-0 p-3">
-          <button type="submit" class="btn btn-save w-100" data-bs-dismiss="modal">Guardar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal editar partido -->
-<div class="modal fade" id="updatePartidoModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content custom-modal">
-      <div class="modal-header border-0 pb-0">
-        <div>
-          <h1 class="modal-title fs-4 fw-bold">Editar Partido</h1>
-          <p class="text-muted small">Modifica los nombres de los equipos y las puntuaciones</p>
-        </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-
-      <form #updatePartidoForm="ngForm" (ngSubmit)="updatePartido()">
-        <div class="modal-body py-2">
-          <div class="mb-3">
-            <label class="form-label fw-bold mb-1">Equipo Local</label>
-            <select
-              class="form-select custom-input"
-              name="selectIdEquipoLocal"
-              #selectIdEquipoLocal="ngModel"
-              [(ngModel)]="partidoSeleccionado.idEquipoLocal"
-            >
-              @for (equipo of equipos; track equipo.idEquipo) {
-                <option [value]="equipo.idEquipo">{{ equipo.nombreEquipo }}</option>
-              }
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-bold mb-1">Puntos Local</label>
-            <input
-              type="number"
-              class="form-control custom-input"
-              name="puntosLocal"
-              #puntosLocal="ngModel"
-              [(ngModel)]="partidoSeleccionado.puntosLocal"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-bold mb-1">Equipo Visitante</label>
-            <select
-              class="form-select custom-input"
-              name="selectIdEquipoVisitante"
-              #selectIdEquipoVisitante="ngModel"
-              [(ngModel)]="partidoSeleccionado.idEquipoVisitante"
-            >
-              @for (equipo of equipos; track equipo.idEquipo) {
-                <option [value]="equipo.idEquipo">{{ equipo.nombreEquipo }}</option>
-              }
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-bold mb-1">Puntos Visitante</label>
-            <input
-              type="number"
-              class="form-control custom-input"
-              name="puntosVisitante"
-              #puntosVisitante="ngModel"
-              [(ngModel)]="partidoSeleccionado.puntosVisitante"
-            />
-          </div>
-        </div>
-
-        <div class="modal-footer border-0 d-flex justify-content-between">
-          <button type="submit" class="btn btn-save-edit flex-grow-1 me-2" data-bs-dismiss="modal">
-            Guardar Cambios
-          </button>
-          <button type="button" class="btn btn-cancel-edit" data-bs-dismiss="modal">
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
   </div>
 </div>

@@ -9,7 +9,8 @@ import { ActividadesService } from '../../services/actividades/actividades-servi
 import { Actividad } from '../../models/actividad';
 import { FormsModule } from '@angular/forms';
 import { Header } from '../header/header';
-
+import { PartidoDialogComponent } from './dialogs/partido-dialog/partido-dialog';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-partidos-actividad',
   imports: [MenuActividades, FormsModule, Header],
@@ -17,7 +18,7 @@ import { Header } from '../header/header';
   styleUrl: './partidos-actividad.css',
 })
 export class PartidosActividad implements OnInit {
-  idEventoActivdad!: Number;
+  idEventoActivdad!: number;
   actividad!: Actividad;
   partidos!: Array<Partido>;
   equipos!: Array<Equipo>;
@@ -31,6 +32,7 @@ export class PartidosActividad implements OnInit {
     private _serviceEquipos: EquiposService,
     private _activeRoute: ActivatedRoute,
     private _cdr: ChangeDetectorRef,
+    public dialog: MatDialog
   ) {
     this.nuevoPartido = {
       idPartidoResultado: 0,
@@ -104,21 +106,51 @@ export class PartidosActividad implements OnInit {
     return nombreEquipo;
   }
 
-  insertarPartido(): void {
-    this._servicePartidos.createPartidoActividad(this.nuevoPartido).subscribe((result) => {
-      console.log('Partido guardado', result);
-      this.loadPartidos();
+  // ==========================
+  // DIALOGO CREAR
+  // ==========================
+  crearPartido(): void {
+    const dialogRef = this.dialog.open(PartidoDialogComponent, {
+      width: '500px',
+      data: {
+        modo: 'crear',
+        equipos: this.equipos
+      }
+    });
+ 
+    dialogRef.afterClosed().subscribe((result: Partido | undefined) => {
+      if (result) {
+        const nuevoPartido: Partido = {
+          ...result,
+          idEventoActividad: this.idEventoActivdad
+        };
+ 
+        this._servicePartidos
+          .createPartidoActividad(nuevoPartido)
+          .subscribe(() => this.loadPartidos());
+      }
     });
   }
-
-  prepararEdicion(partido: Partido): void {
-    this.partidoSeleccionado = { ...partido };
-  }
-
-  updatePartido(): void {
-    this._servicePartidos.updatePartidoActividad(this.partidoSeleccionado).subscribe(() => {
-      console.log('Partido actualizado correctamente');
-      this.loadPartidos();
+ 
+    // ==========================
+  // DIALOGO EDITAR
+  // ==========================
+    editarPartido(partido: Partido): void {
+    const dialogRef = this.dialog.open(PartidoDialogComponent, {
+      width: '500px',
+      data: {
+        modo: 'editar',
+        equipos: this.equipos,
+        partido
+      }
+    });
+ 
+    dialogRef.afterClosed().subscribe((result: Partido | undefined) => {
+      if (result) {
+        this._servicePartidos
+          .updatePartidoActividad(result)
+          .subscribe(() => this.loadPartidos());
+      }
     });
   }
 }

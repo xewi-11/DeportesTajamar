@@ -1,6 +1,6 @@
 <app-header></app-header>
 <app-menu-actividades></app-menu-actividades>
-
+ 
 <div class="container mt-4">
   <div class="banner-info p-4 mb-4 rounded-4 shadow-sm">
     <div class="d-flex align-items-center mb-2">
@@ -18,7 +18,7 @@
   </div>
   <h2 class="fw-bold mb-2">Capitanes</h2>
   <p class="text-muted mb-4">Selecciona un capitán por cada clase</p>
-
+ 
   <div class="masters-container">
     <!-- Máster Desarrollo -->
     <div class="master-card mb-3">
@@ -51,7 +51,7 @@
           </button>
         </div>
       </div>
-
+ 
       <div class="master-content" [class.expanded]="expandedStates['desarrollo']">
         <p class="mb-3 text-muted"><small>Selecciona el capitán de Máster Desarrollo:</small></p>
         <div class="selector-container">
@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Máster Sistemas -->
     <div class="master-card mb-3">
       <div class="master-header" (click)="toggleMaster('sistemas')">
@@ -96,7 +96,7 @@
           </button>
         </div>
       </div>
-
+ 
       <div class="master-content" [class.expanded]="expandedStates['sistemas']">
         <p class="mb-3 text-muted"><small>Selecciona el capitán de Máster Sistemas:</small></p>
         <div class="selector-container">
@@ -109,7 +109,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- Máster IA -->
     <div class="master-card mb-3">
       <div class="master-header" (click)="toggleMaster('ia')">
@@ -141,7 +141,7 @@
           </button>
         </div>
       </div>
-
+ 
       <div class="master-content" [class.expanded]="expandedStates['ia']">
         <p class="mb-3 text-muted"><small>Selecciona el capitán de Máster IA:</small></p>
         <div class="selector-container">
