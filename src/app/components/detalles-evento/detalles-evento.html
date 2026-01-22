@@ -21,7 +21,7 @@
                     Alumnos Inscritos
                   </h3>
                   <span class="badge badge-soft-primary">
-                    {{ alumnosRegistrados?.length || 0 }}
+                    {{ alumnosRegistrados.length || 0 }}
                   </span>
                 </div>
               </div>
@@ -30,29 +30,31 @@
                   <table class="table table-borderless mb-0 table-custom">
                     <tbody class="divide-y">
                       @for (alumno of alumnosRegistrados; track $index) {
-                      <tr class="border-bottom border-light">
-                        <td style="width: 80px">
-                          <div class="avatar-circle">
-                            {{ alumno.usuario?.charAt(0) }}
-                          </div>
-                        </td>
-                        <td>
-                          <span class="d-block text-dark fw-medium text-sm">
-                            {{ alumno.usuario }}
-                          </span>
-                          <span class="text-muted-custom small">
-                            {{ alumno.curso }}
-                          </span>
-                        </td>
-                      </tr>
+                        <tr class="border-bottom border-light">
+                          <td style="width: 80px">
+                            <div class="avatar-circle">
+                              {{ alumno.usuario.charAt(0) }}
+                            </div>
+                          </td>
+                          <td>
+                            <span class="d-block text-dark fw-medium text-sm">
+                              {{ alumno.usuario }}
+                            </span>
+                            <span class="text-muted-custom small">
+                              {{ alumno.curso }}
+                            </span>
+                          </td>
+                        </tr>
                       } @empty {
-                      <tr>
-                        <td colspan="3" class="text-center text-muted py-4">
-                          @if (!alumnosRegistrados) {
-                          <span class="fst-italic">Cargando alumnos...</span>
-                          } @else { No hay alumnos inscritos. }
-                        </td>
-                      </tr>
+                        <tr>
+                          <td colspan="3" class="text-center text-muted py-4">
+                            @if (!alumnosRegistrados) {
+                              <span class="fst-italic">Cargando alumnos...</span>
+                            } @else {
+                              No hay alumnos inscritos.
+                            }
+                          </td>
+                        </tr>
                       }
                     </tbody>
                   </table>
@@ -74,10 +76,10 @@
                 <div>
                   <p class="fw-medium text-dark mb-1 small">Fecha y Hora</p>
                   <p class="text-muted-custom small mb-0 text-capitalize">
-                    @if (event?.fechaEvento) {
-                    {{ event.fechaEvento | date : "EEEE, d 'de' MMMM 'de' y, HH:mm" : '' : 'es' }}
+                    @if (event.fechaEvento) {
+                      {{ event.fechaEvento | date: "EEEE, d 'de' MMMM 'de' y, HH:mm" : '' : 'es' }}
                     } @else {
-                    <span class="fst-italic opacity-75">Cargando...</span>
+                      <span class="fst-italic opacity-75">Cargando...</span>
                     }
                   </p>
                 </div>
@@ -91,9 +93,11 @@
                   <div class="flex-grow-1">
                     <p class="fw-medium text-dark mb-1 small">Profesor</p>
                     <p class="text-muted-custom small mb-0">
-                      @if (event?.idProfesor && getNombreProfesor(event.idProfesor)) {
-                      {{ getNombreProfesor(event.idProfesor) }}
-                      } @else { Sin asignar }
+                      @if (event.idProfesor && getNombreProfesor(event.idProfesor)) {
+                        {{ getNombreProfesor(event.idProfesor) }}
+                      } @else {
+                        Sin asignar
+                      }
                     </p>
                   </div>
                 </div>
@@ -127,9 +131,9 @@
           <select class="form-select" [(ngModel)]="profesorTemporal">
             <option value="" disabled selected>Seleccionar...</option>
             @for (prof of profesoresActivos; track $index) {
-            <option [value]="prof.idUsuario">
-              {{ prof.usuario }}
-            </option>
+              <option [value]="prof.idUsuario">
+                {{ prof.usuario }}
+              </option>
             }
           </select>
         </div>

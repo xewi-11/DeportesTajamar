@@ -1,5 +1,5 @@
 <app-header></app-header>
-<app-menu-eventos [eventId]="eventId"></app-menu-eventos>
+<app-menu-actividades></app-menu-actividades>
 
 <div class="d-flex flex-column">
   <main class="flex-grow-1 p-4 fade-in">
@@ -13,7 +13,11 @@
           <p>Gestión de pagos del evento</p>
         </div>
         <div>
-          <button class="btn btn-gradient">
+          <button
+            class="btn btn-gradient rounded-5"
+            data-bs-toggle="modal"
+            data-bs-target="#createPagoModal"
+          >
             <i class="bi bi-currency-euro"></i>
             Añadir pago
           </button>
@@ -60,4 +64,65 @@
       </div>
     </div>
   </main>
+</div>
+
+<!-- Modal añadir pago -->
+<div class="modal fade" id="createPagoModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content custom-modal-pago">
+      <div class="modal-header border-0 pb-0">
+        <div>
+          <h1 class="modal-title fs-4 fw-bold">Añadir Nuevo Pago</h1>
+          <p class="text-muted small">Registra el pago de un curso para el evento.</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <form #createPagoForm="ngForm" (ngSubmit)="createPago()">
+        <div class="modal-body py-3">
+          <div class="mb-3">
+            <label class="form-label fw-bold small">Curso *</label>
+            <select
+              class="form-select custom-input"
+              name="idCurso"
+              #idCurso="ngModel"
+              [(ngModel)]="nuevoPago.idCurso"
+              required
+            >
+              <option [value]="null" disabled selected>Selecciona un curso</option>
+              <option [value]="1">Máster Desarrollo</option>
+              <option [value]="2">Máster Sistemas</option>
+              <option [value]="3">Máster IA</option>
+            </select>
+          </div>
+
+          <div class="mb-4">
+            <label class="form-label fw-bold small">Cantidad (€) *</label>
+            <input
+              type="number"
+              class="form-control custom-input"
+              placeholder="Ej: 50"
+              name="cantidad"
+              #cantidad="ngModel"
+              [(ngModel)]="nuevoPago.cantidad"
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0">
+          <button
+            type="submit"
+            class="btn btn-save-pago w-100 py-2 fw-bold"
+            data-bs-dismiss="modal"
+            [disabled]="!createPagoForm.valid"
+          >
+            Crear Pago
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
