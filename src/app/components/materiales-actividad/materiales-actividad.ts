@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
-import { Header } from '../header/header';
 import { MenuActividades } from '../menu-actividades/menu-actividades';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-materiales-actividad',
-  imports: [Header, MenuActividades],
+  imports: [MenuActividades, Header],
   templateUrl: './materiales-actividad.html',
   styleUrl: './materiales-actividad.css',
 })
-export class MaterialesActividad {
-
-}
+export class MaterialesActividad {}

@@ -1,2 +1,158 @@
+<app-header></app-header>
 <app-menu-actividades></app-menu-actividades>
-<p>capitanes-actividad works!</p>
+
+<div class="container mt-4">
+  <div class="banner-info p-4 mb-4 rounded-4 shadow-sm">
+    <div class="d-flex align-items-center mb-2">
+      <div class="icon-container-main me-3">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <h2 class="m-0 fw-bold text-dark">{{ actividad.nombre }}</h2>
+    </div>
+    <p class="mb-0 text-muted">
+      <small
+        ><i class="bi bi-person-check me-1"></i> Mínimo de jugadores:
+        {{ actividad.minimoJugadores }}</small
+      >
+    </p>
+  </div>
+  <h2 class="fw-bold mb-2">Capitanes</h2>
+  <p class="text-muted mb-4">Selecciona un capitán por cada clase</p>
+
+  <div class="masters-container">
+    <!-- Máster Desarrollo -->
+    <div class="master-card mb-3">
+      <div class="master-header" (click)="toggleMaster('desarrollo')">
+        <div class="d-flex align-items-center flex-grow-1">
+          <div class="icon-container me-3">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div>
+            <h5 class="mb-0 fw-semibold">Máster Desarrollo</h5>
+            <small class="text-muted">{{ usuariosDesarrollo.length }} candidatos</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          @if (selectedCapitanes['desarrollo']) {
+            @for (capitan of usuariosDesarrollo; track capitan.idUsuario) {
+              @if (capitan.idUsuario === selectedCapitanes['desarrollo']) {
+                <span class="selected-badge">
+                  <i class="bi bi-star-fill me-1"></i>{{ capitan.usuario }}
+                </span>
+              }
+            }
+          }
+          <button class="btn-toggle">
+            <i
+              [class.bi-chevron-up]="expandedStates['desarrollo']"
+              [class.bi-chevron-down]="!expandedStates['desarrollo']"
+              class="bi"
+            ></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="master-content" [class.expanded]="expandedStates['desarrollo']">
+        <p class="mb-3 text-muted"><small>Selecciona el capitán de Máster Desarrollo:</small></p>
+        <div class="selector-container">
+          <select class="form-select" (change)="onSelectChange('desarrollo', $event)">
+            <option value="" selected>Seleccionar capitán...</option>
+            @for (capitan of usuariosDesarrollo; track $index) {
+              <option [value]="capitan.idUsuario">{{ capitan.usuario }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Máster Sistemas -->
+    <div class="master-card mb-3">
+      <div class="master-header" (click)="toggleMaster('sistemas')">
+        <div class="d-flex align-items-center flex-grow-1">
+          <div class="icon-container me-3">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div>
+            <h5 class="mb-0 fw-semibold">Máster Sistemas</h5>
+            <small class="text-muted">{{ usuariosSistemas.length }} candidatos</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          @if (selectedCapitanes['sistemas']) {
+            @for (capitan of usuariosSistemas; track capitan.idUsuario) {
+              @if (capitan.idUsuario === selectedCapitanes['sistemas']) {
+                <span class="selected-badge">
+                  <i class="bi bi-star-fill me-1"></i>{{ capitan.usuario }}
+                </span>
+              }
+            }
+          }
+          <button class="btn-toggle">
+            <i
+              [class.bi-chevron-up]="expandedStates['sistemas']"
+              [class.bi-chevron-down]="!expandedStates['sistemas']"
+              class="bi"
+            ></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="master-content" [class.expanded]="expandedStates['sistemas']">
+        <p class="mb-3 text-muted"><small>Selecciona el capitán de Máster Sistemas:</small></p>
+        <div class="selector-container">
+          <select class="form-select" (change)="onSelectChange('sistemas', $event)">
+            <option value="" selected>Seleccionar capitán...</option>
+            @for (capitan of usuariosSistemas; track $index) {
+              <option [value]="capitan.idUsuario">{{ capitan.usuario }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Máster IA -->
+    <div class="master-card mb-3">
+      <div class="master-header" (click)="toggleMaster('ia')">
+        <div class="d-flex align-items-center flex-grow-1">
+          <div class="icon-container me-3">
+            <i class="bi bi-people-fill"></i>
+          </div>
+          <div>
+            <h5 class="mb-0 fw-semibold">Máster IA</h5>
+            <small class="text-muted">{{ usuariosIA.length }} candidatos</small>
+          </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          @if (selectedCapitanes['ia']) {
+            @for (capitan of usuariosIA; track capitan.idUsuario) {
+              @if (capitan.idUsuario === selectedCapitanes['ia']) {
+                <span class="selected-badge">
+                  <i class="bi bi-star-fill me-1"></i>{{ capitan.usuario }}
+                </span>
+              }
+            }
+          }
+          <button class="btn-toggle">
+            <i
+              [class.bi-chevron-up]="expandedStates['ia']"
+              [class.bi-chevron-down]="!expandedStates['ia']"
+              class="bi"
+            ></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="master-content" [class.expanded]="expandedStates['ia']">
+        <p class="mb-3 text-muted"><small>Selecciona el capitán de Máster IA:</small></p>
+        <div class="selector-container">
+          <select class="form-select" (change)="onSelectChange('ia', $event)">
+            <option value="" selected>Seleccionar capitán...</option>
+            @for (capitan of usuariosIA; track $index) {
+              <option [value]="capitan.idUsuario">{{ capitan.usuario }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
