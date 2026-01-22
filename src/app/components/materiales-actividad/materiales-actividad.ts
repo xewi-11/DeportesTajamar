@@ -8,10 +8,11 @@ import { UsersService } from '../../services/users/users-service';
 import { Material } from '../../models/material';
 import { MaterialesService } from '../../services/materiales/materiales-service';
 import { CommonModule } from '@angular/common';
+import { Header } from '../header/header';
 
 @Component({
   selector: 'app-materiales-actividad',
-  imports: [MenuActividades, FormsModule, CommonModule],
+  imports: [MenuActividades, FormsModule, CommonModule, Header],
   templateUrl: './materiales-actividad.html',
   styleUrl: './materiales-actividad.css',
 })
