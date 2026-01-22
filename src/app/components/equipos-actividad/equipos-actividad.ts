@@ -187,11 +187,14 @@ export class EquiposActividad implements OnInit {
   }
 
   colorEstaOcupado(idColor: number): boolean {
+    if (!this.equiposActividad || !idColor) {
+      return false;
+    }
     return this.equiposActividad.some((equipo) => equipo.idColor === idColor);
   }
 
   getNombreColorPorId(idColor: number) {
-    
+
     if (!this.colores || !idColor) {
       return '';
     }

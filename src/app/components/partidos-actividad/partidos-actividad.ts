@@ -96,6 +96,9 @@ export class PartidosActividad implements OnInit {
   }
 
   getNombreEquipo(idEquipo: number): string {
+    if(!this.equipos){
+      return '';
+    }
     const equipo = this.equipos.find((equipo) => equipo.idEquipo == idEquipo);
     let nombreEquipo = equipo?.nombreEquipo || '';
     return nombreEquipo;
