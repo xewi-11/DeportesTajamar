@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { Header } from '../header/header';
 import { MenuActividades } from '../menu-actividades/menu-actividades';
 import { ActividadesService } from '../../services/actividades/actividades-service';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -19,10 +18,11 @@ import { CommonModule } from '@angular/common';
 export class MaterialesActividad implements OnInit {
   idActividad!: number;
   idEvento!: number;
+  idEventoActividad!: number;
+  idUsuario!: number;
   actividad!: Actividad;
   materialesActividad!: Array<Material>;
   nuevoMaterial: Material;
-  aportaMaterial: boolean = false;
 
   constructor(
     private actividadService: ActividadesService,
@@ -36,34 +36,33 @@ export class MaterialesActividad implements OnInit {
       idEventoActividad: 0,
       idUsuario: 0,
       nombreMaterial: '',
-      pendiente: false,
+      pendiente: true,
       fechaSolicitud: '',
       idUsuarioAportacion: -1
     }
   }
 
   ngOnInit(): void {
-    this.loadMaterialesActividad();
+
     this.activeRoute.params.subscribe((params: Params) => {
-      let idActividad = params['idActividad'];
-      this.nuevoMaterial.idEventoActividad = params['idEventoActividad'];
-      console.log("idEventoActividad:" + this.nuevoMaterial.idEventoActividad);
-      this.loadActividadEvento(idActividad);
+      this.idActividad = params['idActividad'];
+      this.idEventoActividad = params['idEventoActividad'];
+      this.loadActividadEvento(this.idActividad);
     })
 
     this.usersService.getUser().subscribe(response => {
-      this.nuevoMaterial.idUsuario = response.idUsuario;
+      this.idUsuario = response.idUsuario;
     })
+
+    this.loadMaterialesActividad();
   }
 
   loadMaterialesActividad(): void {
-    this.activeRoute.params.subscribe((params: Params) => {
-      let idActividad = params['idActividad'];
-      this.materialesService.getMaterialesActividad(idActividad).subscribe(response => {
-        this.materialesActividad = response;
-        this.cdr.detectChanges();
-      });
+    this.materialesService.getMaterialesActividad(this.idEventoActividad).subscribe(response => {
+      this.materialesActividad = response;
+      this.cdr.detectChanges();
     });
+
   }
 
   loadActividadEvento(idActividad: number): void {
@@ -74,32 +73,50 @@ export class MaterialesActividad implements OnInit {
   }
 
   createMaterialActividad(): void {
-    this.nuevoMaterial.fechaSolicitud = new Date().toISOString();
 
-    if (this.aportaMaterial) {
-      this.nuevoMaterial.idUsuarioAportacion = this.nuevoMaterial.idUsuario;
-      this.nuevoMaterial.pendiente = false;
-    } else {
-      this.nuevoMaterial.idUsuarioAportacion = -1;
-      this.nuevoMaterial.pendiente = true;
-    }
+    this.nuevoMaterial.idEventoActividad = this.idEventoActividad;
+    this.nuevoMaterial.idUsuario = this.idUsuario;
+    this.nuevoMaterial.nombreMaterial = this.nuevoMaterial.nombreMaterial.trim();
+
+    this.nuevoMaterial.fechaSolicitud = new Date().toISOString();
 
     this.materialesService.createMaterialActividad(this.nuevoMaterial).subscribe(response => {
       this.loadMaterialesActividad();
     });
 
     console.log("Solicitud creada:", this.nuevoMaterial);
-    console.log("Aporta material:", this.aportaMaterial);
 
     // Resetear el formulario
-    this.aportaMaterial = false;
-    this.nuevoMaterial.nombreMaterial = '';
+    this.nuevoMaterial = {
+      idMaterial: 0, // valor provisional, se asignará desde el backend
+      idEventoActividad: 0,
+      idUsuario: 0,
+      nombreMaterial: '',
+      pendiente: true,
+      fechaSolicitud: '',
+      idUsuarioAportacion: -1
+    };
   }
 
-  aportarMaterial(): void {
-    this.materialesService.getMaterialById(39).subscribe(response => {
+  aportarMaterial(idMaterial: number): void {
+    this.materialesService.getMaterialById(idMaterial).subscribe(response => {
       let material = response;
-      console.log(material);
+      material.idUsuarioAportacion = this.idUsuario;
+      material.pendiente = false;
+      this.materialesService.updateMaterialActividad(material).subscribe(() => {
+        this.loadMaterialesActividad();
+      });
+    });
+  }
+
+  cancelarAportacionMaterial(idMaterial: number): void {
+    this.materialesService.getMaterialById(idMaterial).subscribe(response => {
+      let material = response;
+      material.idUsuarioAportacion = -1;
+      material.pendiente = true;
+      this.materialesService.updateMaterialActividad(material).subscribe(() => {
+        this.loadMaterialesActividad();
+      });
     });
   }
 }

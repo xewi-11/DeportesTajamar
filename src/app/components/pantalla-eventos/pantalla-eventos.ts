@@ -31,7 +31,8 @@ export class PantallaEventos implements OnInit {
   public actividades!: ActividadEvento[];
 
   public nombresProfesores: { [key: number]: string } = {};
-  public user!: Perfil;
+  public perfil!: Perfil;
+  public ordenAscendente: boolean = true;
 
   public newEvent: Event = {
     idEvento: -1,
@@ -58,7 +59,7 @@ export class PantallaEventos implements OnInit {
   ngOnInit() {
     this.getListaEventos();
     this.usersService.getUser().subscribe((user) => {
-      this.user = user;
+      this.perfil = user;
     });
   }
 
@@ -117,7 +118,7 @@ export class PantallaEventos implements OnInit {
   createInscripcion() {
       this.inscripcion.idInscripcion = 100; // Valor temporal
       // this.inscripcion.idEventoActividad ya es asignado en el select del HTML
-      this.inscripcion.idUsuario = this.user.idUsuario;
+      this.inscripcion.idUsuario = this.perfil.idUsuario;
       this.inscripcion.fechaInscripcion = new Date().toISOString();
       // quiere ser capitán ya es asignado en el checkbox del HTML
 
@@ -126,5 +127,21 @@ export class PantallaEventos implements OnInit {
         console.log('Inscripción creada:', response);
       });
 
+  }
+
+  ordenarPorFecha() {
+    this.eventos.sort((a, b) => {
+      const fechaA = new Date(a.fechaEvento).getTime();
+      const fechaB = new Date(b.fechaEvento).getTime();
+      
+      if (this.ordenAscendente) {
+        return fechaA - fechaB;
+      } else {
+        return fechaB - fechaA;
+      }
+    });
+    
+    this.ordenAscendente = !this.ordenAscendente;
+    this.cdr.detectChanges();
   }
 }

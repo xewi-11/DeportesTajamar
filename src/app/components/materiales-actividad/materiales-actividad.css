@@ -227,3 +227,19 @@
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(230, 126, 69, 0.2);
 }
+
+/* Botón Ya no lo puedo traer */
+.btn-no-traer-material {
+    background-color: #d6543e;
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-no-traer-material:hover {
+    background-color: #c2432b;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(214, 84, 62, 0.2);
+}
