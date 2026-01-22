@@ -67,7 +67,6 @@ export class EquiposActividad implements OnInit {
  
     this._activeRoute.params.subscribe((params: Params) => {
       this.nuevoEquipo.idEventoActividad = params['idEventoActividad'];
-      this.createEquipoActividad();
     });
   }
  
@@ -188,10 +187,17 @@ export class EquiposActividad implements OnInit {
   }
  
   colorEstaOcupado(idColor: number): boolean {
+    if (!this.equiposActividad || !idColor) {
+      return false;
+    }
     return this.equiposActividad.some((equipo) => equipo.idColor === idColor);
   }
  
   getNombreColorPorId(idColor: number) {
+
+    if (!this.colores || !idColor) {
+      return '';
+    }
     const color = this.colores.find((color) => color.idColor == idColor);
     let nombreColor = color?.nombreColor || '';
     return nombreColor;
