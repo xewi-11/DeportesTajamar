@@ -13,16 +13,16 @@ import { Perfil } from '../../models/perfil';
 export class UsersService {
   constructor(private http: HttpClient, private auth: AuthService, private router: Router) { }
 
-  /***
-   * Obtiene la información del usuario actual autenticado.
-   * @returns Observable<User>
-   **/
   getUser(): Observable<Perfil> {
     return this.http.get<Perfil>(`${environment.urlApiDeportes}UsuariosDeportes/Perfil`);
   }
 
   getProfesoresActivos(): Observable<User[]> {
     return this.http.get<User[]>(`${environment.urlApiDeportes}ProfesEventos/ProfesActivos`);
+  }
+
+  getProfesorById(id: number): Observable<User> {
+    return this.http.get<User>(`${environment.urlApiDeportes}ProfesEventos/FindProfe?idprofesor=${id}`);
   }
 
   getUsersInscritosByIdEvent(id: number): Observable<User[]> {

@@ -1,0 +1,245 @@
+/* Banner principal con el tono salmón muy suave de la imagen */
+.banner-info {
+    background: linear-gradient(135deg, #fff2ed 0%, #ffe8e0 100%);
+    border: 1px solid #fde2d8;
+}
+
+.icon-container-main {
+    background-color: #e67e45;
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+/* Tarjeta de Equipo */
+.equipo-card {
+    transition: transform 0.2s ease;
+    background-color: #ffffff;
+}
+
+.equipo-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Icono de escudo lateral */
+.shield-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #e67e45; /* Puedes cambiar esto por el color del equipo */
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* Badge de miembros estilo rojizo */
+.badge-members {
+    background-color: #d6543e;
+    color: white;
+    padding: 6px 12px;
+    font-weight: 500;
+}
+
+/* Botón Crear Equipo */
+.btn-create-team {
+    background-color: #e67e45;
+    color: white;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-create-team:hover {
+    background-color: #d36a33;
+    color: white;
+}
+
+/* Botón Inscribirse (Estilo degradado/rojizo) */
+.btn-enroll {
+    background: linear-gradient(to right, #e67e45, #d6543e);
+    color: white;
+    border: none;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(214, 84, 62, 0.2);
+}
+
+.btn-enroll:hover {
+    filter: brightness(1.1);
+    color: white;
+}
+
+/* Sección de plantilla */
+.pointer-link {
+    cursor: pointer;
+    border-top: 1px solid #f8f9fa;
+    padding-top: 10px;
+}
+
+/* Contenedor del modal */
+.custom-modal-equipo {
+    border-radius: 20px;
+    background-color: #fffaf6; /* Fondo crema suave */
+    padding: 10px;
+}
+
+/* Títulos y etiquetas */
+.custom-modal-equipo .modal-title {
+    color: #333;
+}
+
+.custom-modal-equipo .form-label {
+    color: #444;
+}
+
+/* Inputs y Selects */
+.custom-modal-equipo .custom-input {
+    border: 1.5px solid #fde2d8 !important; /* Naranja muy pálido */
+    border-radius: 12px;
+    padding: 10px 15px;
+    background-color: #fff;
+    color: #666;
+}
+
+.custom-modal-equipo .custom-input::placeholder {
+    color: #bbb;
+}
+
+.custom-modal-equipo .custom-input:focus {
+    border-color: #e67e45 !important;
+    box-shadow: none;
+    outline: none;
+}
+
+/* Botón Guardar Equipo (Naranja sólido/degradado) */
+.btn-save-equipo {
+    background-color: #e67e45;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-save-equipo:hover {
+    background-color: #d36a33;
+    color: white;
+    transform: translateY(-1px);
+}
+
+/* Ajuste para el icono de cierre */
+.btn-close {
+    filter: grayscale(1) opacity(0.5);
+}
+
+/* Contenedor del modal */
+.custom-modal-color {
+    border-radius: 25px;
+    background-color: #fffaf6;
+    padding: 15px;
+}
+
+/* Tarjeta individual de color */
+.color-card {
+    background: white;
+    border: 1.5px solid #fde2d8;
+    border-radius: 20px;
+    padding: 25px 15px;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.color-card:hover:not(.occupied) {
+    transform: translateY(-5px);
+    border-color: #e67e45;
+    box-shadow: 0 10px 20px rgba(230, 126, 69, 0.1);
+}
+
+/* Estado Ocupado */
+.color-card.occupied {
+    cursor: not-allowed;
+    opacity: 0.6;
+    background-color: #fcfcfc;
+}
+
+.badge-occupied {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #d6543e;
+    color: white;
+    font-size: 0.65rem;
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Escudo grande dentro del modal */
+.shield-preview {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: white;
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.color-name {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* Botón Cancelar */
+.btn-cancel-color {
+    border: 1.5px solid #fde2d8;
+    background: white;
+    color: #444;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.btn-cancel-color:hover {
+    background-color: #f8f9fa;
+}
+
+/* Botón Aportar Material */
+.btn-aportar-material {
+    background-color: transparent;
+    color: #e67e45;
+    border: 1.5px solid #e67e45;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-aportar-material:hover {
+    background-color: #e67e45;
+    color: white;
+    border-color: #e67e45;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(230, 126, 69, 0.2);
+}
+
+/* Botón Ya no lo puedo traer */
+.btn-no-traer-material {
+    background-color: #d6543e;
+    color: white;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-no-traer-material:hover {
+    background-color: #c2432b;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(214, 84, 62, 0.2);
+}
