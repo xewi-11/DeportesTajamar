@@ -1,56 +1,82 @@
+<div class="partido-dialog-container">
+  <div class="partido-dialog-close" (click)="cancelar()" aria-label="Close">&times;</div>
+  <div>
+    <h1 class="partido-dialog-title">
+      {{ esEdicion ? 'Editar Partido' : 'Programar Nuevo Partido' }}
+    </h1>
+    <p class="partido-dialog-subtitle" *ngIf="!esEdicion">Completa la información</p>
+    <p class="partido-dialog-subtitle" *ngIf="esEdicion">Modifica los nombres de los equipos y las puntuaciones</p>
+  </div>
 
-<div class="modal-dialog modal-dialog-centered">
-  <div class="modal-content custom-modal">
-    <div class="modal-header border-0 pb-0">
-      <div>
-        <h1 class="modal-title fs-5 fw-bold">
-          {{ esEdicion ? 'Editar Partido' : 'Programar Nuevo Partido' }}
-        </h1>
-        <p class="text-muted mb-0" *ngIf="!esEdicion">Completa la información</p>
-        <p class="text-muted small" *ngIf="esEdicion">Modifica los nombres de los equipos y las puntuaciones</p>
-      </div>
-      <button type="button" class="btn-close" (click)="cancelar()" aria-label="Close"></button>
-    </div>
-
-    <form [formGroup]="form" (ngSubmit)="guardar()">
-      <div class="modal-body">
-        <div class="mb-3">
-          <label class="form-label fw-bold">Equipos (Simulación)</label>
-          <div class="row g-2">
-            <div class="col-6">
-              <select class="form-select custom-input" formControlName="idEquipoLocal">
-                <option value="0" disabled>Local</option>
-                <ng-container *ngFor="let equipo of data.equipos">
-                  <option [value]="equipo.idEquipo">{{equipo.nombreEquipo}}</option>
-                </ng-container>
-              </select>
-              <input type="number" class="form-control mt-2 custom-input" placeholder="Puntos Local" formControlName="puntosLocal">
-            </div>
-            <div class="col-6">
-              <select class="form-select custom-input" formControlName="idEquipoVisitante">
-                <option value="0" disabled>Visitante</option>
-                <ng-container *ngFor="let equipo of data.equipos">
-                  <option [value]="equipo.idEquipo">{{equipo.nombreEquipo}}</option>
-                </ng-container>
-              </select>
-              <input type="number" class="form-control mt-2 custom-input" placeholder="Puntos Visitante" formControlName="puntosVisitante">
-            </div>
-          </div>
+  <form [formGroup]="form" (ngSubmit)="guardar()">
+    <!-- Estructura para CREAR partido -->
+    <div *ngIf="!esEdicion">
+      <label class="partido-dialog-label">Equipos (Simulación)</label>
+      <div style="display: flex; gap: 16px;">
+        <div style="flex: 1;">
+          <select class="partido-dialog-select" formControlName="idEquipoLocal">
+            <option value="0" disabled>Local</option>
+            <ng-container *ngFor="let equipo of data.equipos">
+              <option [value]="equipo.idEquipo">{{equipo.nombreEquipo}}</option>
+            </ng-container>
+          </select>
+          <input type="number" class="partido-dialog-input" placeholder="0" formControlName="puntosLocal">
+        </div>
+        <div style="flex: 1;">
+          <select class="partido-dialog-select" formControlName="idEquipoVisitante">
+            <option value="0" disabled>Visitante</option>
+            <ng-container *ngFor="let equipo of data.equipos">
+              <option [value]="equipo.idEquipo">{{equipo.nombreEquipo}}</option>
+            </ng-container>
+          </select>
+          <input type="number" class="partido-dialog-input" placeholder="0" formControlName="puntosVisitante">
         </div>
       </div>
-      <div class="modal-footer border-0 p-3" *ngIf="!esEdicion">
-        <button type="submit" class="btn btn-save w-100" [disabled]="form.invalid">
-          Guardar
-        </button>
+    </div>
+
+    <!-- Estructura para EDITAR partido -->
+    <div *ngIf="esEdicion">
+      <div>
+        <label class="partido-dialog-label">Equipo Local</label>
+        <select class="partido-dialog-select" formControlName="idEquipoLocal">
+          <ng-container *ngFor="let equipo of data.equipos">
+            <option [value]="equipo.idEquipo">{{equipo.nombreEquipo}}</option>
+          </ng-container>
+        </select>
       </div>
-      <div class="modal-footer border-0 d-flex justify-content-between" *ngIf="esEdicion">
-        <button type="submit" class="btn btn-save-edit flex-grow-1 me-2" [disabled]="form.invalid">
-          Guardar Cambios
-        </button>
-        <button type="button" class="btn btn-cancel-edit" (click)="cancelar()">
-          Cancelar
-        </button>
+
+      <div>
+        <label class="partido-dialog-label">Puntos Local</label>
+        <input type="number" class="partido-dialog-input" formControlName="puntosLocal">
       </div>
-    </form>
-  </div>
+
+      <div>
+        <label class="partido-dialog-label">Equipo Visitante</label>
+        <select class="partido-dialog-select" formControlName="idEquipoVisitante">
+          <ng-container *ngFor="let equipo of data.equipos">
+            <option [value]="equipo.idEquipo">{{equipo.nombreEquipo}}</option>
+          </ng-container>
+        </select>
+      </div>
+
+      <div>
+        <label class="partido-dialog-label">Puntos Visitante</label>
+        <input type="number" class="partido-dialog-input" formControlName="puntosVisitante">
+      </div>
+    </div>
+
+    <div class="partido-dialog-actions" *ngIf="!esEdicion">
+      <button type="submit" class="partido-dialog-btn-save" [disabled]="form.invalid">
+        Guardar
+      </button>
+    </div>
+    <div class="partido-dialog-actions" *ngIf="esEdicion">
+      <button type="submit" class="partido-dialog-btn-save" [disabled]="form.invalid">
+        Guardar Cambios
+      </button>
+      <button type="button" class="partido-dialog-btn-cancel" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+  </form>
 </div>

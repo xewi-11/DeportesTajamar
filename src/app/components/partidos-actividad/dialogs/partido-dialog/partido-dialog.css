@@ -1,0 +1,109 @@
+/* Fondo y contenedor principal del modal */
+.partido-dialog-container {
+    background: #fff8f2;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    padding: 32px 24px 24px 24px;
+    max-width: 530px;
+    color: #2d2d2d;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Título */
+.partido-dialog-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #2d2d2d;
+}
+
+/* Subtítulo */
+.partido-dialog-subtitle {
+    font-size: 1rem;
+    color: #7c7c7c;
+    margin-bottom: 18px;
+}
+
+/* Etiquetas de los campos */
+.partido-dialog-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: block;
+    color: #2d2d2d;
+}
+
+/* Select y input */
+.partido-dialog-select,
+.partido-dialog-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #f4a077;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 16px;
+    background: #fff;
+    color: #2d2d2d;
+    transition: border-color 0.2s;
+}
+
+.partido-dialog-select:focus,
+.partido-dialog-input:focus {
+    border-color: #e26a2c;
+    outline: none;
+}
+
+/* Botones */
+.partido-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.partido-dialog-btn-save {
+    background: #e26a2c;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 32px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.partido-dialog-btn-save:hover {
+    background: #f4a077;
+}
+
+.partido-dialog-btn-cancel {
+    background: #fff;
+    color: #2d2d2d;
+    border: 2px solid #e26a2c;
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.partido-dialog-btn-cancel:hover {
+    background: #f4a077;
+    color: #fff;
+}
+
+/* Icono de cerrar */
+.partido-dialog-close {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 1.5rem;
+    color: #7c7c7c;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.partido-dialog-close:hover {
+    color: #e26a2c;
+}
