@@ -84,6 +84,21 @@
     background-color: #fffaf6;
 }
 
+/* Equipo actual */
+.current-team-badge {
+  background-color: #e8f5e9; 
+  color: #2e7d32;           
+  border: 1px solid #c8e6c9;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.btn-enroll:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  border: none;
+}
+
 /* Avatar circular con iniciales (Azul como en la imagen) */
 .member-avatar {
     width: 35px;

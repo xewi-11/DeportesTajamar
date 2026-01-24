@@ -23,6 +23,7 @@ import { Perfil } from '../../models/perfil';
 export class EquiposActividad implements OnInit {
   idActividad!: number;
   idEvento!: number;
+  idEquipoInscrito: number | null = null;
   actividad!: Actividad;
   usuarioActivo!: Perfil;
   equiposActividad!: Array<Equipo>;
@@ -85,10 +86,14 @@ export class EquiposActividad implements OnInit {
       let idActividad = params['idActividad'];
       this._serviceEquipos.getEquiposActividad(idActividad, idEvento).subscribe((result) => {
         this.equiposActividad = result;
+        this.idEquipoInscrito = null;
         // Cargar el número de miembros para cada equipo
         this.equiposActividad.forEach((equipo) => {
           this._serviceEquipos.getUsuariosEquipo(equipo.idEquipo).subscribe((usuarios) => {
             this.miembrosEquipo[equipo.idEquipo] = usuarios.length;
+            if (this.usuarioActivo && usuarios.some(u => u.idUsuario === this.usuarioActivo.idUsuario)) {
+              this.idEquipoInscrito = equipo.idEquipo;
+            }
             this._cdr.detectChanges();
           });
         });
@@ -240,7 +245,12 @@ export class EquiposActividad implements OnInit {
         timer: 3000,
         timerProgressBar: true
       }).then(()=>{
+        this.idEquipoInscrito = idEquipo;
         this.loadPlantillaEquipo(idEquipo);
+        this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe((usuarios) => {
+          this.miembrosEquipo[idEquipo] = usuarios.length;
+          this._cdr.detectChanges();
+        });
       })
     })
   }
