@@ -10,9 +10,9 @@ import { Color } from '../../models/color';
 import { UsersService } from '../../services/users/users-service';
 import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
-import { Inscripcion } from '../../models/inscripcion';
 import Swal from 'sweetalert2';
 import { Header } from '../header/header';
+import { Perfil } from '../../models/perfil';
  
 @Component({
   selector: 'app-equipos-actividad',
@@ -23,12 +23,13 @@ import { Header } from '../header/header';
 export class EquiposActividad implements OnInit {
   idActividad!: number;
   idEvento!: number;
+  idEquipoInscrito: number | null = null;
   actividad!: Actividad;
+  usuarioActivo!: Perfil;
   equiposActividad!: Array<Equipo>;
   miembrosEquipo: { [key: number]: number } = {};
   plantillaEquipo: { [key: number]: User[] } = {};
   equipoDesplegado: number | null = null;
-  usuarioInscrito!: Inscripcion;
   nuevoEquipo: Equipo;
   colores!: Array<Color>;
   colorSeleccionadoHex: string = '#e67e45';
@@ -62,6 +63,8 @@ export class EquiposActividad implements OnInit {
     this.loadColores();
  
     this._serviceUsers.getUser().subscribe((result) => {
+      this.usuarioActivo = result;
+      console.log(this.usuarioActivo);
       this.nuevoEquipo.idCurso = result.idCurso;
     });
  
@@ -83,10 +86,14 @@ export class EquiposActividad implements OnInit {
       let idActividad = params['idActividad'];
       this._serviceEquipos.getEquiposActividad(idActividad, idEvento).subscribe((result) => {
         this.equiposActividad = result;
+        this.idEquipoInscrito = null;
         // Cargar el número de miembros para cada equipo
         this.equiposActividad.forEach((equipo) => {
           this._serviceEquipos.getUsuariosEquipo(equipo.idEquipo).subscribe((usuarios) => {
             this.miembrosEquipo[equipo.idEquipo] = usuarios.length;
+            if (this.usuarioActivo && usuarios.some(u => u.idUsuario === this.usuarioActivo.idUsuario)) {
+              this.idEquipoInscrito = equipo.idEquipo;
+            }
             this._cdr.detectChanges();
           });
         });
@@ -227,4 +234,25 @@ export class EquiposActividad implements OnInit {
     }
     return (palabras[0].charAt(0) + palabras[palabras.length - 1].charAt(0)).toUpperCase();
   }
+
+  createMiembroEquipo(idEquipo: number): void{
+    let idUsuario = this.usuarioActivo.idUsuario;
+    this._serviceEquipos.inscripcionEquipo(idUsuario, idEquipo).subscribe(()=>{
+      Swal.fire({
+        icon: 'success',
+        title: '¡Exito!',
+        text: 'La inscripción se ha realizado correctamente',
+        timer: 3000,
+        timerProgressBar: true
+      }).then(()=>{
+        this.idEquipoInscrito = idEquipo;
+        this.loadPlantillaEquipo(idEquipo);
+        this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe((usuarios) => {
+          this.miembrosEquipo[idEquipo] = usuarios.length;
+          this._cdr.detectChanges();
+        });
+      })
+    })
+  }
+
 }

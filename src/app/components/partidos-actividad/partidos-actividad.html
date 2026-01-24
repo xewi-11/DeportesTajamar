@@ -54,6 +54,22 @@
               }}</span>
           </div>
 
+          <div class="winner-section mb-4">
+            @if (partido.puntosLocal > partido.puntosVisitante) {
+                <p class="mb-0 text-dark small fw-medium">
+                    <i class="bi bi-trophy me-2"></i> Ganador: {{ getNombreEquipo(partido.idEquipoLocal) }}
+                </p>
+            } @else if (partido.puntosVisitante > partido.puntosLocal) {
+                <p class="mb-0 text-dark small fw-medium">
+                    <i class="bi bi-trophy me-2"></i> Ganador: {{ getNombreEquipo(partido.idEquipoVisitante) }}
+                </p>
+            } @else if (partido.puntosLocal !== null && partido.puntosLocal === partido.puntosVisitante) {
+                <p class="mb-0 text-muted small fw-medium">
+                    <i class="bi bi-dash-circle me-2"></i> Empate
+                </p>
+            }
+          </div>
+
           <button class="btn btn-outline-light-custom w-100 rounded-3 py-2" (click)="editarPartido(partido)"
             data-bs-toggle="modal" data-bs-target="#updatePartidoModal">
             <i class="bi bi-pencil-square me-2"></i> Editar Partido

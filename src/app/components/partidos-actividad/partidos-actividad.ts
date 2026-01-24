@@ -58,7 +58,8 @@ export class PartidosActividad implements OnInit {
     this.loadPartidos();
     this.loadEquipos();
     this._activeRoute.params.subscribe((params: Params) => {
-      this.nuevoPartido.idEventoActividad = params['idEventoActividad'];
+      this.idEventoActivdad = +params['idEventoActividad'];
+      this.nuevoPartido.idEventoActividad = this.idEventoActivdad;
     });
   }
 
