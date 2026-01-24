@@ -34,6 +34,30 @@
     transform: translateY(-5px);
 }
 
+/*   */
+.winner-section {
+    padding-top: 15px;
+    border-top: 1px solid #f1f1f1; 
+}
+
+/* Seccion ganador partido */
+.winner-section i {
+    color: #333; 
+}
+
+.btn-outline-light-custom {
+    background-color: #fffaf6; 
+    border: 1px solid #fde2d8; 
+    color: #333;
+    font-weight: 500;
+}
+
+.btn-outline-light-custom:hover {
+    background-color: #fde2d8;
+    color: #000;
+}
+
+
 /* Botón Editar Partido */
 .btn-outline-light-custom {
     background-color: #fff9f5;
