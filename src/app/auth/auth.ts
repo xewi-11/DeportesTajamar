@@ -19,6 +19,8 @@ export class AuthService {
 
     private _token = signal<string | null>(localStorage.getItem('token'));
     private _isLoading = signal<boolean>(false);
+    private _rol = signal<string | null>(localStorage.getItem('rol'));
+    private _idRol = signal<string | null>(localStorage.getItem('idRol'));
 
     constructor() {
         window.addEventListener('storage', (event) => {
@@ -38,15 +40,20 @@ export class AuthService {
 
     token = computed(() => this._token());
     isLoading = computed(() => this._isLoading());
-
+    rol = computed(() => this._rol());
+    idRol = computed(() => this._idRol());
 
     login(userName: string, password: string): Observable<AuthResponse> {
         return this.http.post<AuthResponse>(`${this.apiurl}Auth/LoginEventos`, {userName, password})
             .pipe(
                 tap(response => {
+                    console.log(response);
                     localStorage.setItem('token', response.response);
                     localStorage.setItem('rol', response.role);
+                    localStorage.setItem('idRol', response.idrole.toString());
                     this._token.set(response.response);
+                    this._rol.set(response.role);
+                    this._idRol.set(response.idrole.toString());
                     this.isAuthenticated = true;
                 })
             );
@@ -54,7 +61,11 @@ export class AuthService {
    
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('rol');
+        localStorage.removeItem('idRol');
         this._token.set(null);
+        this._rol.set(null);
+        this._idRol.set(null);
         this.isAuthenticated = false;
         this.route.navigate(['']);
     }
