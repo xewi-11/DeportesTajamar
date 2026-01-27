@@ -8,12 +8,19 @@
     </div>
 
     <div class="d-flex gap-2">
-      <button class="btn btn-outline-custom d-flex align-items-center gap-2" (click)="ordenarPorFecha()">
+      <button
+        class="btn btn-outline-custom d-flex align-items-center gap-2"
+        (click)="ordenarPorFecha()"
+      >
         <i class="bi" [ngClass]="ordenAscendente ? 'bi-sort-down' : 'bi-sort-up'"></i>
         Ordenar
       </button>
-      <button class="btn btn-custom-primary d-flex align-items-center gap-2" data-bs-toggle="modal"
-        data-bs-target="#modalCrearEvento" *ngIf="perfil?.idRole === 4">
+      <button
+        class="btn btn-custom-primary d-flex align-items-center gap-2"
+        data-bs-toggle="modal"
+        data-bs-target="#modalCrearEvento"
+        *ngIf="perfil?.idRole === 4"
+      >
         <i class="bi bi-plus-lg"></i>
         Crear Evento
       </button>
@@ -35,7 +42,7 @@
 
           <div class="date-badge mb-3">
             <i class="bi bi-calendar3 me-2 text-custom"></i>
-            <span class="fw-semibold">{{ evento.fechaEvento | date:'fullDate':'':'es' }}</span>
+            <span class="fw-semibold">{{ evento.fechaEvento | date: 'fullDate' : '' : 'es' }}</span>
           </div>
 
           <div class="profesor-badge mb-4">
@@ -47,21 +54,26 @@
               <span class="fw-bold text-dark" *ngIf="evento.idProfesor != -1">
                 {{ nombresProfesores[evento.idProfesor] }}
               </span>
-              <span class="fw-bold text-dark" *ngIf="evento.idProfesor == -1">
-                No asignado
-              </span>
+              <span class="fw-bold text-dark" *ngIf="evento.idProfesor == -1"> No asignado </span>
             </div>
           </div>
 
           <div class="row g-2">
             <div class="col-6">
-              <button class="btn btn-custom-primary btn-sm w-100 py-2" data-bs-toggle="modal"
-                data-bs-target="#modalInscripcion" (click)="prepararInscripcion(evento.idEvento)">
+              <button
+                class="btn btn-custom-primary btn-sm w-100 py-2"
+                data-bs-toggle="modal"
+                data-bs-target="#modalInscripcion"
+                (click)="prepararInscripcion(evento.idEvento)"
+              >
                 <i class="bi bi-person-plus-fill me-1"></i> Inscribirse
               </button>
             </div>
             <div class="col-6">
-              <button class="btn btn-outline-custom btn-sm w-100 py-2" (click)="getDetallesEvento(evento.idEvento)">
+              <button
+                class="btn btn-outline-custom btn-sm w-100 py-2"
+                (click)="getDetallesEvento(evento.idEvento)"
+              >
                 Ver Detalles
               </button>
             </div>
@@ -69,8 +81,6 @@
         </div>
       </div>
     </div>
-
-
   </div>
 </div>
 
@@ -82,12 +92,18 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="text-muted small">Selecciona la fecha y hora del evento. Podrás asignar un profesor después.</p>
+        <p class="text-muted small">
+          Selecciona la fecha y hora del evento. Podrás asignar un profesor después.
+        </p>
         <div class="mb-3">
           <label class="form-label fw-medium">Fecha y Hora *</label>
-          <input type="datetime-local" class="form-control" [(ngModel)]="newEvent.fechaEvento">
+          <input type="datetime-local" class="form-control" [(ngModel)]="newEvent.fechaEvento" />
         </div>
-        <button class="btn btn-custom-primary w-100 py-2 mt-2" (click)="saveEvento()" data-bs-dismiss="modal">
+        <button
+          class="btn btn-custom-primary w-100 py-2 mt-2"
+          (click)="saveEvento()"
+          data-bs-dismiss="modal"
+        >
           Guardar Evento
         </button>
       </div>
@@ -108,22 +124,30 @@
         <div class="mb-3">
           <label class="form-label fw-medium">Actividad *</label>
           <select class="form-select" [(ngModel)]="inscripcion.idEventoActividad">
-            <option value="" disabled selected>Selecciona deporte/actividad</option>
-            <option *ngFor="let act of actividades" [value]="act.idEventoActividad">
+            <option [ngValue]="0" disabled selected>Selecciona deporte/actividad</option>
+            <option *ngFor="let act of actividades" [ngValue]="act.idEventoActividad">
               {{ act.nombreActividad }}
             </option>
           </select>
         </div>
 
         <div class="form-check p-3 bg-light rounded-3 border mb-4 d-flex align-items-center gap-2">
-          <input class="form-check-input ms-0 mt-0" type="checkbox" id="capitanCheck"
-            [(ngModel)]="inscripcion.quiereSerCapitan">
+          <input
+            class="form-check-input ms-0 mt-0"
+            type="checkbox"
+            id="capitanCheck"
+            [(ngModel)]="inscripcion.quiereSerCapitan"
+          />
           <label class="form-check-label fw-medium cursor-pointer" for="capitanCheck">
             ¿Quieres ser Capitán?
           </label>
         </div>
 
-        <button class="btn btn-custom-primary w-100 py-2 fw-bold" data-bs-dismiss="modal" (click)="createInscripcion()">
+        <button
+          class="btn btn-custom-primary w-100 py-2 fw-bold"
+          data-bs-dismiss="modal"
+          (click)="createInscripcion()"
+        >
           Confirmar Inscripción
         </button>
       </div>
