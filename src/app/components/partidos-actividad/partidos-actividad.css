@@ -1,14 +1,19 @@
 /* Estilo del Banner superior */
 .banner-info {
-    background: linear-gradient(90deg, #ffebd9 0%, #ffe0cc 100%);
-    border: 1px solid rgba(255, 123, 0, 0.1);
+    background: linear-gradient(135deg, #fff2ed 0%, #ffe8e0 100%);
+    border: 1px solid #fde2d8;
 }
 
 .icon-container {
-    background-color: #ff5733; /* Color naranja del icono */
-    color: white;
-    padding: 8px 12px;
-    border-radius: 10px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #ff6b35 0%, #ff8c5a 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
 }
 
 /* Botón "Crear Partido" */

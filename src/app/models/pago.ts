@@ -13,3 +13,11 @@ export interface Pago {
   curso: string;
   estado: string;
 }
+
+export interface NuevoPago {
+  idCurso: number;
+  idPago: number;
+  idPrecioActividad: number;
+  cantidad: number;
+  estado: string;
+}

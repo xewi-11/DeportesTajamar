@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from '../../auth/auth';
 import { Observable } from 'rxjs';
-import { Pago } from '../../models/pago';
+import { NuevoPago, Pago } from '../../models/pago';
 import { environment } from '../../../environments/environment.development';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class PagosService {
   constructor(
     private _http: HttpClient,
     private auth: AuthService,
-  ) {}
+  ) { }
 
   getPagosByEventId(id: number): Observable<Array<Pago>> {
     var request = 'pagos/pagosevento/' + id;
@@ -23,16 +23,17 @@ export class PagosService {
     return this._http.get<Array<Pago>>(url);
   }
 
-  postPago(eventActividadId: number, nuevoPago: any): Observable<any> {
-    var request =
-      'pagos/pagoeventoactividad/' +
-      eventActividadId +
-      '/' +
-      nuevoPago.idCurso +
-      '/' +
-      nuevoPago.cantidad;
+  postPago(idEventoActividad: number, idCurso: number, cantidad: number): Observable<any> {
+    var request = "pagos/pagoeventoactividad/" + idEventoActividad + "/" + idCurso + "/" + cantidad;
     var url = environment.urlApiDeportes + request;
 
-    return this._http.post<any>(url, {});
+    return this._http.post<any>(url, null);
   }
+
+  updatePago(idPago: number, cantidad: number, estado: string): Observable<any> {
+    var request = "pagos/updatepago/" + idPago + "/" + cantidad + "/" + estado;
+    var url = environment.urlApiDeportes + request;
+    return this._http.put(url, null);
+  }
+
 }
