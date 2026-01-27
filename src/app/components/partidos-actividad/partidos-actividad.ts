@@ -22,7 +22,7 @@ export class PartidosActividad implements OnInit {
   actividad!: Actividad;
   partidos!: Array<Partido>;
   equipos!: Array<Equipo>;
-
+  idrole!:string;
   nuevoPartido!: Partido;
   partidoSeleccionado!: Partido;
 
@@ -54,6 +54,7 @@ export class PartidosActividad implements OnInit {
   }
 
   ngOnInit(): void {
+    this.idrole=localStorage.getItem("idRol")!!;
     this.loadActividad();
     this.loadPartidos();
     this.loadEquipos();

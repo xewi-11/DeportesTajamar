@@ -24,10 +24,12 @@
       <h3 class="fw-bold mb-0">Partidos</h3>
       <p class="text-muted small">Resultados del torneo</p>
     </div>
+    @if(idrole=="4"){
     <button type="button" (click)="crearPartido()" class="btn btn-primary-custom rounded-pill px-4"
       data-bs-toggle="modal" data-bs-target="#createPartidoModal">
       + Crear Partido
     </button>
+  }
   </div>
 
   <div class="row">
@@ -69,11 +71,12 @@
                 </p>
             }
           </div>
-
+         @if(idrole=="4"){
           <button class="btn btn-outline-light-custom w-100 rounded-3 py-2" (click)="editarPartido(partido)"
             data-bs-toggle="modal" data-bs-target="#updatePartidoModal">
             <i class="bi bi-pencil-square me-2"></i> Editar Partido
           </button>
+        }
         </div>
       </div>
     </div>
