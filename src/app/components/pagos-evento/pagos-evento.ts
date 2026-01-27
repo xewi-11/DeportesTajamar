@@ -22,8 +22,7 @@ export class PagosEvento implements OnInit {
   public pagos!: Array<Pago>;
   public nuevoPago = {
     idCurso: 0,
-    cantidad: 0,
-    exento: false
+    cantidad: 0
   };
   public cursos!: Array<Curso>;
 
@@ -69,7 +68,7 @@ export class PagosEvento implements OnInit {
   createPago() {
     this._pagosService.postPago(this.eventActividadId, this.nuevoPago.idCurso, this.nuevoPago.cantidad).subscribe((response) => {
       console.log('Pago creado correctamente...');
-      this._pagosService.updatePago(response.idPago, response.cantidad, this.nuevoPago.exento ? "Sin Pagar" : "Pendiente").subscribe((response) => {
+      this._pagosService.updatePago(response.idPago, response.cantidad, "Pendiente").subscribe((response) => {
         this.getPagosByEventId();
         this.resetForm();
         this._cdr.detectChanges();
@@ -80,8 +79,7 @@ export class PagosEvento implements OnInit {
   resetForm() {
     this.nuevoPago = {
       idCurso: -1,
-      cantidad: -1,
-      exento: false
+      cantidad: -1
     };
   }
 

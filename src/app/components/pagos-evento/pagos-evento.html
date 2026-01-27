@@ -59,12 +59,6 @@
                     Pendiente
                   </button>
                 </span>
-                <span *ngIf="pago.estado === 'Sin Pagar'">
-                  <button class="badge badge-sin-pagar d-inline-flex align-items-center gap-1" disabled>
-                    <i class="bi bi-info-circle"></i>
-                    Sin Pagar
-                  </button>
-                </span>
               </td>
             </tr>
             }
@@ -103,15 +97,8 @@
             <input type="number" class="form-control custom-input" placeholder="Ej: 50" name="cantidad"
               #cantidad="ngModel" [(ngModel)]="nuevoPago.cantidad" min="0" step="0.01" required />
           </div>
-
-          <div class="mb-4 d-flex justify-content-center">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" name="exento" #exento="ngModel"
-                [(ngModel)]="nuevoPago.exento">
-              <label class="form-check-label">¿Está exento de pagar?</label>
-            </div>
-          </div>
         </div>
+
 
         <div class="modal-footer border-0 pt-0">
           <button type="submit" class="btn btn-save-pago w-100 py-2 fw-bold" data-bs-dismiss="modal"
@@ -120,6 +107,7 @@
           </button>
         </div>
       </form>
+
     </div>
   </div>
 </div>
