@@ -23,7 +23,7 @@ export class ActividadesEvento implements OnInit {
     minimoJugadores: 0,
   };
   public isDialogOpen = false;
-
+  idRol!:string;
   constructor(
     private _actividadesService: ActividadesService,
     private _router: Router,
@@ -38,6 +38,7 @@ export class ActividadesEvento implements OnInit {
       nombre: '',
       minimoJugadores: 0,
     };
+    this.idRol=localStorage.getItem("idRol")!;
   }
 
   getActividadesByEventId() {
