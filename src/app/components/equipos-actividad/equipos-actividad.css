@@ -73,6 +73,59 @@
     color: white;
 }
 
+/* Estilo para el botón cuando el usuario ya tiene otro equipo */
+.btn-already-enrolled {
+    background-color: #fda270 !important;
+    color: white !important;
+    border: none;
+    cursor: not-allowed;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.btn-delete-member {
+    border: none;
+    background: transparent;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-member:hover {
+    transform: scale(1.2);
+}
+
+.btn-delete-member i {
+    font-size: 1.1rem;
+}
+
+/* Para asegurar que la fila del miembro se vea como una tarjeta limpia */
+.member-item {
+    background-color: #fff;
+    border: 1px solid #fde2d8 !important; /* Siguiendo el estilo de tus bordes naranja suave */
+}
+
+/* Opcional: Si quieres que el botón original de "Inscribirse" siga siendo el azul/oscuro */
+.btn-enroll {
+    background-color: #333; /* O tu color principal actual */
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-enroll:hover {
+    background-color: #444;
+}
+
+/* Badge de éxito que ya teníamos */
+.current-team-badge {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+    font-size: 0.9rem;
+}
+
 /* Estilo de la lista de miembros desplegada */
 .member-item {
     border: 1px solid #fde2d8;
@@ -263,4 +316,55 @@
 
 .btn-cancel-color:hover {
     background-color: #f8f9fa;
+}
+
+/* Modal sin Bootstrap */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1050;
+    animation: fadeInModal 0.2s ease;
+}
+
+@keyframes fadeInModal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-dialog-custom {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    max-width: 700px;
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #dee2e6;
 }

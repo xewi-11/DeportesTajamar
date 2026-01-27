@@ -62,4 +62,10 @@ export class EquiposService {
     return this._http.put(url + request, null)
   }
 
+  deleteMiembroEquipo(idEquipo: number, idUsuario: number): Observable<any>{
+    let url = environment.urlApiDeportes;
+    let request = "MiembroEquipos/DeleteMiembroEquipoUsuario/" + idEquipo + "/" + idUsuario;
+    return this._http.delete(url + request);
+  }
+
 }

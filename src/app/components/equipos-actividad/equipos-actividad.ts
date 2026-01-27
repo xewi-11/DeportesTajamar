@@ -34,7 +34,9 @@ export class EquiposActividad implements OnInit {
   colores!: Array<Color>;
   colorSeleccionadoHex: string = '#e67e45';
   equipoAEditarColor!: Equipo;
- 
+  idRole!: string;
+  mostrarModalColores: boolean = false;
+
   constructor(
     private _serviceActividad: ActividadesService,
     private _serviceEquipos: EquiposService,
@@ -50,10 +52,17 @@ export class EquiposActividad implements OnInit {
       idColor: 0,
       idCurso: 0,
     };
+    this.idRole = localStorage.getItem("idRol")!;
   }
  
   ngOnInit(): void {
-    this.loadEquiposActividad();
+    
+    this._serviceUsers.getUser().subscribe((result) => {
+      this.usuarioActivo = result;
+      console.log(this.usuarioActivo);
+      this.nuevoEquipo.idCurso = result.idCurso;
+      this.loadEquiposActividad();
+    });
  
     this._activeRoute.params.subscribe((params: Params) => {
       let idActividad = params['idActividad'];
@@ -62,11 +71,6 @@ export class EquiposActividad implements OnInit {
  
     this.loadColores();
  
-    this._serviceUsers.getUser().subscribe((result) => {
-      this.usuarioActivo = result;
-      console.log(this.usuarioActivo);
-      this.nuevoEquipo.idCurso = result.idCurso;
-    });
  
     this._activeRoute.params.subscribe((params: Params) => {
       this.nuevoEquipo.idEventoActividad = params['idEventoActividad'];
@@ -84,20 +88,24 @@ export class EquiposActividad implements OnInit {
     this._activeRoute.params.subscribe((params: Params) => {
       let idEvento = params['idEvento'];
       let idActividad = params['idActividad'];
+
       this._serviceEquipos.getEquiposActividad(idActividad, idEvento).subscribe((result) => {
         this.equiposActividad = result;
+        
         this.idEquipoInscrito = null;
-        // Cargar el número de miembros para cada equipo
+
         this.equiposActividad.forEach((equipo) => {
           this._serviceEquipos.getUsuariosEquipo(equipo.idEquipo).subscribe((usuarios) => {
+
             this.miembrosEquipo[equipo.idEquipo] = usuarios.length;
+
             if (this.usuarioActivo && usuarios.some(u => u.idUsuario === this.usuarioActivo.idUsuario)) {
               this.idEquipoInscrito = equipo.idEquipo;
             }
+
             this._cdr.detectChanges();
           });
         });
-        this._cdr.detectChanges();
       });
     });
   }
@@ -146,8 +154,15 @@ export class EquiposActividad implements OnInit {
     return mapaColores[nombreFinal] || '#e67e45';
   }
  
-  abrirModalColores(equipo: Equipo) {
-    this.equipoAEditarColor = { ...equipo };
+  abrirModalColores(equipo: Equipo): void {
+    if(this.idRole == "5"){
+      this.equipoAEditarColor = { ...equipo };
+      this.mostrarModalColores = true;
+    }
+  }
+
+  cerrarModalColores(): void {
+    this.mostrarModalColores = false;
   }
  
   seleccionarColorRapido(color: Color) {
@@ -173,12 +188,7 @@ export class EquiposActividad implements OnInit {
               });
  
               this.loadEquiposActividad();
- 
-              const modalElement = document.getElementById('modalSelectorColores');
-              if (modalElement) {
-                const modalInstance = (window as any).bootstrap.Modal.getInstance(modalElement);
-                modalInstance?.hide();
-              }
+              this.cerrarModalColores();
             },
             error: (err) => {
               Swal.fire({
@@ -251,6 +261,21 @@ export class EquiposActividad implements OnInit {
           this.miembrosEquipo[idEquipo] = usuarios.length;
           this._cdr.detectChanges();
         });
+      })
+    })
+  }
+
+  eliminarMiembro(idEquipo: number, idUsuario: number): void{
+    this._serviceEquipos.deleteMiembroEquipo(idEquipo, idUsuario).subscribe(()=>{
+      console.log("Miembro eliminado");
+      Swal.fire({
+        icon: 'success',
+        title: 'El miembro se ha eliminado correctamente',
+        timer: 3000,
+        timerProgressBar: true,
+      }).then(()=>{
+        this.loadEquiposActividad();
+        this.loadPlantillaEquipo(idEquipo);
       })
     })
   }

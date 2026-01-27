@@ -25,14 +25,16 @@
       <h3 class="fw-bold mb-0">Equipos</h3>
       <p class="text-muted small">Consulta los equipos y sus plantillas</p>
     </div>
-    <button
-      type="button"
-      class="btn btn-create-team rounded-pill px-4"
-      data-bs-toggle="modal"
-      data-bs-target="#createEquipoActividad"
-    >
-      + Crear Equipo
-    </button>
+    @if(idRole == "5"){
+      <button
+        type="button"
+        class="btn btn-create-team rounded-pill px-4"
+        data-bs-toggle="modal"
+        data-bs-target="#createEquipoActividad"
+      >
+        + Crear Equipo
+      </button>
+    }
   </div>
 
   <div class="row">
@@ -43,18 +45,18 @@
             <div class="card-body p-4">
               <div class="d-flex justify-content-between align-items-start mb-3">
                 <div class="d-flex align-items-center">
+                  
                   <div
                     class="shield-icon me-3"
                     [style.background-color]="
                       obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))
                     "
-                    (click)="abrirModalColores(equipo)"
+                    (click)="idRole == '5' && abrirModalColores(equipo)"
                     style="cursor: pointer"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalSelectorColores"
                   >
                     <i class="bi bi-shield-shaded"></i>
                   </div>
+
                   <div>
                     <h5 class="fw-bold mb-0">{{ equipo.nombreEquipo }}</h5>
                     <span class="text-muted small">{{ actividad?.nombre }}</span>
@@ -86,32 +88,45 @@
                 @if (equipoDesplegado === equipo.idEquipo && plantillaEquipo[equipo.idEquipo]) {
                   <div class="members-list mt-3 animate-fade-in">
                     @for (miembro of plantillaEquipo[equipo.idEquipo]; track miembro.idUsuario) {
-                      <div class="member-item d-flex align-items-center p-2 mb-2 rounded-3">
-                        <div
-                          class="member-avatar me-3"
-                          [style.background-color]="
-                            obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))
-                          "
-                        >
-                          {{ getIniciales(miembro.usuario) }}
+                      <div class="member-item d-flex align-items-center justify-content-between p-2 mb-2 rounded-3 border">
+                        <div class="d-flex align-items-center">
+                          <div
+                            class="member-avatar me-3"
+                            [style.background-color]="obtenerHexPorNombre(getNombreColorPorId(equipo.idColor))"
+                          >
+                            {{ getIniciales(miembro.usuario) }}
+                          </div>
+                          <span class="fw-medium text-dark">{{ miembro.usuario }}</span>
                         </div>
-                        <span class="fw-medium text-dark">{{ miembro.usuario }}</span>
+                        @if(idRole === '5'){
+                          <button class="btn btn-delete-member p-1 me-2" (click)="eliminarMiembro(equipo.idEquipo, miembro.idUsuario)">
+                            <i class="bi bi-trash3 text-danger"></i>
+                          </button>
+                        }
                       </div>
                     }
                   </div>
                 }
               </div>
   
-              @if(idEquipoInscrito === equipo.idEquipo){
-                <div class="current-team-badge d-flex align-items-center justify-content-center py-2 px-3 rounded-pill">
-                  <i class="bi bi-shield-check me-2"></i>
-                  <span class="fw-medium">Tu Equipo Actual</span>
-                </div>
-              } @else{
-                <button class="btn btn-enroll w-100 rounded-3 py-2" (click)="createMiembroEquipo(equipo.idEquipo)">
-                  <i class="bi bi-person-plus-fill me-2"></i> Inscribirse
-                </button>
-              }
+              <div class="mt-auto">
+                @if (idEquipoInscrito === equipo.idEquipo) {
+                  <div class="current-team-badge d-flex align-items-center justify-content-center py-2 px-3 rounded-pill">
+                    <i class="bi bi-shield-check me-2"></i>
+                    <span class="fw-medium">Tu Equipo Actual</span>
+                  </div>
+                } @else {
+                  <button 
+                    class="btn w-100 rounded-3 py-2" 
+                    [ngClass]="idEquipoInscrito !== null ? 'btn-already-enrolled' : 'btn-enroll'"
+                    (click)="idEquipoInscrito === null && createMiembroEquipo(equipo.idEquipo)"
+                    [disabled]="idEquipoInscrito !== null"
+                  >
+                    <i class="bi" [ngClass]="idEquipoInscrito !== null ? 'bi-info-circle me-2' : 'bi-person-plus-fill me-2'"></i> 
+                    {{ idEquipoInscrito !== null ? 'Ya estás en un equipo' : 'Inscribirse' }}
+                  </button>
+                }
+              </div>
             </div>
           </div>
         </div>
@@ -202,10 +217,10 @@
 </div>
 
 <!-- Modal selector colores -->
-<div class="modal fade" id="modalSelectorColores" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content custom-modal-color">
-      <div class="modal-header border-0 pb-0">
+@if (mostrarModalColores) {
+  <div class="modal-overlay" (click)="cerrarModalColores()">
+    <div class="modal-dialog-custom" (click)="$event.stopPropagation()">
+      <div class="modal-header">
         <div>
           <h1 class="modal-title fs-4 fw-bold">Seleccionar Color de Camiseta</h1>
           <p class="text-muted small">
@@ -213,7 +228,7 @@
             equipos aparecen deshabilitados.
           </p>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" (click)="cerrarModalColores()" aria-label="Close"></button>
       </div>
 
       <div class="modal-body">
@@ -244,10 +259,10 @@
       </div>
 
       <div class="modal-footer border-0">
-        <button type="button" class="btn btn-cancel-color px-4" data-bs-dismiss="modal">
+        <button type="button" class="btn btn-cancel-color px-4" (click)="cerrarModalColores()">
           Cancelar
         </button>
       </div>
     </div>
   </div>
-</div>
+}
