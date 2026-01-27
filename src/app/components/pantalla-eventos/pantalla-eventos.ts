@@ -15,7 +15,6 @@ import { Actividad } from '../../models/actividad';
 import { User } from '../../models/user';
 import { Perfil } from '../../models/perfil';
 
-
 registerLocaleData(localeEs);
 
 @Component({
@@ -25,7 +24,6 @@ registerLocaleData(localeEs);
   templateUrl: './pantalla-eventos.html',
   styleUrl: './pantalla-eventos.css',
 })
-
 export class PantallaEventos implements OnInit {
   public eventos!: Event[];
   public actividades!: ActividadEvento[];
@@ -37,13 +35,13 @@ export class PantallaEventos implements OnInit {
   public newEvent: Event = {
     idEvento: -1,
     fechaEvento: '',
-    idProfesor: -1
+    idProfesor: -1,
   };
 
   public inscripcion: Inscripcion = {
-    idInscripcion: -1,
-    idEventoActividad: -1,
-    idUsuario: -1,
+    idInscripcion: 0,
+    idEventoActividad: 0,
+    idUsuario: 0,
     fechaInscripcion: '',
     quiereSerCapitan: false,
   };
@@ -54,7 +52,8 @@ export class PantallaEventos implements OnInit {
     private cdr: ChangeDetectorRef,
     private inscripcionesService: InscripcionesService,
     private usersService: UsersService,
-    private actividadesService: ActividadesService) { }
+    private actividadesService: ActividadesService,
+  ) {}
 
   ngOnInit() {
     this.getListaEventos();
@@ -63,18 +62,16 @@ export class PantallaEventos implements OnInit {
     });
   }
 
-
   // Inicio de pantalla
   getListaEventos() {
     this.eventService.getEvents().subscribe((data: Event[]) => {
       this.eventos = data;
 
-
-      this.eventos.forEach(evento => {
+      this.eventos.forEach((evento) => {
         if (evento.idProfesor != -1 && !this.nombresProfesores[evento.idProfesor]) {
           this.cargarNombreProfesor(evento.idProfesor);
         }
-      })
+      });
 
       this.cdr.detectChanges();
     });
@@ -96,7 +93,6 @@ export class PantallaEventos implements OnInit {
     });
   }
 
-
   // Navegación a detalles del evento seleccionado
   getDetallesEvento(id: number) {
     this.router.navigate(['/detallesEvento/', id]);
@@ -104,7 +100,7 @@ export class PantallaEventos implements OnInit {
 
   // Métodos para inscribirse a un evento
   prepararInscripcion(idEvento: number) {
-    console.log("Preparando inscripción para el evento ID:", idEvento);
+    console.log('Preparando inscripción para el evento ID:', idEvento);
     this.getActividades(idEvento);
   }
 
@@ -116,31 +112,40 @@ export class PantallaEventos implements OnInit {
   }
 
   createInscripcion() {
-      this.inscripcion.idInscripcion = 100; // Valor temporal
-      // this.inscripcion.idEventoActividad ya es asignado en el select del HTML
-      this.inscripcion.idUsuario = this.perfil.idUsuario;
-      this.inscripcion.fechaInscripcion = new Date().toISOString();
-      // quiere ser capitán ya es asignado en el checkbox del HTML
+    this.inscripcion.idInscripcion = 0;
+    // this.inscripcion.idEventoActividad ya es asignado en el select del HTML
+    this.inscripcion.idUsuario = this.perfil.idUsuario;
+    this.inscripcion.fechaInscripcion = new Date().toISOString();
+    // quiere ser capitán ya es asignado en el checkbox del HTML
 
-      console.log('Creando inscripción con los siguientes datos:', this.inscripcion);
-      this.inscripcionesService.postInscripcion(this.inscripcion).subscribe((response) => {
-        console.log('Inscripción creada:', response);
-      });
+    console.log('Creando inscripción con los siguientes datos:', this.inscripcion);
+    console.log('Tipo de idEventoActividad:', typeof this.inscripcion.idEventoActividad);
+    console.log('Tipo de idUsuario:', typeof this.inscripcion.idUsuario);
 
+    this.inscripcionesService.postInscripcion(this.inscripcion).subscribe({
+      next: (response) => {
+        console.log('Inscripción creada correctamente:', response);
+      },
+      error: (error) => {
+        console.error('Error al crear inscripción - Status:', error.status);
+        console.error('Error completo:', error);
+        console.error('Mensaje del error:', error.error);
+      },
+    });
   }
 
   ordenarPorFecha() {
     this.eventos.sort((a, b) => {
       const fechaA = new Date(a.fechaEvento).getTime();
       const fechaB = new Date(b.fechaEvento).getTime();
-      
+
       if (this.ordenAscendente) {
         return fechaA - fechaB;
       } else {
         return fechaB - fechaA;
       }
     });
-    
+
     this.ordenAscendente = !this.ordenAscendente;
     this.cdr.detectChanges();
   }

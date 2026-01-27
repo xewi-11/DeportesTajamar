@@ -11,4 +11,5 @@ export interface User {
   fechaInicioCurso: string;
   fechaFinCurso: string;
   idCursosUsuarios: number;
+  idCapitanActividad?: number; // Campo opcional para cuando se retorna como capitán
 }
