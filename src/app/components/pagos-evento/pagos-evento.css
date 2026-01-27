@@ -21,10 +21,16 @@
   color: #03a000;
 }
 
-.badge-sin-pagar {
+.badge-pendiente{
   border: 1px solid #a00000;
   background-color: #ffd4d4;
   color: #a00000;
+}
+
+.badge-sin-pagar {
+  border: 1px solid darkslategrey;
+  background-color: lightgray;
+  color: black;
 }
 
 .text-orange {

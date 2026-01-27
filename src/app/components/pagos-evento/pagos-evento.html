@@ -13,11 +13,8 @@
           <p>Gestión de pagos del evento</p>
         </div>
         <div>
-          <button
-            class="btn btn-gradient rounded-5"
-            data-bs-toggle="modal"
-            data-bs-target="#createPagoModal"
-          >
+          <button *ngIf="idRol == '4'" class="btn btn-gradient rounded-5" data-bs-toggle="modal"
+            data-bs-target="#createPagoModal">
             <i class="bi bi-currency-euro"></i>
             Añadir pago
           </button>
@@ -28,36 +25,48 @@
           <thead>
             <tr>
               <th scope="col">Curso</th>
+              <th scope="col">Actividad</th>
               <th scope="col">Cantidad</th>
               <th scope="col">Estado</th>
             </tr>
           </thead>
           <tbody>
             @for (pago of pagos; track $index) {
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center gap-2">
-                    <i class="bi bi-mortarboard-fill text-orange"></i>
-                    <span>{{ pago.curso }}</span>
-                  </div>
-                </td>
-                <td>
-                  <strong>{{ pago.cantidadPagada }}€</strong>
-                </td>
-                <td>
-                  @if (pago.estado == 'pagado') {
-                    <span class="badge badge-pagado d-inline-flex align-items-center gap-1">
-                      <i class="bi bi-check-circle"></i>
-                      Pagado
-                    </span>
-                  } @else {
-                    <span class="badge badge-sin-pagar d-inline-flex align-items-center gap-1">
-                      <i class="bi bi-x-circle"></i>
-                      Sin pagar
-                    </span>
-                  }
-                </td>
-              </tr>
+            <tr>
+              <td>
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-mortarboard-fill text-orange"></i>
+                  <span>{{ pago.curso }}</span>
+                </div>
+              </td>
+              <td>
+                <strong>{{ pago.actividad }}</strong>
+              </td>
+              <td>
+                <strong>{{ pago.cantidadPagada }}€</strong>
+              </td>
+              <td>
+                <span *ngIf="pago.estado === 'PAGADO'">
+                  <button class="badge badge-pagado d-inline-flex align-items-center gap-1" disabled>
+                    <i class="bi bi-check-circle"></i>
+                    Pagado
+                  </button>
+                </span>
+                <span *ngIf="pago.estado === 'Pendiente'">
+                  <button class="badge badge-pendiente d-inline-flex align-items-center gap-1"
+                    (click)="marcarPagado(pago)">
+                    <i class="bi bi-x-circle"></i>
+                    Pendiente
+                  </button>
+                </span>
+                <span *ngIf="pago.estado === 'Sin Pagar'">
+                  <button class="badge badge-sin-pagar d-inline-flex align-items-center gap-1" disabled>
+                    <i class="bi bi-info-circle"></i>
+                    Sin Pagar
+                  </button>
+                </span>
+              </td>
+            </tr>
             }
           </tbody>
         </table>
@@ -82,43 +91,31 @@
         <div class="modal-body py-3">
           <div class="mb-3">
             <label class="form-label fw-bold small">Curso *</label>
-            <select
-              class="form-select custom-input"
-              name="idCurso"
-              #idCurso="ngModel"
-              [(ngModel)]="nuevoPago.idCurso"
-              required
-            >
+            <select class="form-select custom-input" name="idCurso" #idCurso="ngModel" [(ngModel)]="nuevoPago.idCurso"
+              required>
               <option [value]="null" disabled selected>Selecciona un curso</option>
-              <option [value]="1">Máster Desarrollo</option>
-              <option [value]="2">Máster Sistemas</option>
-              <option [value]="3">Máster IA</option>
+              <option *ngFor="let curso of cursos" [value]="curso.idCurso">{{ curso.nombre }}</option>
             </select>
           </div>
 
           <div class="mb-4">
             <label class="form-label fw-bold small">Cantidad (€) *</label>
-            <input
-              type="number"
-              class="form-control custom-input"
-              placeholder="Ej: 50"
-              name="cantidad"
-              #cantidad="ngModel"
-              [(ngModel)]="nuevoPago.cantidad"
-              min="0"
-              step="0.01"
-              required
-            />
+            <input type="number" class="form-control custom-input" placeholder="Ej: 50" name="cantidad"
+              #cantidad="ngModel" [(ngModel)]="nuevoPago.cantidad" min="0" step="0.01" required />
+          </div>
+
+          <div class="mb-4 d-flex justify-content-center">
+            <div class="form-check">
+              <input type="checkbox" class="form-check-input" name="exento" #exento="ngModel"
+                [(ngModel)]="nuevoPago.exento">
+              <label class="form-check-label">¿Está exento de pagar?</label>
+            </div>
           </div>
         </div>
 
         <div class="modal-footer border-0 pt-0">
-          <button
-            type="submit"
-            class="btn btn-save-pago w-100 py-2 fw-bold"
-            data-bs-dismiss="modal"
-            [disabled]="!createPagoForm.valid"
-          >
+          <button type="submit" class="btn btn-save-pago w-100 py-2 fw-bold" data-bs-dismiss="modal"
+            [disabled]="!createPagoForm.valid">
             Crear Pago
           </button>
         </div>

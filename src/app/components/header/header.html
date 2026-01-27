@@ -26,7 +26,7 @@
           aria-expanded="false"
         >
           <div class="avatar-circle" *ngIf="perfil">
-            {{ perfil.nombre.charAt(0) }}{{ perfil.apellidos.charAt(0) }}
+            <img style="width: 100%; height: 100%" class="rounded-circle" [src]="perfil.imagen" alt="Avatar" />
           </div>
           <span class="text-dark d-none d-sm-inline" *ngIf="perfil">{{
             perfil.nombre || 'U'
