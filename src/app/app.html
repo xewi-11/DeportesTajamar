@@ -1,4 +1,6 @@
 
 
-
+@if (authService.token()) {
+  <app-header></app-header>
+}
 <router-outlet />

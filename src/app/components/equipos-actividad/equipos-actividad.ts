@@ -16,7 +16,7 @@ import { Perfil } from '../../models/perfil';
  
 @Component({
   selector: 'app-equipos-actividad',
-  imports: [MenuActividades, FormsModule, CommonModule, Header],
+  imports: [MenuActividades, FormsModule, CommonModule],
   templateUrl: './equipos-actividad.html',
   styleUrl: './equipos-actividad.css',
 })

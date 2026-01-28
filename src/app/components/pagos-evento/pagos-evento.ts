@@ -11,7 +11,7 @@ import { CursosService } from '../../services/cursos/cursos-service';
 
 @Component({
   selector: 'app-pagos-evento',
-  imports: [Header, MenuActividades, FormsModule, CommonModule],
+  imports: [ MenuActividades, FormsModule, CommonModule],
   templateUrl: './pagos-evento.html',
   styleUrl: './pagos-evento.css',
 })

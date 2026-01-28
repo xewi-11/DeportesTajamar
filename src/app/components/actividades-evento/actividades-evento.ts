@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-actividades-evento',
   standalone: true,
-  imports: [FormsModule, Header, MenuEventos, CommonModule],
+  imports: [FormsModule,  MenuEventos, CommonModule],
   templateUrl: './actividades-evento.html',
   styleUrl: './actividades-evento.css',
 })

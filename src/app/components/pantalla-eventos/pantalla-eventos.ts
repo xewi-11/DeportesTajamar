@@ -19,7 +19,7 @@ registerLocaleData(localeEs);
 
 @Component({
   selector: 'app-pantalla-eventos',
-  imports: [CommonModule, Header, FormsModule],
+  imports: [CommonModule, FormsModule],
   standalone: true,
   templateUrl: './pantalla-eventos.html',
   styleUrl: './pantalla-eventos.css',

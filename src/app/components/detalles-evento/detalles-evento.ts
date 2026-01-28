@@ -14,7 +14,7 @@ registerLocaleData(localeEs);
 
 @Component({
   selector: 'app-detalles-evento',
-  imports: [FormsModule, CommonModule, Header, MenuEventos],
+  imports: [FormsModule, CommonModule, MenuEventos],
   templateUrl: './detalles-evento.html',
   styleUrl: './detalles-evento.css',
 })
