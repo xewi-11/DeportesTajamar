@@ -12,7 +12,7 @@ import { Header } from '../header/header';
 
 @Component({
   selector: 'app-materiales-actividad',
-  imports: [MenuActividades, FormsModule, CommonModule, Header],
+  imports: [MenuActividades, FormsModule, CommonModule],
   templateUrl: './materiales-actividad.html',
   styleUrl: './materiales-actividad.css',
 })

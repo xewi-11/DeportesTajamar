@@ -13,7 +13,7 @@ import { PartidoDialogComponent } from './dialogs/partido-dialog/partido-dialog'
 import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-partidos-actividad',
-  imports: [MenuActividades, FormsModule, Header],
+  imports: [MenuActividades, FormsModule],
   templateUrl: './partidos-actividad.html',
   styleUrl: './partidos-actividad.css',
 })
