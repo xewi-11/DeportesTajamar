@@ -59,7 +59,7 @@ export class AuthService {
             );
     }
    
-    logout() {
+    clearSession() {
         localStorage.removeItem('token');
         localStorage.removeItem('rol');
         localStorage.removeItem('idRol');
@@ -67,6 +67,10 @@ export class AuthService {
         this._rol.set(null);
         this._idRol.set(null);
         this.isAuthenticated = false;
+    }
+
+    logout() {
+        this.clearSession();
         this.route.navigate(['']);
     }
 }

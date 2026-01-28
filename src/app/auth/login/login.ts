@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth';
@@ -10,11 +10,16 @@ import { AuthService } from '../auth';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   username = '';
   password = '';
   showPassword: boolean = false;
   constructor(private loginService: AuthService, private router: Router) {}
+
+  ngOnInit() {
+    // Limpiar cualquier sesión anterior al cargar el login
+    this.loginService.clearSession();
+  }
 
   get emailCompleto(): string {
     return `${this.username}@tajamar365.com`;
