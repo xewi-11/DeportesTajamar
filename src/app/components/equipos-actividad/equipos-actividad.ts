@@ -11,7 +11,6 @@ import { UsersService } from '../../services/users/users-service';
 import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
-import { Header } from '../header/header';
 import { Perfil } from '../../models/perfil';
  
 @Component({
@@ -124,7 +123,6 @@ export class EquiposActividad implements OnInit {
     });
   }
  
-  // Función para actualizar el color visualmente al elegir en el select o modal
   cambiarColorPrevisualizacion(event: any): void {
     const colorId = event.target.value;
     const colorEncontrado = this.colores.find((c) => c.idColor == colorId);
@@ -220,17 +218,18 @@ export class EquiposActividad implements OnInit {
     return nombreColor;
   }
  
-  loadPlantillaEquipo(idEquipo: number): void {
-    if (this.equipoDesplegado === idEquipo) {
+  loadPlantillaEquipo(idEquipo: number, forceUpdate: boolean = false): void {
+    if (this.equipoDesplegado === idEquipo && !forceUpdate) {
       this.equipoDesplegado = null;
       return;
     }
  
     this.equipoDesplegado = idEquipo;
  
-    if (!this.plantillaEquipo[idEquipo]) {
+    if (!this.plantillaEquipo[idEquipo] || forceUpdate) {
       this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe((result) => {
         this.plantillaEquipo[idEquipo] = result;
+        this.miembrosEquipo[idEquipo] = result.length;
         this._cdr.detectChanges();
       });
     }
@@ -256,26 +255,32 @@ export class EquiposActividad implements OnInit {
         timerProgressBar: true
       }).then(()=>{
         this.idEquipoInscrito = idEquipo;
-        this.loadPlantillaEquipo(idEquipo);
-        this._serviceEquipos.getUsuariosEquipo(idEquipo).subscribe((usuarios) => {
-          this.miembrosEquipo[idEquipo] = usuarios.length;
-          this._cdr.detectChanges();
-        });
+        this.loadEquiposActividad();
+        this.loadPlantillaEquipo(idEquipo, true);
       })
     })
   }
 
   eliminarMiembro(idEquipo: number, idUsuario: number): void{
     this._serviceEquipos.deleteMiembroEquipo(idEquipo, idUsuario).subscribe(()=>{
-      console.log("Miembro eliminado");
       Swal.fire({
         icon: 'success',
-        title: 'El miembro se ha eliminado correctamente',
-        timer: 3000,
+        title: '¿Desea eliminar este usuario del equipo?',
+        timer: 4000,
         timerProgressBar: true,
-      }).then(()=>{
-        this.loadEquiposActividad();
-        this.loadPlantillaEquipo(idEquipo);
+        showCancelButton: true,
+      }).then((result)=>{
+        if(result.isConfirmed){
+          this.loadEquiposActividad();
+          this.loadPlantillaEquipo(idEquipo, true);
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: 'El miembro se ha eliminado correctamente',
+            timer: 3500,
+            timerProgressBar: true,
+          })
+        }
       })
     })
   }
