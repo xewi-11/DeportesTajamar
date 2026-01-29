@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Curso } from '../../models/curso';
 import { CursosService } from '../../services/cursos/cursos-service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pagos-evento',

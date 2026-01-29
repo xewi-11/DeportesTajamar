@@ -4,6 +4,7 @@ import { AuthService } from '../../auth/auth';
 import { Observable } from 'rxjs';
 import { NuevoPago, Pago } from '../../models/pago';
 import { environment } from '../../../environments/environment.development';
+import { PrecioActividad } from '../../models/precio-actividad';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,15 @@ export class PagosService {
     console.log('Obteniendo pagos...');
 
     return this._http.get<Array<Pago>>(url);
+  }
+
+  postPrecioActividad(precioActividad: PrecioActividad): Observable<any> {
+    var request = "precioactividad/create";
+    var url = environment.urlApiDeportes + request;
+
+    let header = new HttpHeaders().set('Content-Type', 'application/json');
+
+    return this._http.post<any>(url, precioActividad, { headers: header });
   }
 
   postPago(idEventoActividad: number, idCurso: number, cantidad: number): Observable<any> {
