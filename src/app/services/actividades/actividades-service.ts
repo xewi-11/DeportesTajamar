@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth';
@@ -22,12 +22,14 @@ export class ActividadesService {
     nombre: string;
     minimoJugadores: number;
   }): Observable<any> {
-    return this._http.post<any>(`${environment.urlApiDeportes}actividades/create`, nuevaActividad);
+    let header = new HttpHeaders();
+    header.set("Content-type","application/json");
+    return this._http.post<any>(`${environment.urlApiDeportes}actividades/create`, nuevaActividad, { headers: header});
   }
 
   addActividadToEvento(eventId: number, idActividad: any): Observable<any> {
     return this._http.post<any>(
-      `${environment.urlApiDeportes}actividadesevento/create?idevento=${eventId}&idactividad=${idActividad}`,
+      `${environment.urlApiDeportes}actividadesevento/create/${eventId}/${idActividad}`,
       {},
     );
   }
