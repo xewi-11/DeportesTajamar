@@ -31,11 +31,6 @@ export class PerfilUsuario implements OnInit {
     this.router.navigate(['/eventos']);
   }
 
-  changePassword(): void {
-    // Implementar lógica para cambiar contraseña
-    console.log('Cambiar contraseña');
-  }
-
   ngOnInit(): void {
     this.loadUserInfo();
   }

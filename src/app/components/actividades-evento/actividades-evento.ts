@@ -6,39 +6,44 @@ import { MenuEventos } from '../menu-eventos/menu-eventos';
 import { ActividadesService } from '../../services/actividades/actividades-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { PagosService } from '../../services/pagos/pagos-service';
+import { PrecioActividad } from '../../models/precio-actividad';
 
 @Component({
   selector: 'app-actividades-evento',
   standalone: true,
-  imports: [FormsModule,  MenuEventos, CommonModule],
+  imports: [FormsModule, MenuEventos, CommonModule],
   templateUrl: './actividades-evento.html',
   styleUrl: './actividades-evento.css',
 })
 export class ActividadesEvento implements OnInit {
   public eventId!: number;
   public actividades!: Array<ActividadEvento>;
-  public nuevaActividad = {
+  public actividad = {
     idActividad: 0,
     nombre: '',
     minimoJugadores: 0,
+    precio: 0
   };
   public isDialogOpen = false;
-  idRol!:string;
+  idRol!: string;
   constructor(
     private _actividadesService: ActividadesService,
     private _router: Router,
     private _activeRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-  ) {}
+    private _pagosService: PagosService
+  ) { }
 
   ngOnInit(): void {
     this.getActividadesByEventId();
-    this.nuevaActividad = {
+    this.actividad = {
       idActividad: 0,
       nombre: '',
       minimoJugadores: 0,
+      precio: 0
     };
-    this.idRol=localStorage.getItem("idRol")!;
+    this.idRol = localStorage.getItem("idRol")!;
   }
 
   getActividadesByEventId() {
@@ -58,27 +63,36 @@ export class ActividadesEvento implements OnInit {
 
   closeDialog() {
     this.isDialogOpen = false;
-    this.nuevaActividad = {
+    this.actividad = {
       idActividad: 0,
       nombre: '',
       minimoJugadores: 0,
+      precio: 0
     };
   }
 
   handleCrearActividad() {
-    if (!this.nuevaActividad.nombre || !this.nuevaActividad.minimoJugadores) {
+    if (!this.actividad.nombre || !this.actividad.minimoJugadores || !this.actividad.precio) {
       alert('Por favor, completa todos los campos');
       return;
     }
 
-    this._actividadesService.postActividad(this.nuevaActividad).subscribe((response) => {
+    let nuevaActividad = {
+      idActividad: this.actividad.idActividad,
+      nombre: this.actividad.nombre,
+      minimoJugadores: this.actividad.minimoJugadores,
+    }
+
+    this._actividadesService.postActividad(nuevaActividad).subscribe((response) => {
       console.log('Actividad creada...');
-      this._actividadesService
-        .addActividadToEvento(this.eventId, response.idActividad)
-        .subscribe((response) => {
-          console.log('Actividad asignada al evento...');
-          this.getActividadesByEventId();
-        });
+      console.log(response);
+
+      this._actividadesService.addActividadToEvento(this.eventId, response.idActividad).subscribe((resp) => {
+        console.log('Actividad asignada al evento...');
+        this.getActividadesByEventId();
+
+        this.crearPrecioActividad(response.idActividad);
+      });
     });
     this.closeDialog();
   }
@@ -87,5 +101,22 @@ export class ActividadesEvento implements OnInit {
     this._router.navigate([
       '/partidosActividad/' + idEvento + '/' + idActividad + '/' + idEventoActividad,
     ]);
+  }
+
+  crearPrecioActividad(actividadId: number) {
+    this._actividadesService.getActividadEventoByEventoIdAndActividadId(this.eventId, actividadId).subscribe((response) => {
+      let idEventActividad = response.idEventoActividad;
+
+      let precioActividad: PrecioActividad = {
+        idPrecioActividad: -1,
+        idEventoActividad: idEventActividad,
+        precioTotal: this.actividad.precio
+      }
+
+      this._pagosService.postPrecioActividad(precioActividad).subscribe(() => {
+        console.log('Precio de actividad creado...');
+      });
+    }
+    );
   }
 }

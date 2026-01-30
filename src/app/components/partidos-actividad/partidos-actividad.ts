@@ -8,7 +8,6 @@ import { EquiposService } from '../../services/equipos/equipos-service';
 import { ActividadesService } from '../../services/actividades/actividades-service';
 import { Actividad } from '../../models/actividad';
 import { FormsModule } from '@angular/forms';
-import { Header } from '../header/header';
 import { PartidoDialogComponent } from './dialogs/partido-dialog/partido-dialog';
 import { MatDialog } from '@angular/material/dialog';
 @Component({
@@ -59,7 +58,7 @@ export class PartidosActividad implements OnInit {
     this.loadPartidos();
     this.loadEquipos();
     this._activeRoute.params.subscribe((params: Params) => {
-      this.idEventoActivdad = +params['idEventoActividad'];
+      this.idEventoActivdad = params['idEventoActividad'];
       this.nuevoPartido.idEventoActividad = this.idEventoActivdad;
     });
   }
@@ -77,7 +76,7 @@ export class PartidosActividad implements OnInit {
   loadPartidos(): void {
     this._activeRoute.params.subscribe((params: Params) => {
       let idEventoActividad = params['idEventoActividad'];
-      console.log(idEventoActividad);
+      console.log("Id Evento Actividad: " + idEventoActividad);
       this._servicePartidos.getPartidosActividad(idEventoActividad).subscribe((result) => {
         console.log(result);
         this.partidos = result;

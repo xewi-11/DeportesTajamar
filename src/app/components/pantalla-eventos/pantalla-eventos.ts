@@ -1,7 +1,6 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
 import { Component, LOCALE_ID, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Header } from '../header/header';
 import { Router } from '@angular/router';
 import { EventService } from '../../services/event/event-service';
 import { Event } from '../../models/event';
@@ -11,8 +10,6 @@ import { UsersService } from '../../services/users/users-service';
 import { Inscripcion } from '../../models/inscripcion';
 import { ActividadesService } from '../../services/actividades/actividades-service';
 import { ActividadEvento } from '../../models/actividad-evento';
-import { Actividad } from '../../models/actividad';
-import { User } from '../../models/user';
 import { Perfil } from '../../models/perfil';
 
 registerLocaleData(localeEs);
@@ -53,7 +50,7 @@ export class PantallaEventos implements OnInit {
     private inscripcionesService: InscripcionesService,
     private usersService: UsersService,
     private actividadesService: ActividadesService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getListaEventos();
@@ -72,6 +69,8 @@ export class PantallaEventos implements OnInit {
           this.cargarNombreProfesor(evento.idProfesor);
         }
       });
+
+      this.ordenarPorFecha();
 
       this.cdr.detectChanges();
     });

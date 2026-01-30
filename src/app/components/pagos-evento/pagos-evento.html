@@ -52,7 +52,7 @@
                     Pagado
                   </button>
                 </span>
-                <span *ngIf="pago.estado === 'Pendiente'">
+                <span *ngIf="pago.estado !== 'PAGADO'">
                   <button class="badge badge-pendiente d-inline-flex align-items-center gap-1"
                     (click)="marcarPagado(pago)"
                     [disabled]="idRol !== '4'">
